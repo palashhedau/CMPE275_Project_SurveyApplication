@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: cmpe-275-project-survey-application
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: admin
+Implementation-Vendor-Id: com.tools
+Build-Jdk: 1.8.0_72
+Implementation-URL: http://projects.spring.io/spring-boot/LAB2_CMPE275
+ /
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
