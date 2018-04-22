@@ -3,7 +3,6 @@ package com.tools.controller;
 import java.util.HashMap;
 
 import org.json.JSONObject;
-import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +30,7 @@ public class FlightController {
 	@RequestMapping(path="/flight/{flightNumber}",method=RequestMethod.POST)
 	public ResponseEntity<?> add(@PathVariable("flightNumber") String flightNumber ){
 		flightService.add();
+		System.out.println("Palash here");
 		return null ; 
 	}
 	
