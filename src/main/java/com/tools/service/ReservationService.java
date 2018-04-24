@@ -17,7 +17,7 @@ import com.tools.model.Billing;
 import com.tools.model.Flight;
 import com.tools.model.Passenger;
 import com.tools.model.Reservation;
-import com.tools.repository.BillingRepository;
+import com.tools.repository.AuthRepository;
 import com.tools.repository.FlightRepository;
 import com.tools.repository.PassengerRepository;
 import com.tools.repository.ReservationRepository;
@@ -30,7 +30,7 @@ public class ReservationService {
 	@Autowired
 	private ReservationRepository reservationRepository;
 	@Autowired
-	private BillingRepository billingRepository;
+	private AuthRepository billingRepository;
 	@Autowired
 	private FlightRepository flightRepository;
 	@Autowired
