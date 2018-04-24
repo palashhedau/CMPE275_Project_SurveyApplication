@@ -7,9 +7,24 @@ public class SurveySubmitParams {
 	String type ;
 	Date endTime;
 	List<QuestionsAndAnswers> questionList ; 
-	String publish ;
+	boolean publish ;
+	String status ;
+	String category; 
 	
 	
+	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getType() {
 		return type;
 	}
@@ -28,10 +43,10 @@ public class SurveySubmitParams {
 	public void setQuestionList(List<QuestionsAndAnswers> questionList) {
 		this.questionList = questionList;
 	}
-	public String getPublish() {
+	public boolean getPublish() {
 		return publish;
 	}
-	public void setPublish(String publish) {
+	public void setPublish(boolean publish) {
 		this.publish = publish;
 	}
 

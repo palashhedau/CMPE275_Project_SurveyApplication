@@ -23,16 +23,51 @@ public class Questions {
 	
 	String question ;
 	
+	String questionType ;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id", nullable = false)
 	Survey survey; 
 	
 	
+	public Set<Survey_Submit_Response> getSurveySubmitResponse() {
+		return surveySubmitResponse;
+	}
+
+
+
+
+	public void setSurveySubmitResponse(Set<Survey_Submit_Response> surveySubmitResponse) {
+		this.surveySubmitResponse = surveySubmitResponse;
+	}
+
+
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "questions")
-	private Set<Answers> answers = new HashSet<>();
+	private Set<Choice> choice = new HashSet<>();
 	
+	
+	@OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "questions")
+	private Set<Survey_Submit_Response> surveySubmitResponse = new HashSet<>();
+	
+	
+
+	public String getQuestionType() {
+		return questionType;
+	}
+
+
+
+
+	public void setQuestionType(String questionType) {
+		this.questionType = questionType;
+	}
+
+
+
 
 	public Questions(String question) {
 		super();
@@ -42,15 +77,15 @@ public class Questions {
 	
 
 
-	public Set<Answers> getAnswers() {
-		return answers;
+	public Set<Choice> getChoice() {
+		return choice;
 	}
 
 
 
 
-	public void setAnswers(Set<Answers> answers) {
-		this.answers = answers;
+	public void setChoice(Set<Choice> choice) {
+		this.choice = choice;
 	}
 
 

@@ -10,8 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Answers")
-public class Answers {
+@Table(name="Choice")
+public class Choice {
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -26,7 +26,7 @@ public class Answers {
 	Questions questions; 
 	
 
-	public Answers(String answers) {
+	public Choice(String answers) {
 		super();
 		this.answers = answers;
 	}
