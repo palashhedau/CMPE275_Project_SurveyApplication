@@ -29,6 +29,7 @@ public class Questions {
     @JoinColumn(name = "survey_id", nullable = false)
 	Survey survey; 
 	
+	Questions(){}
 	
 	public Set<Survey_Submit_Response> getSurveySubmitResponse() {
 		return surveySubmitResponse;

@@ -10,10 +10,6 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.hibernate.converter.HibernatePersistentCollectionConverter;
-import com.tools.model.Flight;
-import com.tools.model.Passenger;
-import com.tools.model.Plane;
-import com.tools.model.Reservation;
 
 
 public class Helper {

@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.tools.helper.Helper;
 import com.tools.repository.AuthRepository;
-import com.tools.repository.FlightRepository;
-import com.tools.repository.PlaneRepository;
-import com.tools.repository.ReservationRepository;
 import com.tools.requestParams.Auth;
 import com.tools.responseParam.Response;
 
