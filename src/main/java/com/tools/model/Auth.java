@@ -28,7 +28,18 @@ public class Auth {
 	
 	String status ; 
 	
+	String activationCode ;
 	
+	
+	
+	
+	
+	public String getActivationCode() {
+		return activationCode;
+	}
+	public void setActivationCode(String activationCode) {
+		this.activationCode = activationCode;
+	}
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "auth")
