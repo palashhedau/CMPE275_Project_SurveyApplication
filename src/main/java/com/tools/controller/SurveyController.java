@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tools.helper.Helper;
+import com.tools.requestParams.SurveyCreateParams;
 import com.tools.requestParams.SurveySubmitParams;
 import com.tools.service.SurveyService;
 
@@ -23,7 +24,7 @@ public class SurveyController {
 	HttpHeaders headers=new HttpHeaders();
 	
 	@RequestMapping(path="/survey",method=RequestMethod.POST)
-	public ResponseEntity<?> submitSurvey(@RequestBody SurveySubmitParams params){
+	public ResponseEntity<?> createSurvey(@RequestBody SurveyCreateParams params){
 		surveyService.createSurvey(params);
 		return null; 
 	}
@@ -37,6 +38,12 @@ public class SurveyController {
 	@RequestMapping(path="/survey/{id}",method=RequestMethod.DELETE)
 	public ResponseEntity<?> closeSurvey(@PathVariable String id ){
 		surveyService.closeSurvey(id);
+		return null; 
+	}
+	
+	@RequestMapping(path="/submit-survey/{id}",method=RequestMethod.POST)
+	public ResponseEntity<?> submitSurvey(@RequestBody SurveySubmitParams params, @PathVariable String id ){
+		surveyService.submitSurvey(id, params);
 		return null; 
 	}
 	

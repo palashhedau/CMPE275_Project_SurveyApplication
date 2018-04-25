@@ -47,9 +47,9 @@ public class Survey {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-	Auth auth; 
+	Auth auth ; 
 	
-
+	Survey(){}
 	
 	
 	public String getCategory() {

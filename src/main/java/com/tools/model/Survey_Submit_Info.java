@@ -34,9 +34,6 @@ public class Survey_Submit_Info {
             mappedBy = "survey_submit_info")
 	private Set<Survey_Submit_Response> submittedSurveyResponse = new HashSet<>();
 
-	
-	
-	
 	public Set<Survey_Submit_Response> getSubmittedSurveyResponse() {
 		return submittedSurveyResponse;
 	}
@@ -75,11 +72,5 @@ public class Survey_Submit_Info {
 	public void setSurvey(Survey survey) {
 		this.survey = survey;
 	} 
-	
-	
-	
-	
-	
-	
-	
+		
 }

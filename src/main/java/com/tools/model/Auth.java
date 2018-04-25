@@ -48,6 +48,10 @@ public class Auth {
 	public void setSurvey(Set<Survey> survey) {
 		this.survey = survey;
 	}
+	
+	public Auth() {
+		
+	}
 	public Auth(String username, String password, String type, String status) {
 		super();
 		this.email = username;

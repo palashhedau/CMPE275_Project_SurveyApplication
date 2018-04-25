@@ -9,11 +9,20 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tools.model.Auth;
 import com.tools.model.Choice;
 import com.tools.model.Questions;
 import com.tools.model.Survey;
+import com.tools.model.Survey_Submit_Info;
+import com.tools.model.Survey_Submit_Response;
+import com.tools.model.Survey_Submit_Response_Answers;
+import com.tools.repository.AuthRepository;
+import com.tools.repository.QuestionsRepository;
 import com.tools.repository.SurveyRepository;
+import com.tools.repository.SurveySubmitInfoRepository;
 import com.tools.requestParams.QuestionsAndAnswers;
+import com.tools.requestParams.SubmitSurveyQueList;
+import com.tools.requestParams.SurveyCreateParams;
 import com.tools.requestParams.SurveySubmitParams;
 import com.tools.responseParam.Response;
 
@@ -24,10 +33,17 @@ public class SurveyService {
 	@Autowired
 	private SurveyRepository surveyRepository;
 	
+	@Autowired
+	private AuthRepository authRepository;
 	
+	@Autowired
+	private QuestionsRepository questionsRepository;
+	
+	@Autowired
+	private SurveySubmitInfoRepository surveySubmitInfoRepository;
 	
 
-	public void createSurvey(SurveySubmitParams params) {
+	public void createSurvey(SurveyCreateParams params) {
 		
 		Survey survey = new Survey("Palash" , params.getPublish() , null , params.getType(), params.getStatus(), params.getCategory());
 		
@@ -53,6 +69,11 @@ public class SurveyService {
 			survey.setQuestions( questions);
 			
 		}
+		
+		
+		
+		List<Auth> auth = authRepository.findById(1);
+		survey.setAuth(auth.get(0));
 		
 		Survey savedSurvey = surveyRepository.save(survey);
 		
@@ -95,6 +116,48 @@ public class SurveyService {
 		}else {
 			return new Response(404,"No Survey exist by this id");
 		}
+		
+	}
+
+
+
+	public void submitSurvey(String id, SurveySubmitParams params) {
+		
+		// check survey is still open and end_date not less than current day
+		Survey survey =  surveyRepository.findById(Integer.parseInt(id)).get(0);
+		
+		Survey_Submit_Info info = new Survey_Submit_Info();
+		info.setSurvey(survey);
+		info.setUserId(1);
+		
+		List<SubmitSurveyQueList> questionsList  = params.getQuestionList() ;
+		for(SubmitSurveyQueList list : questionsList) {
+			
+			// find question by ID
+			Questions que = questionsRepository.findById(list.getQuestionId()).get(0);
+			
+			Survey_Submit_Response response = new Survey_Submit_Response();
+			response.setSurvey_submit_info(info);
+			response.setQuestions(que);
+			
+			for(String ans : list.getAnswer()) {
+				Survey_Submit_Response_Answers answer = new Survey_Submit_Response_Answers();
+				answer.setAnswer(ans);
+				answer.setSurvey_submit_response(response);
+				
+				Set<Survey_Submit_Response_Answers> tempResponse = response.getSubmittedSurveyResponseAnswer();
+				tempResponse.add(answer);
+				response.setSubmittedSurveyResponseAnswer(tempResponse);
+			}
+			
+			Set<Survey_Submit_Response> tempSurveyResponse = info.getSubmittedSurveyResponse();
+			tempSurveyResponse.add(response);
+			info.setSubmittedSurveyResponse(tempSurveyResponse);
+		}
+		
+		surveySubmitInfoRepository.save(info);
+		
+		
 		
 	}
 
