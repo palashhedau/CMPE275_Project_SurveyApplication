@@ -1,15 +1,13 @@
 package com.tools.helper;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.TimeZone;
 
 //import org.hibernate.collection.internal.PersistentBag;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.hibernate.converter.HibernatePersistentCollectionConverter;
 
 
 public class Helper {
@@ -21,20 +19,22 @@ public class Helper {
 		return errorResponse;
 	}
 	
-	
-	
-	public boolean compareFlightOverlap(Date date1Start , Date date1End , Date date2Start , Date date2End) {
-		if(date1Start.compareTo(date2End) == 0 && date1End.compareTo(date2End) == 1)return true; 
-		if(date1Start.compareTo(date2Start) == -1 && date1End.compareTo(date2Start) == 0) return true ;
-		if(date1Start.compareTo(date2Start) == 0 && date1End.compareTo(date2End)==0) return false;
-		if(!compareDate(date1Start, date2End) && !compareDate(date1End, date2End)) return true ;
-		if(compareDate(date1Start, date2Start) && compareDate(date1End, date2Start)) return true ;
-		return false ;
+	public Date parseDate(String date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		sdf.setTimeZone(TimeZone.getTimeZone("PST"));
+		try{
+			return sdf.parse(date);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null ;
+		
 	}
 	
+	
 	public boolean compareDate(Date date1 , Date date2) {
-		if(date1.compareTo(date2) == 1 ) return false ;
-		return true ; 
+		if(date1.compareTo(date2) >= 0 ) return true ;
+		return false ; 
 	}
 	
 	public XStream objectToXML() {

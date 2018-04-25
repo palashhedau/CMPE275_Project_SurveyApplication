@@ -1,5 +1,6 @@
 package com.tools.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tools.helper.Helper;
 import com.tools.model.Auth;
 import com.tools.model.Choice;
 import com.tools.model.Questions;
@@ -42,10 +44,11 @@ public class SurveyService {
 	@Autowired
 	private SurveySubmitInfoRepository surveySubmitInfoRepository;
 	
-
+	Helper helper = new Helper();
+	
 	public void createSurvey(SurveyCreateParams params) {
 		
-		Survey survey = new Survey("Palash" , params.getPublish() , null , params.getType(), params.getStatus(), params.getCategory());
+		Survey survey = new Survey("Palash" , params.getPublish() , helper.parseDate(params.getEndTime()) , params.getType(), params.getStatus(), params.getCategory());
 		
 		for(QuestionsAndAnswers que : params.getQuestionList()) {
 			
@@ -70,30 +73,27 @@ public class SurveyService {
 			
 		}
 		
-		
-		
 		List<Auth> auth = authRepository.findById(1);
 		survey.setAuth(auth.get(0));
 		
 		Survey savedSurvey = surveyRepository.save(survey);
-		
-		
+	
 	}
 
 
 
-
+	// 7.c
 	public Object editSurvey(String datetime, String id) {
 		List<Survey> surveyList = surveyRepository.findById(Integer.parseInt(id)) ;
 		if(surveyList.size() == 1 ) {
 			Survey survey = surveyList.get(0);
 			
-			//Object for editing and save
-			//check survey ended or not before editing
-			//survey.setEndTime(datetime);
-			//surveyRepository.save(survey);
-			
-			return null;
+			if(survey.getStatus().equalsIgnoreCase("open") && helper.compareDate(helper.parseDate(datetime), survey.getEndTime())) {
+				survey.setEndTime(helper.parseDate(datetime));
+				surveyRepository.save(survey);
+				return new Response(200,"Successfully updated the Survey end Date");
+			}
+			return new Response(400,"Either Survey status is closed or increase your Survey End date");
 		}else {
 			return new Response(404,"No Survey exist by this id");
 		}
@@ -103,16 +103,18 @@ public class SurveyService {
 
 
 	public Object closeSurvey(String id) {
+		
 		List<Survey> surveyList = surveyRepository.findById(Integer.parseInt(id)) ;
 		if(surveyList.size() == 1 ) {
 			Survey survey = surveyList.get(0);
 			
-			//Closing and save
-			//check survey end time and only allow close when it is null and also check status = open
-			//
-			//surveyRepository.save(survey);
-			
-			return null;
+			// 7.d
+			if(survey.getEndTime() == null && survey.getStatus().equalsIgnoreCase("open")) {
+				survey.setStatus("close");
+				surveyRepository.save(survey);
+				return new Response(200,"Successfully closed the survey");
+			}
+			return new Response(400,"Server status is already close");
 		}else {
 			return new Response(404,"No Survey exist by this id");
 		}
@@ -121,44 +123,46 @@ public class SurveyService {
 
 
 
-	public void submitSurvey(String id, SurveySubmitParams params) {
+	public Object submitSurvey(String id, SurveySubmitParams params) {
 		
-		// check survey is still open and end_date not less than current day
-		Survey survey =  surveyRepository.findById(Integer.parseInt(id)).get(0);
-		
-		Survey_Submit_Info info = new Survey_Submit_Info();
-		info.setSurvey(survey);
-		info.setUserId(1);
-		
-		List<SubmitSurveyQueList> questionsList  = params.getQuestionList() ;
-		for(SubmitSurveyQueList list : questionsList) {
-			
-			// find question by ID
-			Questions que = questionsRepository.findById(list.getQuestionId()).get(0);
-			
-			Survey_Submit_Response response = new Survey_Submit_Response();
-			response.setSurvey_submit_info(info);
-			response.setQuestions(que);
-			
-			for(String ans : list.getAnswer()) {
-				Survey_Submit_Response_Answers answer = new Survey_Submit_Response_Answers();
-				answer.setAnswer(ans);
-				answer.setSurvey_submit_response(response);
+		List<Survey> surveyList =  surveyRepository.findById(Integer.parseInt(id));
+		if(surveyList.size() > 0) {
+			Survey survey = surveyList.get(0);
+			if(survey.getStatus().equalsIgnoreCase("open") && helper.compareDate(new Date(), survey.getEndTime())) {
+				Survey_Submit_Info info = new Survey_Submit_Info();
+				info.setSurvey(survey);
+				info.setUserId(1);
 				
-				Set<Survey_Submit_Response_Answers> tempResponse = response.getSubmittedSurveyResponseAnswer();
-				tempResponse.add(answer);
-				response.setSubmittedSurveyResponseAnswer(tempResponse);
-			}
-			
-			Set<Survey_Submit_Response> tempSurveyResponse = info.getSubmittedSurveyResponse();
-			tempSurveyResponse.add(response);
-			info.setSubmittedSurveyResponse(tempSurveyResponse);
-		}
-		
-		surveySubmitInfoRepository.save(info);
-		
-		
-		
+				List<SubmitSurveyQueList> questionsList  = params.getQuestionList() ;
+				for(SubmitSurveyQueList list : questionsList) {
+					
+					// find question by ID
+					Questions que = questionsRepository.findById(list.getQuestionId()).get(0);
+					
+					Survey_Submit_Response response = new Survey_Submit_Response();
+					response.setSurvey_submit_info(info);
+					response.setQuestions(que);
+					
+					for(String ans : list.getAnswer()) {
+						Survey_Submit_Response_Answers answer = new Survey_Submit_Response_Answers();
+						answer.setAnswer(ans);
+						answer.setSurvey_submit_response(response);
+						
+						Set<Survey_Submit_Response_Answers> tempResponse = response.getSubmittedSurveyResponseAnswer();
+						tempResponse.add(answer);
+						response.setSubmittedSurveyResponseAnswer(tempResponse);
+					}
+					
+					Set<Survey_Submit_Response> tempSurveyResponse = info.getSubmittedSurveyResponse();
+					tempSurveyResponse.add(response);
+					info.setSubmittedSurveyResponse(tempSurveyResponse);
+				}
+				
+				surveySubmitInfoRepository.save(info);
+				return new Response(200, "Survey submitted successfully");
+			}else return new Response(404, "Survey Not active");
+		}else return new Response(404, "Survey Not Found");
+	
 	}
 
 	

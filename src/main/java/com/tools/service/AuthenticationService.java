@@ -26,8 +26,10 @@ public class AuthenticationService {
 		}else {
 			com.tools.model.Auth authToSave = new com.tools.model.Auth(auth.getEmail(), auth.getPassword(),
 					"TYPE1" , "NO"); 
+			//Generate code to activate account
+			authToSave.setActivationCode("ABCD");
 			authRepository.save(authToSave);
-			// Send an email to the user
+			// Send an email to the user and send the code in the mail
 			return new Response(201,"User successfully registerd. Please check Email");
 		}
 		
@@ -36,11 +38,29 @@ public class AuthenticationService {
 	public Object signin(Auth auth){
 		List<com.tools.model.Auth> authList = authRepository.findByEmail(auth.getEmail());
 		if(authList.size() > 0) {
-			//compare password
-			return new Response(202 , "Successfully loggedIn");
+			com.tools.model.Auth authCred = authList.get(0);
+			if(authCred.getStatus().equalsIgnoreCase("YES")) {
+				//compare password
+				return new Response(202 , "Successfully loggedIn");
+			}else return new Response(400, "Account not activated");
 		}else {
 			return new Response(404 , "Email/Password Incorrect");
 		}
+	}
+
+	public Object activateAccount(String id, String code) {
+		List<com.tools.model.Auth> authList = authRepository.findById(Integer.parseInt(id));
+		if(authList.size() > 0) {
+			com.tools.model.Auth auth = authList.get(0);
+			if(auth.getActivationCode().equalsIgnoreCase(code)) {
+				//activate account
+				auth.setStatus("YES");
+				authRepository.save(auth);
+				return new Response(200, "Account activated Succesfully");
+			}
+			return new Response(400,"Incorrect activation code provided") ; 
+		}else return new Response(404,"No user found with the account") ;
+		
 	}
 	
 	

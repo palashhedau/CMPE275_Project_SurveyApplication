@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SurveyCreateParams {
 	String type ;
-	Date endTime;
+	String endTime;
 	List<QuestionsAndAnswers> questionList ; 
 	boolean publish ;
 	String status ;
@@ -31,10 +31,10 @@ public class SurveyCreateParams {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 	public List<QuestionsAndAnswers> getQuestionList() {
