@@ -1,0 +1,27 @@
+.bor {
+	border-style: solid;
+    border-width: medium;
+    border-color: red;
+    
+}
+
+.form-color {
+	background-color: #F0F8FF;
+}
+
+.display-block {
+	display:block;
+}
+
+.margin-top-10 {
+	margin-top:10px;
+}
+
+.border-bottom-div {
+	border-bottom: 1px solid #808080;
+	padding-bottom:10px;
+}
+
+.jumbo-props {
+	background-color:#bce1e8;
+}
