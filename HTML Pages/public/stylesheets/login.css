@@ -1,0 +1,29 @@
+.jumbo-props {
+	background-color:#bce1e8;
+    padding-top: 1rem;
+    padding-right: 2rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2rem;
+    margin-bottom:0px;
+    max-width: 100%; 
+}
+.bor {
+	border-style: solid;
+    border-width: medium;
+    border-color: red;
+    
+}
+
+.login-form {
+	padding-top: 3rem;
+    padding-right: 2rem;
+    padding-bottom: 0.5rem;
+    padding-left: 4rem;
+}
+
+.login-image {
+	padding-top: 4rem;
+    padding-right: 2rem;
+    padding-bottom: 0.5rem;
+    padding-left: 4rem;
+}
