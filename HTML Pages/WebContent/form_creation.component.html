@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Create Survey</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  	<link rel='stylesheet' href='../public/stylesheets/form_creation.component.css' />
+  </head>
+  <body>
+  	  <div class="jumbotron container jumbo-props">
+		  <h1 class="display-3">SurveyApe !</h1>
+		  <p class="lead">A simple survey web app that provides survey composition, distribution, and reporting.</p>
+		  
+	  </div>
+    
+	<div class="row">
+	    <div class="col-lg-3">
+	    	
+	    </div>
+	    
+	    <!-- Form Code -->
+	    <div class="col-lg-6 form-color">
+	    	
+	    	
+	    	<form>
+	    		  <!-- Survey Name -->	
+				  <div class="form-group margin-top-10 border-bottom-div">
+				    <label for="formName">Enter Survey Name</label>
+				    <input type="text" class="form-control" id="formName" placeholder="Untitled Survey">
+				    <small id="emailHelp" class="form-text text-muted">Enter survey name to be displayed.</small>
+				  </div>
+				  <!-- Survey Name End-->
+				  
+				  <!-- Question Selection -->
+				  <div class="form-group">
+					    <label for="formName">Question</label>
+					    <div class="row" style="padding-left:15px;">
+					    	<input type="text" class="form-control col-md-8" id="question" placeholder="Enter Question">
+						    <select id="questiontype" class="form-control col-md-3">
+						        <option selected>Short Answer</option>
+						        <option>Multiple Choice</option>
+						        <option>Checkboxes</option>
+						        <option>Dropdown</option>
+						        <option>Image</option>
+						        <option>Star Rating</option>
+						        <option>Date</option>
+						   	</select>
+					    </div>
+					    <div class="border-bottom-div">
+					    	<label for="shortAnswer" class="margin-top-10">Short Answer</label>
+					    	<textarea class="form-control " id="shortAnswer" rows="3" placeholder="Input Response"></textarea>
+					    </div>
+					    <div class="border-bottom-div">
+					    	<label for="multiChoice" class="margin-top-10">Multiple Choice</label>
+					    	<input type="text" class="form-control" id="multiChoice1" placeholder="Option 1">
+					    	<input type="text" class="form-control" id="multiChoice2" placeholder="Option 2">
+					    	<input type="text" class="form-control" id="multiChoice3" placeholder="Option 3">
+					    	<input type="text" class="form-control" id="multiChoice4" placeholder="Option 4">
+					    </div>
+					    <div class="border-bottom-div">
+					    	<label for="checkbox" class="margin-top-10">Checkboxes</label>
+					    	<input type="text" class="form-control" id="checkbox1" placeholder="Option 1">
+					    	<input type="text" class="form-control" id="checkbox2" placeholder="Option 2">
+					    	<input type="text" class="form-control" id="checkbox3" placeholder="Option 3">
+					    	<input type="text" class="form-control" id="checkbox4" placeholder="Option 4">
+					    </div>
+					    <div class="border-bottom-div">
+					    	<label for="dropdown" class="margin-top-10">Dropdown</label>
+					    	<input type="text" class="form-control" id="dropdown1" placeholder="Option 1">
+					    	<input type="text" class="form-control" id="dropdown2" placeholder="Option 2">
+					    	<input type="text" class="form-control" id="dropdown3" placeholder="Option 3">
+					    	<input type="text" class="form-control" id="dropdown4" placeholder="Option 4">
+					    </div>
+					    <div class="border-bottom-div">
+					    	<label for="dropdown" class="margin-top-10">Image Selection</label>
+					    	
+					    	<div>
+						    	<label class="custom-file margin-top-10">
+								  <input type="file" id="image1" class="custom-file-input " accept="image/x-png,image/gif,image/jpeg">
+								  <span class="custom-file-control"></span>
+								</label>
+							</div>	
+								
+							<div>
+						    	<label class="custom-file margin-top-10">
+								  <input type="file" id="image2" class="custom-file-input " accept="image/x-png,image/gif,image/jpeg">
+								  <span class="custom-file-control"></span>
+								</label>
+							</div>
+							
+							<div>
+						    	<label class="custom-file margin-top-10">
+								  <input type="file" id="image3" class="custom-file-input " accept="image/x-png,image/gif,image/jpeg">
+								  <span class="custom-file-control"></span>
+								</label>
+							</div>
+							
+							<div>
+						    	<label class="custom-file margin-top-10">
+								  <input type="file" id="image4" class="custom-file-input " accept="image/x-png,image/gif,image/jpeg">
+								  <span class="custom-file-control"></span>
+								</label>
+							</div>
+					    	
+					    	<small id="fileHelp" class="form-text text-muted">Choose images to be uploaded as an answer type.</small>
+					    	
+					    </div>
+					    <div class="border-bottom-div">
+					    	<label for="dropdown" class="margin-top-10">Dropdown</label>
+					    	<input type="text" class="form-control" id="dropdown1" placeholder="Option 1">
+					    	<input type="text" class="form-control" id="dropdown2" placeholder="Option 2">
+					    	<input type="text" class="form-control" id="dropdown3" placeholder="Option 3">
+					    	<input type="text" class="form-control" id="dropdown4" placeholder="Option 4">
+					    </div>
+					    
+					    <div class="border-bottom-div">
+					    	<label for="dropdown" class="margin-top-10">Star Rating</label>
+					    	<select id="questiontype" class="form-control col-md-3">
+						        <option selected>1-5 Stars</option>
+						        <option>1-10 Stars</option>
+						   	</select>
+					    </div>
+					    
+					    <div class="border-bottom-div">
+					    	<label for="date" class="margin-top-10">Date</label>
+					    	<input type="text" class="form-control col-md-3" id="date" placeholder="Month,Day,Year" disabled>
+					    	
+					    </div>
+				  </div>
+				  <!-- Question Selection End-->
+				  
+				  <button type="submit" class="btn btn-success">Submit</button>
+			</form>
+	    	
+	    	
+	    	
+	    </div>
+	    <!-- Form Code End -->
+	    <div class="col-lg-2">
+	    	
+	    </div>
+	</div>    
+	
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+</html>
