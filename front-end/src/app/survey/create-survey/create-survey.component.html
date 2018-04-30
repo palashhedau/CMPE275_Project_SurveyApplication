@@ -1,0 +1,102 @@
+<div class="col-xs-6  col-xs-offset-3 form-color">
+  <form (ngSubmit) = "submitQuestion()" #form="ngForm">
+
+
+    <!-- Survey Name -->
+    <div class="form-group margin-top-10 border-bottom-div">
+      <label for="formName">Enter Survey Name</label>
+      <input type="text"
+             class="form-control"
+             id="formName"
+             placeholder="Untitled Survey"
+             ngModel
+             name="name"
+             required
+             #name="ngModel">
+      <small id="emailHelp" class="form-text text-muted">Enter survey name to be displayed.</small>
+    </div>
+    <!-- Survey Name End-->
+
+    <!-- Question List-->
+    <div *ngFor="let question of questionList">
+      <div [ngSwitch]="question">
+        {{question}}
+        <div *ngSwitchCase="'Short Answer'">
+          <app-que-short-answer></app-que-short-answer>
+        </div>
+
+        <div *ngSwitchCase="'Multiple Choice - Text'"><app-que-single-option-select-text></app-que-single-option-select-text></div>
+        <div *ngSwitchCase="'Multiple Choice - Image'"><app-que-single-option-select-image></app-que-single-option-select-image></div>
+
+        <div *ngSwitchCase="'Checkboxes - Text'"><app-que-multiple-option-select-text></app-que-multiple-option-select-text></div>
+        <div *ngSwitchCase="'Checkboxes - Image'"><app-que-multiple-option-select-image></app-que-multiple-option-select-image></div>
+
+        <div *ngSwitchCase="'Dropdown - Text'">
+          <app-que-dropdown-select-text (saveChoice)="saveChoice($event)"></app-que-dropdown-select-text>
+        </div>
+
+        <div *ngSwitchCase="'Dropdown - Image'"><app-que-dropdown-select-image></app-que-dropdown-select-image></div>
+
+        <div *ngSwitchCase="'Yes/No'"><app-que-yes-no></app-que-yes-no></div>
+
+        <div *ngSwitchCase="'Star Rating'"><app-que-star-rating-question></app-que-star-rating-question></div>
+
+        <div *ngSwitchCase="'Datetime'"><app-que-datetime></app-que-datetime></div>
+
+      </div>
+
+    </div>
+    <!-- Question List end-->
+
+    <!-- Question Selection -->
+    <hr/>
+
+      <div class="add-section">
+        <div class="col-xs-12 add-question-heading"><span><b>Add a survey question</b></span>
+          <span class="pull-right"><b>Question Type</b></span></div>
+        <div class="col-xs-8">
+          <textarea
+                 class="form-control col-xs-8"
+                 id="question"
+                 ngModel
+                 name="question"
+                 placeholder="Enter Question"
+                 required
+                 #question="ngModel"></textarea>
+        </div>
+        <div class="col-xs-4" style="padding-left:15px;">
+          <select
+            ngModel
+            name="questionType"
+            id="questionType"
+            class="form-control col-xs-4"
+            required
+            (change)="addQuestion()"
+            [disabled]="!question.valid"
+            #type="ngModel"
+            >
+            <option selected>Short Answer</option>
+            <option>Multiple Choice - Text</option>
+            <option>Multiple Choice - Image</option>
+            <option>Checkboxes - Text</option>
+            <option>Checkboxes - Image</option>
+            <option>Dropdown - Text</option>
+            <option>Dropdown - Image</option>
+            <option>Yes/No</option>
+            <option>Star Rating</option>
+            <option>Datetime</option>
+          </select>
+        </div>
+      </div>
+
+
+    <!-- Question Selection End -->
+
+    <div class="submit-div col-xs-offset-8 col-xs-4">
+      <button type="submit"
+              class="btn btn-primary submit-button"
+              [disabled]="!form.valid">Submit</button>
+    </div>
+
+  </form>
+</div>

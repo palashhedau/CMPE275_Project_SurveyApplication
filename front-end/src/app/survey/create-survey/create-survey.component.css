@@ -1,0 +1,47 @@
+.bor {
+  border-style: solid;
+  border-width: medium;
+  border-color: red;
+
+}
+
+.form-color {
+  background-color: #F0F8FF;
+  margin-top: 30px;
+  padding: 40px
+}
+
+.display-block {
+  display:block;
+}
+
+.margin-top-10 {
+  margin-top:10px;
+}
+
+
+.jumbo-props {
+  background-color:#bce1e8;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 0.5rem;
+  padding-left: 2rem;
+  max-width: 100%;
+}
+
+.submit-button{
+  width: 100%;
+  border-radius: 0px;
+}
+
+.submit-div{
+  margin-top: 30px;
+}
+
+.add-question-heading{
+  margin-bottom: 10px;
+}
+
+input.ng-invalid.ng-touched , select.ng-invalid.ng-touched  {
+  border : 1px solid red
+}
