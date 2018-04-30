@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
 import { AppComponent } from './app.component';
 import {FormsModule} from '@angular/forms';
 import { SignupComponent } from './landing/signup/signup.component';
@@ -42,6 +43,7 @@ import {SurveyService} from './survey/create-survey/survey-service.service';
     QueYesNoComponent,
     QueDatetimeComponent,
     QueStarRatingQuestionComponent
+
   ],
   imports: [
     BrowserModule,
