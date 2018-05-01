@@ -2,7 +2,12 @@ package com.tools.service;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.tools.helper.Helper;
@@ -18,12 +23,33 @@ public class AuthenticationService {
 	@Autowired
 	private AuthRepository authRepository;
 	
+	@Autowired
+	private JavaMailSender sender;
+
 	
-	public Object signup(Auth auth){
+	private PasswordGenerationService passwordGenerator;
+	
+	
+	public AuthenticationService() {
+		passwordGenerator = new PasswordGenerationService();
+	}
+	
+	public Object signup(Auth auth) throws Exception{
+		
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		helper.setTo("palashhedau900@gmail.com");
+		helper.setText("ander dekh");
+		helper.setSubject("Hi");
+		sender.send(message);
+
+		
 		
 		if(authRepository.findByEmail(auth.getEmail()).size() > 0 ) {
 			return new Response(400,"Email already exist");
 		}else {
+			System.out.println(passwordGenerator.getPassword("prateek"));
+			System.out.println(passwordGenerator.matchPassword("$2a$10$vT4qk2/ftiO7YnxPjohju.flfU1QmYb0RzcqyMv8nfTB5yBorBgDW", "prateek"));
 			com.tools.model.Auth authToSave = new com.tools.model.Auth(auth.getEmail(), auth.getPassword(),
 					"TYPE1" , "NO"); 
 			//Generate code to activate account

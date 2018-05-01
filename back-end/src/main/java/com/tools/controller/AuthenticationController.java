@@ -24,7 +24,7 @@ public class AuthenticationController {
 	Helper helper = new Helper() ;
 	
 	@RequestMapping(path="/signup",method=RequestMethod.POST)
-	public ResponseEntity<?> signup(Auth auth){
+	public ResponseEntity<?> signup(Auth auth) throws Exception{
 		authService.signup(auth);
 		return null ; 
 	}
