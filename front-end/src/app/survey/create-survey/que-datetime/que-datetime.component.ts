@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {SurveyService} from '../survey-service.service';
 
 @Component({
@@ -7,7 +7,7 @@ import {SurveyService} from '../survey-service.service';
   styleUrls: ['./que-datetime.component.css']
 })
 export class QueDatetimeComponent implements OnInit {
-
+  @Input('question') question: string;
   constructor(private surveyService : SurveyService) { }
 
   ngOnInit() {

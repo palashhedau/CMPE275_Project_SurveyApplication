@@ -1,7 +1,20 @@
-<div class="border-bottom-div">
-  <label for="multiChoiceText" class="margin-top-10">Multiple Choice</label>
-  <input type="text" class="form-control" id="multiChoiceText" placeholder="Option 1">
-  <input type="text" class="form-control" id="multiChoiceText" placeholder="Option 2">
-  <input type="text" class="form-control" id="multiChoiceText" placeholder="Option 3">
-  <input type="text" class="form-control" id="multiChoiceText" placeholder="Option 4">
+<div class="col-xs-12 options">
+  <label for="dropdownText" class="margin-top-10">{{question}}</label>
 </div>
+
+<div class="col-xs-6 options">
+  <input type="text" (change)="saveChoices(text1 , -2)" ngModel #text1="ngModel" class="form-control" id="dropdownText" placeholder="Option 1">
+</div>
+<div class="col-xs-6 options">
+  <input type="text" (change)="saveChoices(text2 , -1)" ngModel #text2="ngModel"  class="form-control" id="dropdownText" placeholder="Option 2">
+</div>
+
+<div *ngFor="let option of moreOptions; index as i" class="col-xs-6 options">
+  <input type="text" (change)="saveChoices(text , i)" ngModel #text="ngModel"  class="form-control" id="dropdownText">
+</div>
+
+<div class="col-xs-6 options">
+  <button class="btn btn-success" (click)="addOptions()">Add Options</button>
+</div>
+<hr/>
+

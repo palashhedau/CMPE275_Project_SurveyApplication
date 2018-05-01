@@ -20,8 +20,9 @@ import { QueDropdownSelectImageComponent } from './survey/create-survey/que-drop
 import { QueYesNoComponent } from './survey/create-survey/que-yes-no/que-yes-no.component';
 import { QueDatetimeComponent } from './survey/create-survey/que-datetime/que-datetime.component';
 import { QueStarRatingQuestionComponent } from './survey/create-survey/que-star-rating-question/que-star-rating-question.component';
-import {HttpModule} from '@angular/http';
 import {SurveyService} from './survey/create-survey/survey-service.service';
+import {AuthService} from './landing/auth.service';
+import {HttpClientModule} from '@angular/common/http';
 
 
 
@@ -49,9 +50,9 @@ import {SurveyService} from './survey/create-survey/survey-service.service';
     BrowserModule,
     FormsModule,
     AppRouting,
-    HttpModule,
+    HttpClientModule,
   ],
-  providers: [SurveyService],
+  providers: [SurveyService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
