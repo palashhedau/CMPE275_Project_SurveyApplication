@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-que-short-answer',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./que-short-answer.component.css']
 })
 export class QueShortAnswerComponent implements OnInit {
-
+  @Input('question') question: string;
   constructor() { }
 
   ngOnInit() {

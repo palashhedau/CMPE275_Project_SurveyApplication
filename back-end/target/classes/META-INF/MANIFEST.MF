@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: CMPE275SurveyApplication
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: admin
+Built-By: Palash
 Implementation-Vendor-Id: CMPE275SurveyApplication
-Build-Jdk: 1.8.0_72
+Build-Jdk: 1.8.0_151
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/CMPE275SurveyApplication
 Created-By: Maven Integration for Eclipse

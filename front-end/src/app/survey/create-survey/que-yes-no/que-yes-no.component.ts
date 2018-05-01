@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-que-yes-no',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./que-yes-no.component.css']
 })
 export class QueYesNoComponent implements OnInit {
-
+  @Input('question') question: string;
   constructor() { }
 
   ngOnInit() {

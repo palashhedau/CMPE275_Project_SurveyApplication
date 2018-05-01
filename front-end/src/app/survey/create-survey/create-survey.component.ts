@@ -12,8 +12,9 @@ export class CreateSurveyComponent implements OnInit {
   @ViewChild('name')formName: NgModel;
   @ViewChild('type')questionType: NgModel;
   @ViewChild('question')question: NgModel;
+  public defaultQuestionChoice = '';
 
-  public questionList: string [] = []
+  public questionList: string [[]] = [];
 
 
   constructor(private surveyService: SurveyService){}
@@ -22,9 +23,13 @@ export class CreateSurveyComponent implements OnInit {
   }
 
   addQuestion() {
-    console.log("Adding question");
-    this.questionList.push(this.questionType.value);
-    this.surveyService.addQuestion(this.question.value , this.questionType.value);
+    if (this.surveyService.addQuestion(this.question.value , this.questionType.value) == true) {
+      this.questionList.push([this.questionType.value, this.question.value]);
+      this.defaultQuestionChoice = '';
+    } else {
+      // give error and dont allow new question
+      this.defaultQuestionChoice = '';
+    }
   }
 
   saveChoice(data: {choice: string, sequence: number}) {

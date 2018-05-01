@@ -1,26 +1,36 @@
-<div class="container-fluid">
+<div class="container-fluid sign-in">
   <div class="col-xs-12">
-    <div class="design col-xs-offset-3 col-xs-6"></div>
-    <div class="login-form col-xs-offset-3 col-xs-6">
 
-      <div class="login-section">
-        <div class="username col-xs-12">
-          <input type="text" name="username" placeholder="Username">
+      <div class="design col-xs-offset-3 col-xs-6"></div>
+      <div class="login-form col-xs-offset-3 col-xs-6">
+
+        <div class="login-section">
+          <div class="username col-xs-12">
+            <input type="text"
+                   name="email"
+                   ngModel
+                   #email="ngModel"
+                   name="email"
+                   placeholder="Email">
+          </div>
+          <div class="password col-xs-12">
+            <input type="password"
+                   ngModel
+                   #password="ngModel"
+                   name="password"
+                   placeholder="Password">
+          </div>
         </div>
-        <div class="password col-xs-12">
-          <input type="password" name="password" placeholder="Password">
+
+        <div class="submit-section">
+          <button class="submit-button" (click)="login()">Login</button>
+        </div>
+
+
+        <div class="account-exist">
+          <span>Don't have an account?  <a routerLink="/signup">Sign up</a>  </span>
         </div>
       </div>
 
-      <div class="submit-section">
-        <button class="submit-button">Login</button>
-      </div>
-
-
-      <div class="account-exist">
-        <span>Don't have an account?  <a routerLink="/signup">Sign up</a>  </span>
-      </div>
-
-    </div>
   </div>
 </div>

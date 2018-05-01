@@ -26,7 +26,7 @@ import com.tools.requestParams.QuestionsAndAnswers;
 import com.tools.requestParams.SubmitSurveyQueList;
 import com.tools.requestParams.SurveyCreateParams;
 import com.tools.requestParams.SurveySubmitParams;
-import com.tools.responseParam.Response;
+import com.tools.responseParam.ResponseParams;
 
 @Transactional(isolation=Isolation.READ_COMMITTED,propagation=Propagation.REQUIRED,rollbackFor=Exception.class,timeout=10)
 @Service
@@ -91,11 +91,11 @@ public class SurveyService {
 			if(survey.getStatus().equalsIgnoreCase("open") && helper.compareDate(helper.parseDate(datetime), survey.getEndTime())) {
 				survey.setEndTime(helper.parseDate(datetime));
 				surveyRepository.save(survey);
-				return new Response(200,"Successfully updated the Survey end Date");
+				return new ResponseParams(200,"Successfully updated the Survey end Date");
 			}
-			return new Response(400,"Either Survey status is closed or increase your Survey End date");
+			return new ResponseParams(400,"Either Survey status is closed or increase your Survey End date");
 		}else {
-			return new Response(404,"No Survey exist by this id");
+			return new ResponseParams(404,"No Survey exist by this id");
 		}
 	}
 
@@ -112,11 +112,11 @@ public class SurveyService {
 			if(survey.getEndTime() == null && survey.getStatus().equalsIgnoreCase("open")) {
 				survey.setStatus("close");
 				surveyRepository.save(survey);
-				return new Response(200,"Successfully closed the survey");
+				return new ResponseParams(200,"Successfully closed the survey");
 			}
-			return new Response(400,"Server status is already close");
+			return new ResponseParams(400,"Server status is already close");
 		}else {
-			return new Response(404,"No Survey exist by this id");
+			return new ResponseParams(404,"No Survey exist by this id");
 		}
 		
 	}
@@ -159,9 +159,9 @@ public class SurveyService {
 				}
 				
 				surveySubmitInfoRepository.save(info);
-				return new Response(200, "Survey submitted successfully");
-			}else return new Response(404, "Survey Not active");
-		}else return new Response(404, "Survey Not Found");
+				return new ResponseParams(200, "Survey submitted successfully");
+			}else return new ResponseParams(404, "Survey Not active");
+		}else return new ResponseParams(404, "Survey Not Found");
 	
 	}
 
