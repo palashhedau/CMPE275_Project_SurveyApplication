@@ -1,6 +1,11 @@
+
 <div class="options">
-  <div class="col-xs-12 ">
-    <label for="dropdownText" class="margin-top-10"><span>{{id}}.</span> {{question}}</label> <a (click)="deleteQuestion()"><i class="fa fa-times"></i></a>
+  <div class="col-xs-10">
+    <label for="dropdownText" class="margin-top-10"><span>{{id+1}}.</span> {{question}}</label>
+  </div>
+  <div class="col-xs-2 ">
+    <a (click)="deleteQuestion()" class="pull-right"><i class="fa fa-times"></i></a>
   </div>
 </div>
+
 

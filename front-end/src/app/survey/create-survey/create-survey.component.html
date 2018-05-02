@@ -2,21 +2,65 @@
   <form  #form="ngForm">
 
 
-    <!-- Survey Name -->
-    <div class="form-group border-bottom-div">
-      <label for="formName">Enter Survey Name</label>
-      <input type="text"
-             class="form-control"
-             id="formName"
-             placeholder="Untitled Survey"
-             ngModel
-             name="name"
-             required
-             #name="ngModel">
-      <small id="emailHelp" class="form-text text-muted">Enter survey name to be displayed.</small>
+    <div class="row">
+        <div class="col-xs-6 margin-bottom-10">
+          <b>Enter the Survey Name</b>
+        </div>
+        <div class="col-xs-6 margin-bottom-10">
+          <b class=" pull-right">Enter Survey Category</b>
+        </div>
+        <div class="col-xs-6 margin-bottom-20">
+          <input type="text"
+                 class="form-control "
+                 id="formName"
+                 placeholder="Untitled Survey"
+                 ngModel
+                 name="name"
+                 required
+                 #name="ngModel">
+        </div>
+        <div class="col-xs-6 margin-bottom-20">
+          <input type="text"
+                 class="form-control "
+                 id="category"
+                 placeholder="Category"
+                 ngModel
+                 name="category"
+                 required
+                 #category="ngModel">
+        </div>
+        <div class="col-xs-6 margin-bottom-10">
+          <b>Enter the Survey Type</b>
+        </div>
+        <div class="col-xs-6 margin-bottom-10">
+          <b class="pull-right">Enter Survey End Date</b>
+        </div>
+
+        <div class="col-xs-6 margin-bottom-20">
+          <input type="text"
+                 class="form-control "
+                 id="type"
+                 placeholder="Type"
+                 ngModel
+                 name="type"
+                 required
+                 #type="ngModel">
+        </div>
+
+        <div class="col-xs-6 margin-bottom-20">
+          <input type="date"
+                 class="form-control "
+                 id="endDate"
+                 placeholder="End Date"
+                 ngModel
+                 name="endDate"
+                 #endDate="ngModel">
+        </div>
     </div>
-    <hr/>
-    <!-- Survey Name End-->
+
+
+
+
 
     <!-- Question List-->
     <div *ngFor="let question of questionList; index as i" class="question-div" >
@@ -40,7 +84,11 @@
         </div>
 
         <div *ngSwitchCase="'Multiple Choice - Image'">
-          <app-que-single-option-select-image>
+          <app-que-single-option-select-image
+            [question]="question[1]"
+            [id]="i"
+            (saveChoice)="saveChoice($event)"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-single-option-select-image>
         </div>
 
@@ -54,7 +102,11 @@
         </div>
 
         <div *ngSwitchCase="'Checkboxes - Image'">
-          <app-que-multiple-option-select-image>
+          <app-que-multiple-option-select-image
+            [question]="question[1]"
+            [id]="i"
+            (saveChoice)="saveChoice($event)"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-multiple-option-select-image>
         </div>
 
@@ -68,7 +120,11 @@
         </div>
 
         <div *ngSwitchCase="'Dropdown - Image'">
-          <app-que-dropdown-select-image>
+          <app-que-dropdown-select-image
+            [question]="question[1]"
+            [id]="i"
+            (saveChoice)="saveChoice($event)"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-dropdown-select-image>
         </div>
 
@@ -84,7 +140,8 @@
           <app-que-star-rating-question
             [id]="i"
             [question]="question[1]"
-            (deleteQuestion)="deleteQuestion($event)">
+            (deleteQuestion)="deleteQuestion($event)"
+            (saveRatingsChoice)="saveRatingsChoice($event)">
           </app-que-star-rating-question>
         </div>
 
@@ -104,31 +161,33 @@
     <!-- Question Selection -->
 
 
+    <div class="submit-total-section">
       <div class="add-section">
-        <div class="col-xs-12 add-question-heading"><span><b>Add a survey question</b></span>
-          <span class="pull-right"><b>Question Type</b></span></div>
+        <div class="col-xs-12 add-question-heading">
+          <span><b>Add a survey question</b></span>
+          <span class="pull-right"><b>Question Type</b></span>
+        </div>
         <div class="col-xs-8">
           <textarea
-                 class="form-control col-xs-8"
+                 class="form-control col-xs-8 "
                  id="question"
                  ngModel
                  name="question"
                  placeholder="Enter Question"
-                 required
                  [(ngModel)]="defaultQuestionChoice"
                  #question="ngModel"></textarea>
         </div>
-        <div class="col-xs-4" style="padding-left:15px;">
+        <div class="col-xs-4 " >
           <select
             ngModel
             name="questionType"
             id="questionType"
-            class="form-control col-xs-4"
+            class="form-control col-xs-4 "
             required
             [(ngModel)]="defaultQuestionChoice"
             (change)="addQuestion()"
-            #type="ngModel"
-            [disabled]="!question.valid"
+            #questionType="ngModel"
+            [disabled]="question.value === ''"
             >
             <option selected>Short Answer</option>
             <option>Multiple Choice - Text</option>
@@ -145,14 +204,25 @@
       </div>
 
 
+
+
+
     <!-- Question Selection End -->
+      <div >
+        <div class="submit-div col-xs-4 col-xs-offset-4 ">
+          <button type="submit"
+                  class="btn btn-block submit-button" (click)="createSurvey('save')"
+                  [disabled]="!form.valid">Save</button>
+        </div>
 
-    <div class="submit-div col-xs-offset-8 col-xs-4">
-      <button type="submit"
-              class="btn btn-primary submit-button" (click)="createSurvey(form)"
-              [disabled]="!form.valid">Submit</button>
+        <div class="submit-div col-xs-4">
+          <button type="submit"
+                  class="btn btn-primary submit-button" (click)="createSurvey('publish')"
+                  [disabled]="!form.valid">Publish</button>
+        </div>
+      </div>
+
     </div>
-
   </form>
   <router-outlet></router-outlet>
 </div>

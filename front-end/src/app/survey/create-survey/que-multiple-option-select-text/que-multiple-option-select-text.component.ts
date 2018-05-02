@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgModel} from '@angular/forms';
+import {SurveyService} from '../../survey-service.service';
 
 @Component({
   selector: 'app-que-multiple-option-select-text',
@@ -8,13 +9,13 @@ import {NgModel} from '@angular/forms';
 })
 export class QueMultipleOptionSelectTextComponent implements OnInit {
 
-  @Output('saveChoice') saveChoice = new EventEmitter<{choice: string, sequence: number}>()
+  @Output('saveChoice') saveChoice = new EventEmitter<{choice: string, sequence: number, id: string}>()
   @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
   @Input('question') question: string;
   @Input('id') id: string;
 
-  constructor() { }
-  public moreOptions: string [] = [];
+  constructor(private surveyService: SurveyService) { }
+  public moreOptions: any = [];
 
 
   ngOnInit() {
@@ -25,11 +26,19 @@ export class QueMultipleOptionSelectTextComponent implements OnInit {
   }
 
   saveChoices(element: NgModel, sequence: number) {
-    this.saveChoice.emit({choice: element.value, sequence: sequence + 2});
+    if(sequence > -1){
+      this.moreOptions[sequence][1] =  element.value ;
+    }
+    this.saveChoice.emit({choice: element.value, sequence: sequence + 2 , id: this.id});
   }
 
   addOptions(){
-    this.moreOptions.push('');
+    this.moreOptions.push([this.moreOptions.length, '']);
+  }
+
+  deleteOptions(index: number){
+    this.moreOptions.splice(index,1);
+    this.surveyService.deleteChoice(index + 2, this.id);
   }
 
 }

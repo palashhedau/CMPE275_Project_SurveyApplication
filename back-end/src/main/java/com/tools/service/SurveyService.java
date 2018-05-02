@@ -47,8 +47,6 @@ public class SurveyService {
 	Helper helper = new Helper();
 	
 	public Object createSurvey(SurveyCreateParams params) {
-		System.out.println("Palash");
-		System.out.println(params.getQuestionList().size() + " Size dekh");
 		Survey survey = new Survey("Palash" , params.getPublish() , helper.parseDate(params.getEndTime()) , params.getType(), params.getStatus(), params.getCategory());
 		
 		for(QuestionsAndAnswers que : params.getQuestionList()) {

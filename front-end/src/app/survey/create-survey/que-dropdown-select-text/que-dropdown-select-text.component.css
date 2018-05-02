@@ -1,5 +1,7 @@
 .options{
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  min-height: 20px;
+  overflow: hidden;
 }
 label{
   margin-right: 10px;
@@ -20,4 +22,8 @@ a{
 
 span{
   font-size: 15px;
+}
+
+.no-padding{
+  padding: 0px;
 }

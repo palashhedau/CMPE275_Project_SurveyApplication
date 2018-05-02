@@ -10,44 +10,54 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class CreateSurveyComponent implements OnInit {
   @ViewChild('form')createForm: NgForm;
-  @ViewChild('name')formName: NgModel;
-  @ViewChild('type')questionType: NgModel;
+
+  @ViewChild('questionType')questionType: NgModel;
   @ViewChild('question')question: NgModel;
+  @ViewChild('category')category: NgModel;
+  @ViewChild('endDate')date: NgModel;
+  @ViewChild('type')type: NgModel;
+  @ViewChild('name')formName: NgModel;
+
   public defaultQuestionChoice = '';
 
-  public questionList: any = [[]];
+  public questionList: any = [];
 
 
   constructor(private surveyService: SurveyService,
-              private router: Router,
-              private currentRoute: ActivatedRoute){}
+              private router: Router){}
 
   ngOnInit() {
   }
 
   addQuestion() {
+
     if (this.surveyService.addQuestion(this.question.value , this.questionType.value) === true) {
       this.questionList.push([this.questionType.value, this.question.value]);
       this.defaultQuestionChoice = '';
+      console.log(this.questionList);
     } else {
+      console.log("Not a good way to add");
       // give error and dont allow new question
       this.defaultQuestionChoice = '';
     }
   }
 
-  saveChoice(data: {choice: string, sequence: number}) {
-    this.surveyService.addChoice(data.choice , data.sequence);
+  saveChoice(data: {choice: string, sequence: number , id: string}) {
+    this.surveyService.addChoice(data.choice , data.sequence , data.id);
   }
 
-  createSurvey(form: HTMLFormElement) {
-    console.log(form)
+  createSurvey(status: string) {
     const allowCreateSurvey: boolean = this.surveyService.allowCreateSurvey();
 
     if(allowCreateSurvey === true ) {
-      this.surveyService.createSurvey(this.formName.value).subscribe(
+      let name = this.formName.value;
+      let category = this.category.value;
+      let type = this.type.value;
+      let dateVar = this.date.value;
+      this.surveyService.createSurvey(name, category, type, dateVar, status).subscribe(
         (response) => {
           if (response.code === 200) {
-            this.router.navigate(['/survey/create/success'],{relativeTo: this.currentRoute})
+            this.router.navigate(['/survey/create/success'])
           } else {
             this.router.navigate(['/survey/create/failure']);
           }
@@ -62,6 +72,11 @@ export class CreateSurveyComponent implements OnInit {
   }
 
   deleteQuestion(data: {id: string}){
-    console.log(data.id);
+    this.questionList.splice(data.id, 1);
+    this.surveyService.deleteQuestion(data.id);
+  }
+
+  saveRatingsChoice(data: {choice: string , sequence: string}) {
+    this.surveyService.saveRatingsChoice(data.choice, data.sequence);
   }
 }
