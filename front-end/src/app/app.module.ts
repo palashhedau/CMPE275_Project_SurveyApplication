@@ -20,9 +20,13 @@ import { QueDropdownSelectImageComponent } from './survey/create-survey/que-drop
 import { QueYesNoComponent } from './survey/create-survey/que-yes-no/que-yes-no.component';
 import { QueDatetimeComponent } from './survey/create-survey/que-datetime/que-datetime.component';
 import { QueStarRatingQuestionComponent } from './survey/create-survey/que-star-rating-question/que-star-rating-question.component';
-import {SurveyService} from './survey/create-survey/survey-service.service';
+import {SurveyService} from './survey/survey-service.service';
 import {AuthService} from './landing/auth.service';
 import {HttpClientModule} from '@angular/common/http';
+import {CreateSurveySuccessfulComponent} from './survey/create-survey-successful/create-survey-successful.component';
+import { CreateSurveyFailureComponent } from './survey/create-survey-failure/create-survey-failure.component';
+import { MySurveysComponent } from './survey/my-surveys/my-surveys.component';
+
 
 
 
@@ -43,7 +47,10 @@ import {HttpClientModule} from '@angular/common/http';
     QueDropdownSelectImageComponent,
     QueYesNoComponent,
     QueDatetimeComponent,
-    QueStarRatingQuestionComponent
+    QueStarRatingQuestionComponent,
+    CreateSurveySuccessfulComponent,
+    CreateSurveyFailureComponent,
+    MySurveysComponent
 
   ],
   imports: [

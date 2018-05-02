@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SurveyService} from './survey-service.service';
 
 @Component({
   selector: 'app-survey',
@@ -10,6 +11,7 @@ export class SurveyComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

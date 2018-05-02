@@ -1,5 +1,5 @@
 <div class="col-xs-6  col-xs-offset-3 form-color">
-  <form (ngSubmit) = "submitQuestion()" #form="ngForm">
+  <form  #form="ngForm">
 
 
     <!-- Survey Name -->
@@ -20,15 +20,22 @@
 
     <!-- Question List-->
     <div *ngFor="let question of questionList; index as i" class="question-div" >
-      <div [ngSwitch]="question[0]" >
+      <div [ngSwitch]="question[0]"  >
 
         <div *ngSwitchCase="'Short Answer'">
-          <app-que-short-answer [question]="question[1]" >
+          <app-que-short-answer
+            [question]="question[1]"
+            [id]="i"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-short-answer>
         </div>
 
         <div *ngSwitchCase="'Multiple Choice - Text'">
-          <app-que-single-option-select-text [question]="question[1]" (saveChoice)="saveChoice($event)">
+          <app-que-single-option-select-text
+            [question]="question[1]"
+            [id]="i"
+            (saveChoice)="saveChoice($event)"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-single-option-select-text>
         </div>
 
@@ -38,7 +45,11 @@
         </div>
 
         <div *ngSwitchCase="'Checkboxes - Text'" >
-          <app-que-multiple-option-select-text [question]="question[1]" (saveChoice)="saveChoice($event)">
+          <app-que-multiple-option-select-text
+            [question]="question[1]"
+            [id]="i"
+            (saveChoice)="saveChoice($event)"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-multiple-option-select-text>
         </div>
 
@@ -48,7 +59,11 @@
         </div>
 
         <div *ngSwitchCase="'Dropdown - Text'">
-          <app-que-dropdown-select-text  [question]="question[1]" (saveChoice)="saveChoice($event)">
+          <app-que-dropdown-select-text
+            [question]="question[1]"
+            [id]="i"
+            (saveChoice)="saveChoice($event)"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-dropdown-select-text>
         </div>
 
@@ -58,16 +73,26 @@
         </div>
 
         <div *ngSwitchCase="'Yes/No'" >
-          <app-que-yes-no [question]="question[1]">
+          <app-que-yes-no
+            [question]="question[1]"
+            [id]="i"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-yes-no>
         </div>
 
         <div *ngSwitchCase="'Star Rating'">
-          <app-que-star-rating-question></app-que-star-rating-question>
+          <app-que-star-rating-question
+            [id]="i"
+            [question]="question[1]"
+            (deleteQuestion)="deleteQuestion($event)">
+          </app-que-star-rating-question>
         </div>
 
-        <div *ngSwitchCase="'Datetime'" >
-          <app-que-datetime [question]="question[1]">
+        <div *ngSwitchCase="'Datetime'" class="datetime-div" >
+          <app-que-datetime
+            [question]="question[1]"
+            [id]="i"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-datetime>
         </div>
 
@@ -124,9 +149,10 @@
 
     <div class="submit-div col-xs-offset-8 col-xs-4">
       <button type="submit"
-              class="btn btn-primary submit-button"
+              class="btn btn-primary submit-button" (click)="createSurvey(form)"
               [disabled]="!form.valid">Submit</button>
     </div>
 
   </form>
+  <router-outlet></router-outlet>
 </div>

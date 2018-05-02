@@ -9,7 +9,10 @@ import {NgModel} from '@angular/forms';
 export class QueMultipleOptionSelectTextComponent implements OnInit {
 
   @Output('saveChoice') saveChoice = new EventEmitter<{choice: string, sequence: number}>()
+  @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
   @Input('question') question: string;
+  @Input('id') id: string;
+
   constructor() { }
   public moreOptions: string [] = [];
 
@@ -17,6 +20,9 @@ export class QueMultipleOptionSelectTextComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteQuestion(){
+    this.delete.emit({id : this.id});
+  }
 
   saveChoices(element: NgModel, sequence: number) {
     this.saveChoice.emit({choice: element.value, sequence: sequence + 2});
@@ -25,4 +31,5 @@ export class QueMultipleOptionSelectTextComponent implements OnInit {
   addOptions(){
     this.moreOptions.push('');
   }
+
 }

@@ -46,8 +46,9 @@ public class SurveyService {
 	
 	Helper helper = new Helper();
 	
-	public void createSurvey(SurveyCreateParams params) {
-		
+	public Object createSurvey(SurveyCreateParams params) {
+		System.out.println("Palash");
+		System.out.println(params.getQuestionList().size() + " Size dekh");
 		Survey survey = new Survey("Palash" , params.getPublish() , helper.parseDate(params.getEndTime()) , params.getType(), params.getStatus(), params.getCategory());
 		
 		for(QuestionsAndAnswers que : params.getQuestionList()) {
@@ -75,8 +76,9 @@ public class SurveyService {
 		
 		List<Auth> auth = authRepository.findById(1);
 		survey.setAuth(auth.get(0));
-		
+		survey.setName(params.getName());
 		Survey savedSurvey = surveyRepository.save(survey);
+		return new Response(200, "Survey saved successfully");
 	
 	}
 
@@ -163,6 +165,14 @@ public class SurveyService {
 			}else return new Response(404, "Survey Not active");
 		}else return new Response(404, "Survey Not Found");
 	
+	}
+
+
+
+	
+	public Object getSurvey() {
+		System.out.println("Getting data");
+		return surveyRepository.findByAuthId(1);
 	}
 
 	

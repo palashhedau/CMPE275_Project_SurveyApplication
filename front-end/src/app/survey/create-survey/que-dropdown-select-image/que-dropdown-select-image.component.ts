@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {SurveyService} from '../survey-service.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {SurveyService} from '../../survey-service.service';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-que-dropdown-select-image',
@@ -8,12 +9,28 @@ import {SurveyService} from '../survey-service.service';
 })
 export class QueDropdownSelectImageComponent implements OnInit {
 
-  constructor(private surveyService: SurveyService) { }
+  @Output('saveChoice') saveChoice = new EventEmitter<{choice: string, sequence: number}>()
+  @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
+  @Input('question') question: string;
+  @Input('id') id: string;
+
+  constructor() { }
+  public moreOptions: string [] = [];
+
 
   ngOnInit() {
   }
 
-  typeMessage() {
-    this.surveyService.getMessage('Dropdown select');
+  deleteQuestion(){
+    this.delete.emit({id : this.id});
   }
+
+  saveChoices(element: NgModel, sequence: number) {
+    this.saveChoice.emit({choice: element.value, sequence: sequence + 2});
+  }
+
+  addOptions(){
+    this.moreOptions.push('');
+  }
+
 }

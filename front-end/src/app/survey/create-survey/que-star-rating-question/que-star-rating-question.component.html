@@ -1,7 +1,10 @@
-<div class="border-bottom-div">
-  <label for="dropdown" class="margin-top-10">Star Rating</label>
-  <select id="questiontype" class="form-control col-md-3">
-    <option selected>1-5 Stars</option>
-    <option>1-10 Stars</option>
-  </select>
+<div class="options">
+  <div class="col-xs-12">
+    <label for="dropdown" class="margin-top-10"><span>{{id}}.</span>  {{question}}</label> <a (click)="deleteQuestion()"><i class="fa fa-times"></i></a>
+
+    <select id="questiontype" class="form-control col-md-3">
+      <option selected>1-5 Stars</option>
+      <option>1-10 Stars</option>
+    </select>
+  </div>
 </div>
