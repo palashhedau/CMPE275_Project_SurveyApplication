@@ -1,5 +1,7 @@
 .options{
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  min-height: 20px;
+  overflow: hidden;
 }
 
 label{
@@ -10,3 +12,21 @@ a{
   font-size: 20px;
   color: red;
 }
+
+
+.main-component{
+  padding: 20px;
+  background-color: white;
+  min-height: 20px;
+  overflow: hidden;
+}
+
+span{
+  font-size: 15px;
+}
+
+
+.no-padding{
+  padding: 0px;
+}
+

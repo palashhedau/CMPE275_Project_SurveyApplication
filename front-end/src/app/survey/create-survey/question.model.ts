@@ -10,12 +10,19 @@ export class QuestionsAndAnswers {
 
   addChoice(choice: string, sequence: number) {
     if (this.choice.length > sequence){
-      this.choice.push(choice);
-    } else {
       this.choice[sequence] = choice;
+    } else if(this.choice.length === sequence) {
+      this.choice.push(choice);
     }
   }
 
+  deleteChoice(sequence: number){
+    this.choice.splice(sequence,1);
+  }
+
+  setChoice(choice: string){
+    this.choice[0] = choice;
+  }
   getChoices(){
     return this.choice;
   }

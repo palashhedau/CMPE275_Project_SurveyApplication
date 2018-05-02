@@ -19,9 +19,9 @@ export class SurveyService {
   addQuestion(question: string, questionType: string) {
     let allowNextQuestion: boolean = true;
     if (this.questionObject != undefined){
-
+      console.log("Yhaa toh aana hi ni chaiye")
       let type: string = this.questionObject.getQuestionType();
-      if(!( type === 'Short Answer' || type === 'Datetime' || type === 'Star Rating' || type === 'Yes/No')) {
+      if(!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
         console.log("CHoices length " + this.questionObject.getChoices().length)
         if(this.questionObject.getChoices().length > 1 ){
           for (let choice of this.questionObject.getChoices()) {
@@ -29,6 +29,11 @@ export class SurveyService {
               allowNextQuestion = false;
               break;
             }
+          }
+        } else if( type === 'Star Rating'){
+          console.log("Idhar aayo re")
+          if(this.questionObject.getChoices().length === 0){
+            allowNextQuestion = false;
           }
         } else {
           allowNextQuestion = false;
@@ -52,8 +57,28 @@ export class SurveyService {
 
   }
 
-  addChoice(choice: string , sequence: number) {
-    this.questionObject.addChoice(choice, sequence);
+  addChoice(choice: string , sequence: number , id: string) {
+    if ( parseInt(id,10 ) === this.questionList.length) {
+      this.questionObject.addChoice(choice , sequence);
+    } else {
+      this.questionList[parseInt(id,10 )].addChoice(choice, sequence);
+    }
+  }
+
+  deleteChoice(sequence: number, id: string){
+    if ( parseInt(id,10 ) === this.questionList.length) {
+      this.questionObject.deleteChoice(sequence)
+    } else {
+      this.questionList[parseInt(id,10 )].deleteChoice(sequence);
+    }
+ }
+
+  saveRatingsChoice(choice: string, id: string){
+    if (parseInt(id,10 ) === this.questionList.length){
+      this.questionObject.setChoice(choice);
+    } else {
+      this.questionList[parseInt(id, 10)].setChoice(choice);
+    }
   }
 
   allowCreateSurvey() {
@@ -61,7 +86,7 @@ export class SurveyService {
     if (this.questionObject !== undefined){
 
       const type: string = this.questionObject.getQuestionType();
-      if (!( type === 'Short Answer' || type === 'Datetime' || type === 'Star Rating' || type === 'Yes/No')) {
+      if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
         if (this.questionObject.getChoices().length > 1 ) {
           for (let choice of this.questionObject.getChoices()) {
             if (choice.trim() === '') {
@@ -89,24 +114,26 @@ export class SurveyService {
 
   }
 
-  createSurvey(name: string) {
-  console.log('Create Question ', this.questionList)
+  createSurvey(name: string, category: string, type: string, date: string, status: string) {
     const requestBody = {
       questionList : this.questionList,
-      type: 'TEMP',
+      type: type,
       publish : true,
-      endTime : '2018-10-09',
-      category : 'GENERAL',
-      status : 'PUBLISH',
+      endTime : date,
+      category : category,
+      status : status,
       name: name
     };
     this.questionList = []
     return this.http.post('http://localhost:8081/create-survey' , requestBody);
-
   }
 
   getMySurveys() {
     return this.http.get('http://localhost:8081/survey');
+  }
+
+  deleteQuestion(id: number) {
+    this.questionList.splice(id, 1);
   }
 
 

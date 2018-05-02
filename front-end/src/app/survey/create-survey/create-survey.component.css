@@ -7,11 +7,9 @@
 
 .submit-button{
   width: 100%;
-  border-radius: 0px;
 }
 
 .submit-div{
-
   min-height: 20px;
   overflow: hidden;
 }
@@ -35,3 +33,34 @@ input.ng-invalid.ng-touched , select.ng-invalid.ng-touched  {
 .datetime-div{
   background-color: white;
 }
+
+.add-section{
+  min-height: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+
+}
+
+.submit-total-section{
+  background-color: #eff0f1;
+  min-height: 20px;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.no-padding{
+  padding:0px
+}
+
+.sharp-border{
+  border-radius: 0px !important;
+}
+
+.margin-bottom-20{
+  margin-bottom: 20px;
+}
+
+.margin-bottom-10{
+  margin-bottom: 10px;
+}
+
