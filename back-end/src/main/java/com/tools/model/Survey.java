@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Survey")
 public class Survey {
@@ -34,6 +36,8 @@ public class Survey {
 	
 	String category; 
 	
+	String name ;
+	
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "survey")
@@ -52,6 +56,16 @@ public class Survey {
 	Survey(){}
 	
 	
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
 	public String getCategory() {
 		return category;
 	}
@@ -59,7 +73,8 @@ public class Survey {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
+	
+	@JsonIgnore
 	public Auth getAuth() {
 		return auth;
 	}
@@ -103,11 +118,12 @@ public class Survey {
 		this.category = category;
 	}
 
-	
+	@JsonIgnore
 	public Set<Survey_Submit_Info> getSubmittedSurvery() {
 		return submittedSurvery;
 	}
 
+	
 	public void setSubmittedSurvery(Set<Survey_Submit_Info> submittedSurvery) {
 		this.submittedSurvery = submittedSurvery;
 	}
@@ -136,6 +152,7 @@ public class Survey {
 		this.creator = creator;
 	}
 
+	@JsonIgnore
 	public Set<Questions> getQuestions() {
 		return questions;
 	}

@@ -1,0 +1,17 @@
+<div class="col-xs-8 col-xs-offset-2">
+   <div class="my-survey">
+     <div *ngFor="let survey of surveyList" class="single-survey">
+        <div class="row">
+          <div class="col-xs-4">
+            <a routerLink="/survey/survey.id"><b>{{survey.name}}</b></a>
+          </div>
+          <div class="col-xs-4">
+            <span>{{survey.category}} | {{survey.status}} | {{survey.endTime | date : 'yyyy-MM-dd'}} </span>
+          </div>
+          <div class="col-xs-4 ">
+            <button class="btn btn-primary pull-right">Watch</button>
+          </div>
+        </div>
+     </div>
+   </div>
+</div>

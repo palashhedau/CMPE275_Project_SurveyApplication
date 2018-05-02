@@ -1,0 +1,30 @@
+.my-survey{
+  margin-top: 40px;
+  background-color: #F0F8FF;
+  padding: 30px
+}
+
+b{
+  font-size: 18px;
+}
+
+a{
+  margin-right: 15px;
+}
+
+span{
+  color: lightgray;
+  font-size: 12px;
+}
+
+
+.single-survey{
+  padding: 20px;
+  background-color: white;
+
+}
+
+
+.single-survey:not(:last-child){
+  margin-bottom: 20px;
+}

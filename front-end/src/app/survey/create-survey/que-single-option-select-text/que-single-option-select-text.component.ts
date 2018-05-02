@@ -8,8 +8,11 @@ import {NgModel} from '@angular/forms';
 })
 export class QueSingleOptionSelectTextComponent implements OnInit {
 
-  @Output('saveChoice') saveChoice = new EventEmitter<{choice: string, sequence: number}>();
+  @Output('saveChoice') saveChoice = new EventEmitter<{choice: string, sequence: number}>()
+  @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
   @Input('question') question: string;
+  @Input('id') id: string;
+
   constructor() { }
   public moreOptions: string [] = [];
 
@@ -17,6 +20,9 @@ export class QueSingleOptionSelectTextComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteQuestion(){
+    this.delete.emit({id : this.id});
+  }
 
   saveChoices(element: NgModel, sequence: number) {
     this.saveChoice.emit({choice: element.value, sequence: sequence + 2});

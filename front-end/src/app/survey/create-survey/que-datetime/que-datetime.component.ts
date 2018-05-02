@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SurveyService} from '../survey-service.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {SurveyService} from '../../survey-service.service';
 
 @Component({
   selector: 'app-que-datetime',
@@ -8,13 +8,17 @@ import {SurveyService} from '../survey-service.service';
 })
 export class QueDatetimeComponent implements OnInit {
   @Input('question') question: string;
-  constructor(private surveyService : SurveyService) { }
+  @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
+  @Input('id') id: string;
+
+  constructor(private surveyService: SurveyService) { }
 
   ngOnInit() {
   }
 
-  typeMessage() {
-    this.surveyService.getMessage('DAtetime');
+  deleteQuestion(){
+    this.delete.emit({id : this.id});
   }
+
 
 }

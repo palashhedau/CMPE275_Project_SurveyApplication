@@ -10,4 +10,5 @@ import com.tools.model.Survey;
 @Repository
 public interface SurveyRepository extends JpaRepository<Survey,Integer> {
 	List<Survey> findById(int id);
+	List<Survey> findByAuthId(int id);
 }
