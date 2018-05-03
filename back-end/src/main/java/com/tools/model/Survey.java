@@ -152,7 +152,7 @@ public class Survey {
 		this.creator = creator;
 	}
 
-	@JsonIgnore
+	
 	public Set<Questions> getQuestions() {
 		return questions;
 	}

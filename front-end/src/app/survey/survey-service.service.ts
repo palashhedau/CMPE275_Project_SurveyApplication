@@ -1,6 +1,7 @@
 import {QuestionsAndAnswers} from './create-survey/question.model';
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {QuestionsSubmitSurvey} from './take-survey/submit-survey-questions.model';
 
 @Injectable()
 export class SurveyService {
@@ -12,6 +13,10 @@ export class SurveyService {
   public category: string;
   public questionList: QuestionsAndAnswers[] = [];
   public questionObject: QuestionsAndAnswers;
+
+
+  public questionToSubmitList: QuestionsSubmitSurvey [] = [];
+
 
   constructor(private http: HttpClient) {}
 
@@ -63,6 +68,7 @@ export class SurveyService {
     } else {
       this.questionList[parseInt(id,10 )].addChoice(choice, sequence);
     }
+    console.log(this.questionList);
   }
 
   deleteChoice(sequence: number, id: string){
@@ -71,6 +77,7 @@ export class SurveyService {
     } else {
       this.questionList[parseInt(id,10 )].deleteChoice(sequence);
     }
+    console.log(this.questionList);
  }
 
   saveRatingsChoice(choice: string, id: string){
@@ -114,10 +121,9 @@ export class SurveyService {
 
   }
 
-  createSurvey(name: string, category: string, type: string, date: string, status: string) {
+  createSurvey(name: string, category: string, date: string, status: string) {
     const requestBody = {
       questionList : this.questionList,
-      type: type,
       publish : true,
       endTime : date,
       category : category,
@@ -136,5 +142,38 @@ export class SurveyService {
     this.questionList.splice(id, 1);
   }
 
+  getSurveyById(id: string) {
+    return this.http.get('http://localhost:8081/get-survey/' + id);
+  }
+
+  /*Submit Survey*/
+
+  setChoice(id: number, choice: string, questionType: string){
+      console.log(id + " " + choice + " " + questionType);
+      let found: boolean = false;
+      if (this.questionToSubmitList.length > 0) {
+        for(const question of this.questionToSubmitList){
+            if(question.getId() === id){
+              /*matlab mil gaya , iska set choice kar*/
+              question.setChoice(choice, questionType);
+              found = true;
+              break;
+            }
+        }
+      }
+
+      if (found === false) {
+        this.questionToSubmitList.push(new QuestionsSubmitSurvey(id));
+        this.questionToSubmitList[this.questionToSubmitList.length - 1].setChoice(choice, questionType);
+      }
+      console.log(this.questionToSubmitList);
+  }
+
+  submitSurvey(id){
+    const requestBody = {
+      questionList: this.questionToSubmitList
+    };
+    return this.http.post('http://localhost:8081/submit-survey/'+ id , requestBody);
+  }
 
 }

@@ -15,7 +15,6 @@ export class CreateSurveyComponent implements OnInit {
   @ViewChild('question')question: NgModel;
   @ViewChild('category')category: NgModel;
   @ViewChild('endDate')date: NgModel;
-  @ViewChild('type')type: NgModel;
   @ViewChild('name')formName: NgModel;
 
   public defaultQuestionChoice = '';
@@ -52,9 +51,8 @@ export class CreateSurveyComponent implements OnInit {
     if(allowCreateSurvey === true ) {
       let name = this.formName.value;
       let category = this.category.value;
-      let type = this.type.value;
       let dateVar = this.date.value;
-      this.surveyService.createSurvey(name, category, type, dateVar, status).subscribe(
+      this.surveyService.createSurvey(name, category, dateVar, status).subscribe(
         (response) => {
           if (response.code === 200) {
             this.router.navigate(['/survey/create/success'])
@@ -72,8 +70,8 @@ export class CreateSurveyComponent implements OnInit {
   }
 
   deleteQuestion(data: {id: string}){
-    this.questionList.splice(data.id, 1);
-    this.surveyService.deleteQuestion(data.id);
+    this.questionList.splice(parseInt(data.id,10), 1);
+    this.surveyService.deleteQuestion(parseInt(data.id,10));
   }
 
   saveRatingsChoice(data: {choice: string , sequence: string}) {

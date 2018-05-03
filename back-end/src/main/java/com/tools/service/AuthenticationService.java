@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.tools.helper.Helper;
 import com.tools.repository.AuthRepository;
@@ -87,6 +88,11 @@ public class AuthenticationService {
 			return new Response(400,"Incorrect activation code provided") ; 
 		}else return new Response(404,"No user found with the account") ;
 		
+	}
+
+	public Object check() {
+		System.out.println(authRepository.findByEmail("palashhedau900@gmail.com").size());
+		return null;
 	}
 	
 	

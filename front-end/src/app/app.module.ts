@@ -26,6 +26,21 @@ import {HttpClientModule} from '@angular/common/http';
 import {CreateSurveySuccessfulComponent} from './survey/create-survey-successful/create-survey-successful.component';
 import { CreateSurveyFailureComponent } from './survey/create-survey-failure/create-survey-failure.component';
 import { MySurveysComponent } from './survey/my-surveys/my-surveys.component';
+import { TakeSurveyComponent } from './survey/take-survey/take-survey.component';
+import { SingleOptionTextComponent } from './survey/take-survey/single-option-text/single-option-text.component';
+import { SingleOptionImageComponent } from './survey/take-survey/single-option-image/single-option-image.component';
+import { MultipleOptionImageComponent } from './survey/take-survey/multiple-option-image/multiple-option-image.component';
+import { MultipleOptionTextComponent } from './survey/take-survey/multiple-option-text/multiple-option-text.component';
+import { DropdownTextComponent } from './survey/take-survey/dropdown-text/dropdown-text.component';
+import { DropdownImageComponent } from './survey/take-survey/dropdown-image/dropdown-image.component';
+import { DatetimeComponent } from './survey/take-survey/datetime/datetime.component';
+import { ShortanswersComponent } from './survey/take-survey/shortanswers/shortanswers.component';
+import { RatingsComponent } from './survey/take-survey/ratings/ratings.component';
+import { YesnoComponent } from './survey/take-survey/yesno/yesno.component';
+import { SurveyAccessDeniedComponent } from './survey/survey-access-denied/survey-access-denied.component';
+import { SubmitSurveySuccessComponent } from './survey/submit-survey-success/submit-survey-success.component';
+import { SubmitSurveyFailureComponent } from './survey/submit-survey-failure/submit-survey-failure.component';
+import {HelperService} from './helper.service';
 
 
 
@@ -50,7 +65,21 @@ import { MySurveysComponent } from './survey/my-surveys/my-surveys.component';
     QueStarRatingQuestionComponent,
     CreateSurveySuccessfulComponent,
     CreateSurveyFailureComponent,
-    MySurveysComponent
+    MySurveysComponent,
+    TakeSurveyComponent,
+    SingleOptionTextComponent,
+    SingleOptionImageComponent,
+    MultipleOptionImageComponent,
+    MultipleOptionTextComponent,
+    DropdownTextComponent,
+    DropdownImageComponent,
+    DatetimeComponent,
+    ShortanswersComponent,
+    RatingsComponent,
+    YesnoComponent,
+    SurveyAccessDeniedComponent,
+    SubmitSurveySuccessComponent,
+    SubmitSurveyFailureComponent
 
   ],
   imports: [
@@ -59,7 +88,7 @@ import { MySurveysComponent } from './survey/my-surveys/my-surveys.component';
     AppRouting,
     HttpClientModule,
   ],
-  providers: [SurveyService, AuthService],
+  providers: [SurveyService, AuthService, HelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

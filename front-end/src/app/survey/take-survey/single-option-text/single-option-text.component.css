@@ -1,0 +1,25 @@
+.main-component{
+  background-color: white;
+  min-height: 20px;
+  overflow: hidden;
+  padding: 30px;
+}
+
+b{
+  font-size: 15px;
+}
+
+.question-area{
+  margin-bottom: 40px;
+}
+
+.no-padding{
+  padding: 0px;
+}
+
+
+.choice-div{
+  padding-bottom: 10px;
+}
+
+

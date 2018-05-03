@@ -9,6 +9,9 @@ import {AppComponent} from './app.component';
 import {CreateSurveySuccessfulComponent} from './survey/create-survey-successful/create-survey-successful.component';
 import {CreateSurveyFailureComponent} from './survey/create-survey-failure/create-survey-failure.component';
 import {MySurveysComponent} from './survey/my-surveys/my-surveys.component';
+import {TakeSurveyComponent} from './survey/take-survey/take-survey.component';
+import {SubmitSurveySuccessComponent} from './survey/submit-survey-success/submit-survey-success.component';
+import {SubmitSurveyFailureComponent} from './survey/submit-survey-failure/submit-survey-failure.component';
 
 
 const appRoutes: Routes = [
@@ -17,10 +20,13 @@ const appRoutes: Routes = [
   {path : 'signin' , component : SigninComponent},
   {path : 'survey' , component : SurveyComponent ,  children : [
       {path : '' , component: MySurveysComponent},
-      {path : 'create-survey' , component: CreateSurveyComponent}
+      {path : 'create-survey' , component: CreateSurveyComponent},
+      {path : 'take-survey/:id' , component: TakeSurveyComponent },
     ]},
   {path : 'survey/create/success' , component: CreateSurveySuccessfulComponent},
   {path : 'survey/create/failure' , component: CreateSurveyFailureComponent },
+  {path : 'survey/submit/success' , component: SubmitSurveySuccessComponent},
+  {path : 'survey/submit/failure' , component: SubmitSurveyFailureComponent },
   {path : 'not-found' , component : NotFoundComponent},
   {path : '**' , redirectTo : '/not-found' , pathMatch: 'full' }
 ]
