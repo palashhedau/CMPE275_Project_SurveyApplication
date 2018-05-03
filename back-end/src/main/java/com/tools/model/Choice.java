@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Choice")
 public class Choice {
@@ -30,8 +32,10 @@ public class Choice {
 		super();
 		this.answers = answers;
 	}
-
 	
+	public Choice() {}
+
+	@JsonIgnore
 	public Questions getQuestions() {
 		return questions;
 	}

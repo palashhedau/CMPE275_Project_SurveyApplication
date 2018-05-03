@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Questions")
 public class Questions {
@@ -31,6 +33,7 @@ public class Questions {
 	
 	Questions(){}
 	
+	@JsonIgnore
 	public Set<Survey_Submit_Response> getSurveySubmitResponse() {
 		return surveySubmitResponse;
 	}
@@ -111,7 +114,8 @@ public class Questions {
 		this.question = question;
 	}
 
-
+	
+	@JsonIgnore
 	public Survey getSurvey() {
 		return survey;
 	}

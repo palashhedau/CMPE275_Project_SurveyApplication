@@ -52,8 +52,12 @@ public class SurveyController {
 	
 	@RequestMapping(path="/submit-survey/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> submitSurvey(@RequestBody SurveySubmitParams params, @PathVariable String id ){
-		surveyService.submitSurvey(id, params);
-		return null; 
+		return new ResponseEntity( surveyService.submitSurvey(id, params), HttpStatus.OK);
+	}
+	
+	@RequestMapping(path="/get-survey/{id}",method=RequestMethod.GET)
+	public ResponseEntity<?> getSurvey(@PathVariable String id ){
+		return new ResponseEntity(surveyService.getSurveyById(id), HttpStatus.OK);
 	}
 	
 	

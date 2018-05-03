@@ -20,31 +20,27 @@
                  #name="ngModel">
         </div>
         <div class="col-xs-6 margin-bottom-20">
-          <input type="text"
-                 class="form-control "
-                 id="category"
-                 placeholder="Category"
-                 ngModel
-                 name="category"
-                 required
-                 #category="ngModel">
-        </div>
-        <div class="col-xs-6 margin-bottom-10">
-          <b>Enter the Survey Type</b>
-        </div>
-        <div class="col-xs-6 margin-bottom-10">
-          <b class="pull-right">Enter Survey End Date</b>
+          <select
+            type="text"
+            class="form-control "
+            id="category"
+            placeholder="Category"
+            ngModel
+            name="category"
+            required
+            #category="ngModel"
+            >
+            <option selected>General</option>
+            <option>Closed</option>
+            <option>Open</option>
+
+          </select>
+
         </div>
 
-        <div class="col-xs-6 margin-bottom-20">
-          <input type="text"
-                 class="form-control "
-                 id="type"
-                 placeholder="Type"
-                 ngModel
-                 name="type"
-                 required
-                 #type="ngModel">
+
+        <div class="col-xs-12 margin-bottom-10 ">
+          <b class="pull-left">Enter Survey End Date</b>
         </div>
 
         <div class="col-xs-6 margin-bottom-20">
@@ -211,13 +207,13 @@
       <div >
         <div class="submit-div col-xs-4 col-xs-offset-4 ">
           <button type="submit"
-                  class="btn btn-block submit-button" (click)="createSurvey('save')"
+                  class="btn btn-block submit-button" (click)="createSurvey('Unpublished')"
                   [disabled]="!form.valid">Save</button>
         </div>
 
         <div class="submit-div col-xs-4">
           <button type="submit"
-                  class="btn btn-primary submit-button" (click)="createSurvey('publish')"
+                  class="btn btn-primary submit-button" (click)="createSurvey('Published')"
                   [disabled]="!form.valid">Publish</button>
         </div>
       </div>

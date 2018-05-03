@@ -124,11 +124,11 @@ public class SurveyService {
 
 
 	public Object submitSurvey(String id, SurveySubmitParams params) {
-		
 		List<Survey> surveyList =  surveyRepository.findById(Integer.parseInt(id));
 		if(surveyList.size() > 0) {
 			Survey survey = surveyList.get(0);
-			if(survey.getStatus().equalsIgnoreCase("open") && helper.compareDate(new Date(), survey.getEndTime())) {
+			System.out.println(survey.getStatus());
+			if(survey.getStatus().equalsIgnoreCase("Published") && helper.compareDate(new Date(), survey.getEndTime())) {
 				Survey_Submit_Info info = new Survey_Submit_Info();
 				info.setSurvey(survey);
 				info.setUserId(1);
@@ -143,7 +143,7 @@ public class SurveyService {
 					response.setSurvey_submit_info(info);
 					response.setQuestions(que);
 					
-					for(String ans : list.getAnswer()) {
+					for(String ans : list.getChoice()) {
 						Survey_Submit_Response_Answers answer = new Survey_Submit_Response_Answers();
 						answer.setAnswer(ans);
 						answer.setSurvey_submit_response(response);
@@ -171,6 +171,19 @@ public class SurveyService {
 	public Object getSurvey() {
 		System.out.println("Getting data");
 		return surveyRepository.findByAuthId(1);
+	}
+
+
+
+	public Object getSurveyById(String id) {
+		//check if user eligible for taking survey
+		// and only get the PUBLISHED survey
+		List<Survey> surveyList = surveyRepository.findByIdAndStatus(Integer.parseInt(id), "Published");
+		if(surveyList.size() == 0) {
+			return new Response(404, "No such Survey Exist");
+		}else {
+			return surveyList;
+		}
 	}
 
 	

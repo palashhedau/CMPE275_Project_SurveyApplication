@@ -45,6 +45,13 @@ public class AuthenticationController {
 		return new ResponseEntity("Palash", HttpStatus.OK); 
 	}
 	
+	@RequestMapping(path="/check",method=RequestMethod.GET)
+	public ResponseEntity<?> check(){
+		
+		return new ResponseEntity(authService.check(), HttpStatus.OK); 
+	}
+	
+	
 	@RequestMapping(path="/activate-account/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> activateAccount(@PathVariable("id") String id , @RequestParam String code){
 		authService.activateAccount(id , code);
