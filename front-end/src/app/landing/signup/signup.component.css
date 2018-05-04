@@ -85,3 +85,13 @@
 .sign-up{
   margin-top: 10%;
 }
+
+
+input[type=email].ng-invalid.ng-touched , input[type=password].ng-invalid.ng-touched    {
+  border : 1px solid red
+}
+
+.error-section{
+  margin-bottom: 15px;
+  color: red
+}

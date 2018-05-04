@@ -37,6 +37,7 @@ public class AuthenticationService {
 	
 	public Object signup(Auth auth) throws Exception{
 		
+		System.out.println(auth.getEmail() + " -  " + auth.getPassword() + " - " + auth.getType());
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		helper.setTo("palashhedau900@gmail.com");
@@ -52,7 +53,7 @@ public class AuthenticationService {
 			System.out.println(passwordGenerator.getPassword("prateek"));
 			System.out.println(passwordGenerator.matchPassword("$2a$10$vT4qk2/ftiO7YnxPjohju.flfU1QmYb0RzcqyMv8nfTB5yBorBgDW", "prateek"));
 			com.tools.model.Auth authToSave = new com.tools.model.Auth(auth.getEmail(), auth.getPassword(),
-					"TYPE1" , "NO"); 
+					auth.getType() , "INACTIVE"); 
 			//Generate code to activate account
 			authToSave.setActivationCode("ABCD");
 			authRepository.save(authToSave);
@@ -63,40 +64,38 @@ public class AuthenticationService {
 	}
 	
 	public Object signin(Auth auth){
+		
 		List<com.tools.model.Auth> authList = authRepository.findByEmail(auth.getEmail());
+		System.out.println("SSSS" + auth.getEmail() + authList.size());
 		if(authList.size() > 0) {
+			
 			com.tools.model.Auth authCred = authList.get(0);
-			if(authCred.getStatus().equalsIgnoreCase("YES")) {
+			System.out.println(authCred.getStatus());
+			if(authCred.getStatus().equalsIgnoreCase("ACTIVE")) {
 				//compare password
-				return new Response(202 , "Successfully loggedIn");
+				return new Response(200 , "Successfully loggedIn");
 			}else return new Response(400, "Account not activated");
 		}else {
 			return new Response(404 , "Email/Password Incorrect");
 		}
 	}
 
-	public Object activateAccount(String id, String code) {
-		List<com.tools.model.Auth> authList = authRepository.findById(Integer.parseInt(id));
+	public Object activateAccount(String email, String code) {
+		System.out.println("Email " + email + " " + code);
+		List<com.tools.model.Auth> authList = authRepository.findByEmailAndStatus(email,"INACTIVE");
 		if(authList.size() > 0) {
 			com.tools.model.Auth auth = authList.get(0);
-			if(auth.getActivationCode().equalsIgnoreCase(code)) {
+			if(auth.getActivationCode().equals(code)) {
 				//activate account
-				auth.setStatus("YES");
+				auth.setStatus("ACTIVE");
 				authRepository.save(auth);
 				return new Response(200, "Account activated Succesfully");
 			}
 			return new Response(400,"Incorrect activation code provided") ; 
-		}else return new Response(404,"No user found with the account") ;
+		}else return new Response(404,"No user found with the account/ Account is already activated");
 		
 	}
 
-	public Object check() {
-		System.out.println(authRepository.findByEmail("palashhedau900@gmail.com").size());
-		return null;
-	}
-	
-	
-	
 	
 	
 }

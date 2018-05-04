@@ -11,5 +11,6 @@ import com.tools.model.Auth;
 public interface AuthRepository extends JpaRepository<Auth,Integer> {
 	List<Auth> findByEmail(String email); 
 	List<Auth> findById(int id); 
+	List<Auth> findByEmailAndStatus(String email, String status); 
 	
 }
