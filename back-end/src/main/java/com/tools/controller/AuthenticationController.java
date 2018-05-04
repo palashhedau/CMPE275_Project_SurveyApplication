@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,16 +27,15 @@ public class AuthenticationController {
 	Helper helper = new Helper() ;
 	
 	@RequestMapping(path="/signup",method=RequestMethod.POST)
-	public ResponseEntity<?> signup(Auth auth) throws Exception{
-		authService.signup(auth);
-		return null ; 
+	public ResponseEntity<?> signup(@RequestBody Auth auth) throws Exception{
+		return new ResponseEntity(authService.signup(auth), HttpStatus.OK);
+		
 	}
 	
 	
-	@RequestMapping(path="/signin",method=RequestMethod.PUT)
-	public ResponseEntity<?> signin(Auth auth){
-		
-		return null; 
+	@RequestMapping(path="/signin",method=RequestMethod.POST)
+	public ResponseEntity<?> signin(@RequestBody Auth auth){
+		return new ResponseEntity( authService.signin(auth), HttpStatus.OK);
 	}
 	
 	
@@ -45,17 +45,12 @@ public class AuthenticationController {
 		return new ResponseEntity("Palash", HttpStatus.OK); 
 	}
 	
-	@RequestMapping(path="/check",method=RequestMethod.GET)
-	public ResponseEntity<?> check(){
-		
-		return new ResponseEntity(authService.check(), HttpStatus.OK); 
-	}
 	
 	
-	@RequestMapping(path="/activate-account/{id}",method=RequestMethod.POST)
-	public ResponseEntity<?> activateAccount(@PathVariable("id") String id , @RequestParam String code){
-		authService.activateAccount(id , code);
-		return new ResponseEntity("Palash", HttpStatus.OK); 
+	
+	@RequestMapping(path="/activate-account",method=RequestMethod.POST)
+	public ResponseEntity<?> activateAccount(@RequestBody Auth auth){
+		return new ResponseEntity(authService.activateAccount(auth.getEmail() , auth.getPassword()), HttpStatus.OK); 
 	}
 	
 	

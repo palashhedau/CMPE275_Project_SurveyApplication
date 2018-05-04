@@ -41,6 +41,9 @@ import { SurveyAccessDeniedComponent } from './survey/survey-access-denied/surve
 import { SubmitSurveySuccessComponent } from './survey/submit-survey-success/submit-survey-success.component';
 import { SubmitSurveyFailureComponent } from './survey/submit-survey-failure/submit-survey-failure.component';
 import {HelperService} from './helper.service';
+import { SignUpSuccessComponent } from './landing/sign-up-success/sign-up-success.component';
+import { SignUpCheckConfirmationComponent } from './landing/sign-up-check-confirmation/sign-up-check-confirmation.component';
+import { SignUpEnterCodeComponent } from './landing/sign-up-enter-code/sign-up-enter-code.component';
 
 
 
@@ -79,7 +82,10 @@ import {HelperService} from './helper.service';
     YesnoComponent,
     SurveyAccessDeniedComponent,
     SubmitSurveySuccessComponent,
-    SubmitSurveyFailureComponent
+    SubmitSurveyFailureComponent,
+    SignUpSuccessComponent,
+    SignUpCheckConfirmationComponent,
+    SignUpEnterCodeComponent
 
   ],
   imports: [

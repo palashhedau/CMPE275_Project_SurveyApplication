@@ -12,11 +12,17 @@ import {MySurveysComponent} from './survey/my-surveys/my-surveys.component';
 import {TakeSurveyComponent} from './survey/take-survey/take-survey.component';
 import {SubmitSurveySuccessComponent} from './survey/submit-survey-success/submit-survey-success.component';
 import {SubmitSurveyFailureComponent} from './survey/submit-survey-failure/submit-survey-failure.component';
+import {SignUpCheckConfirmationComponent} from './landing/sign-up-check-confirmation/sign-up-check-confirmation.component';
+import {SignUpEnterCodeComponent} from './landing/sign-up-enter-code/sign-up-enter-code.component';
+import {SignUpSuccessComponent} from './landing/sign-up-success/sign-up-success.component';
 
 
 const appRoutes: Routes = [
   {path : '' , component : AppComponent , pathMatch: 'full' },
   {path : 'signup' , component : SignupComponent},
+  {path : 'signup/check-email-confirmation' , component:  SignUpCheckConfirmationComponent},
+  {path : 'signup/check-email-confirmation/enter-code' , component:  SignUpEnterCodeComponent},
+  {path : 'signup/success' , component:  SignUpSuccessComponent},
   {path : 'signin' , component : SigninComponent},
   {path : 'survey' , component : SurveyComponent ,  children : [
       {path : '' , component: MySurveysComponent},

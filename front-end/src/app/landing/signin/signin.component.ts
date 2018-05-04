@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgModel} from '@angular/forms';
 import {AuthService} from '../auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -10,21 +11,27 @@ import {AuthService} from '../auth.service';
 export class SigninComponent implements OnInit {
   @ViewChild('email') email: NgModel;
   @ViewChild('password') password: NgModel;
+  public errorMessage = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit() {
   }
 
   login() {
+    const _this = this;
     this.authService.login(this.email.value, this.password.value).subscribe(
       (response) => {
-        console.log('Palash');
-        console.log(response);
-
+        if(typeof response === 'object' && response.code === 200){
+          _this.router.navigate(['/survey']);
+        } else if(typeof response === 'object' && response.code === 404){
+          // error message
+          _this.errorMessage = response.message;
+        }
       },
       (error) => {
-        console.log(error);
+        _this.errorMessage = 'Internal Server Error';
       }
     );
   }

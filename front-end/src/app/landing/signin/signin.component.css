@@ -59,3 +59,13 @@
 .sign-in{
   margin-top: 10%;
 }
+
+
+input.ng-invalid.ng-touched   {
+  border : 1px solid red
+}
+
+.error-section{
+  margin-bottom: 15px;
+  color: red
+}

@@ -1,0 +1,36 @@
+<div class="col-xs-6 col-xs-offset-3 main-component">
+  <h4>Enter Details to activate your account</h4>
+  <div class="container-fluid">
+    <div class="col-xs-8 col-xs-offset-2 margin-bottom">
+      <input
+        type="email"
+        class="form-control"
+        ngModel
+        name="email"
+        #email="ngModel"
+        email
+      placeholder="Email">
+
+    </div>
+    <div class="col-xs-8 col-xs-offset-2 margin-bottom">
+      <input
+        type="text"
+        class="form-control"
+        ngModel
+        name="code"
+        #code="ngModel"
+      placeholder="Code"
+      required>
+
+    </div>
+
+    <div class="col-xs-8 col-xs-offset-2 margin-bottom">
+      <button class="btn btn-success" (click)="activateAccount()">Activate</button>
+    </div>
+
+    <div class="col-xs-8 col-xs-offset-2 error-section">
+      <span>{{errorMessage}}</span>
+    </div>
+
+  </div>
+</div>

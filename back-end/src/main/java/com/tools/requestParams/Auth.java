@@ -3,6 +3,7 @@ package com.tools.requestParams;
 public class Auth {
 	String email;
 	String password ;
+	String type;
 	public String getEmail() {
 		return email;
 	}
@@ -15,6 +16,13 @@ public class Auth {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	
 	
 }
