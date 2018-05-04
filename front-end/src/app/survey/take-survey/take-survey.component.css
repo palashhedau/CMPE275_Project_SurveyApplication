@@ -1,6 +1,5 @@
 .form-color {
   background-color: #F0F8FF;
-  margin-top: 30px;
   padding: 40px
 }
 
@@ -64,3 +63,9 @@ input.ng-invalid.ng-touched , select.ng-invalid.ng-touched  {
   margin-bottom: 10px;
 }
 
+.submit-div-parent{
+  padding: 30px;
+  background-color: #eff0f1;
+  min-height: 20px;
+  overflow: hidden;
+}

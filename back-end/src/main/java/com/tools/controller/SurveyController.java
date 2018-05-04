@@ -1,5 +1,7 @@
 package com.tools.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,7 @@ import com.tools.requestParams.SurveySubmitParams;
 import com.tools.service.SurveyService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*",allowCredentials="true",maxAge=65432421)
 public class SurveyController {
 	
 	@Autowired
@@ -39,9 +41,16 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(path="/survey",method=RequestMethod.GET)
-	public ResponseEntity<?> getSurvey(){
-		System.out.println("Getting data 1");
-		return new ResponseEntity( surveyService.getSurvey(), HttpStatus.OK);
+	public ResponseEntity<?> getSurvey(HttpSession session){
+		System.out.println("Session " + session.getAttribute("email"));
+		if(session.getAttribute("email")!= null) {
+			return new ResponseEntity( surveyService.getSurvey(), HttpStatus.OK);
+		}else {
+			System.out.println(session);
+			return new ResponseEntity( null, HttpStatus.UNAUTHORIZED);
+		}
+		
+		
 	}
 	
 	@RequestMapping(path="/survey/{id}",method=RequestMethod.DELETE)

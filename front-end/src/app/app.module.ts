@@ -1,14 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
-import {FormsModule} from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { SignupComponent } from './landing/signup/signup.component';
-import {SigninComponent} from './landing/signin/signin.component';
+import { SigninComponent} from './landing/signin/signin.component';
 import { CreateSurveyComponent } from './survey/create-survey/create-survey.component';
 import { SurveyComponent } from './survey/survey.component';
 import { NotFoundComponent } from './landing/not-found/not-found.component';
-import {AppRouting} from './app-routing.module';
+import { AppRouting} from './app-routing.module';
 
 import { QueShortAnswerComponent } from './survey/create-survey/que-short-answer/que-short-answer.component';
 import { QueSingleOptionSelectTextComponent } from './survey/create-survey/que-single-option-select-text/que-single-option-select-text.component';
@@ -20,10 +20,10 @@ import { QueDropdownSelectImageComponent } from './survey/create-survey/que-drop
 import { QueYesNoComponent } from './survey/create-survey/que-yes-no/que-yes-no.component';
 import { QueDatetimeComponent } from './survey/create-survey/que-datetime/que-datetime.component';
 import { QueStarRatingQuestionComponent } from './survey/create-survey/que-star-rating-question/que-star-rating-question.component';
-import {SurveyService} from './survey/survey-service.service';
-import {AuthService} from './landing/auth.service';
-import {HttpClientModule} from '@angular/common/http';
-import {CreateSurveySuccessfulComponent} from './survey/create-survey-successful/create-survey-successful.component';
+import { SurveyService} from './survey/survey-service.service';
+import { AuthService} from './landing/auth.service';
+import { HttpClientModule} from '@angular/common/http';
+import { CreateSurveySuccessfulComponent} from './survey/create-survey-successful/create-survey-successful.component';
 import { CreateSurveyFailureComponent } from './survey/create-survey-failure/create-survey-failure.component';
 import { MySurveysComponent } from './survey/my-surveys/my-surveys.component';
 import { TakeSurveyComponent } from './survey/take-survey/take-survey.component';
@@ -40,13 +40,17 @@ import { YesnoComponent } from './survey/take-survey/yesno/yesno.component';
 import { SurveyAccessDeniedComponent } from './survey/survey-access-denied/survey-access-denied.component';
 import { SubmitSurveySuccessComponent } from './survey/submit-survey-success/submit-survey-success.component';
 import { SubmitSurveyFailureComponent } from './survey/submit-survey-failure/submit-survey-failure.component';
-import {HelperService} from './helper.service';
+import { HelperService} from './helper.service';
 import { SignUpSuccessComponent } from './landing/sign-up-success/sign-up-success.component';
 import { SignUpCheckConfirmationComponent } from './landing/sign-up-check-confirmation/sign-up-check-confirmation.component';
 import { SignUpEnterCodeComponent } from './landing/sign-up-enter-code/sign-up-enter-code.component';
+import {AuthGuardService} from './auth-guard.service';
+import {AuthUnGuardService} from './auth-unguard.service';
 
 
-
+export function authServiceFactory(authService: AuthService): Function {
+  return () => authService.checkSession();
+}
 
 @NgModule({
   declarations: [
@@ -94,7 +98,19 @@ import { SignUpEnterCodeComponent } from './landing/sign-up-enter-code/sign-up-e
     AppRouting,
     HttpClientModule,
   ],
-  providers: [SurveyService, AuthService, HelperService],
+  providers: [
+    {
+      // Provider for APP_INITIALIZER
+      provide: APP_INITIALIZER,
+      useFactory: authServiceFactory,
+      deps: [AuthService],
+      multi: true
+    },
+    SurveyService,
+    AuthService,
+    HelperService,
+    AuthGuardService,
+    AuthUnGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
