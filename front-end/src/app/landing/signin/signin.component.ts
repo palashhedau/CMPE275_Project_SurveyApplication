@@ -24,6 +24,7 @@ export class SigninComponent implements OnInit {
     this.authService.login(this.email.value, this.password.value).subscribe(
       (response) => {
         if(typeof response === 'object' && response.code === 200){
+          _this.authService.setLoggedIn();
           _this.router.navigate(['/survey']);
         } else if(typeof response === 'object' && response.code === 404){
           // error message

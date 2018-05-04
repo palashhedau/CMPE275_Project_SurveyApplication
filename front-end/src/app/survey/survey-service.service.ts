@@ -1,5 +1,5 @@
 import {QuestionsAndAnswers} from './create-survey/question.model';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {QuestionsSubmitSurvey} from './take-survey/submit-survey-questions.model';
 
@@ -20,14 +20,13 @@ export class SurveyService {
 
   constructor(private http: HttpClient) {}
 
+  /* Create Survey */
 
   addQuestion(question: string, questionType: string) {
     let allowNextQuestion: boolean = true;
     if (this.questionObject != undefined){
-      console.log("Yhaa toh aana hi ni chaiye")
       let type: string = this.questionObject.getQuestionType();
       if(!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
-        console.log("CHoices length " + this.questionObject.getChoices().length)
         if(this.questionObject.getChoices().length > 1 ){
           for (let choice of this.questionObject.getChoices()) {
             if(choice.trim() === ''){
@@ -36,7 +35,6 @@ export class SurveyService {
             }
           }
         } else if( type === 'Star Rating'){
-          console.log("Idhar aayo re")
           if(this.questionObject.getChoices().length === 0){
             allowNextQuestion = false;
           }
@@ -47,13 +45,11 @@ export class SurveyService {
       }
 
       if(allowNextQuestion === true){
-        console.log("Allowing next ques and saving curet question")
         this.questionList.push(this.questionObject);
       }
     }
 
     if(allowNextQuestion === true){
-      console.log("NEw Question")
       this.questionObject = new QuestionsAndAnswers(question , questionType);
       return true;
     }else{
@@ -68,7 +64,6 @@ export class SurveyService {
     } else {
       this.questionList[parseInt(id,10 )].addChoice(choice, sequence);
     }
-    console.log(this.questionList);
   }
 
   deleteChoice(sequence: number, id: string){
@@ -77,7 +72,6 @@ export class SurveyService {
     } else {
       this.questionList[parseInt(id,10 )].deleteChoice(sequence);
     }
-    console.log(this.questionList);
  }
 
   saveRatingsChoice(choice: string, id: string){
@@ -131,20 +125,23 @@ export class SurveyService {
       name: name
     };
     this.questionList = []
-    return this.http.post('http://localhost:8081/create-survey' , requestBody);
+    return this.http.post('http://localhost:8081/create-survey' ,
+      requestBody,
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
   }
 
   getMySurveys() {
-    return this.http.get('http://localhost:8081/survey');
+    return this.http.get('http://localhost:8081/survey',
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
   }
 
   deleteQuestion(id: number) {
     this.questionList.splice(id, 1);
   }
 
-  getSurveyById(id: string) {
-    return this.http.get('http://localhost:8081/get-survey/' + id);
-  }
+
 
   /*Submit Survey*/
 
@@ -166,14 +163,18 @@ export class SurveyService {
         this.questionToSubmitList.push(new QuestionsSubmitSurvey(id));
         this.questionToSubmitList[this.questionToSubmitList.length - 1].setChoice(choice, questionType);
       }
-      console.log(this.questionToSubmitList);
   }
 
-  submitSurvey(id){
+  submitSurvey(id) {
+    /* check survey type and session on server side*/
     const requestBody = {
       questionList: this.questionToSubmitList
     };
-    return this.http.post('http://localhost:8081/submit-survey/'+ id , requestBody);
+    return this.http.post('http://localhost:8081/submit-survey/' + id , requestBody);
   }
 
+  getSurveyById(id: string) {
+    /* check survey type and session on server side*/
+    return this.http.get('http://localhost:8081/get-survey/' + id);
+  }
 }

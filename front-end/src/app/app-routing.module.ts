@@ -15,29 +15,29 @@ import {SubmitSurveyFailureComponent} from './survey/submit-survey-failure/submi
 import {SignUpCheckConfirmationComponent} from './landing/sign-up-check-confirmation/sign-up-check-confirmation.component';
 import {SignUpEnterCodeComponent} from './landing/sign-up-enter-code/sign-up-enter-code.component';
 import {SignUpSuccessComponent} from './landing/sign-up-success/sign-up-success.component';
+import {AuthGuardService} from './auth-guard.service';
+import {AuthUnGuardService} from './auth-unguard.service';
 
 
 const appRoutes: Routes = [
   {path : '' , component : AppComponent , pathMatch: 'full' },
-  {path : 'signup' , component : SignupComponent},
-  {path : 'signup/check-email-confirmation' , component:  SignUpCheckConfirmationComponent},
-  {path : 'signup/check-email-confirmation/enter-code' , component:  SignUpEnterCodeComponent},
-  {path : 'signup/success' , component:  SignUpSuccessComponent},
-  {path : 'signin' , component : SigninComponent},
-  {path : 'survey' , component : SurveyComponent ,  children : [
-      {path : '' , component: MySurveysComponent},
-      {path : 'create-survey' , component: CreateSurveyComponent},
+  {path : 'signup' , canActivate: [AuthUnGuardService], component : SignupComponent},
+  {path : 'signup/check-email-confirmation' , canActivate: [AuthUnGuardService], component:  SignUpCheckConfirmationComponent},
+  {path : 'signup/check-email-confirmation/enter-code' , canActivate: [AuthUnGuardService], component:  SignUpEnterCodeComponent},
+  {path : 'signup/success' , canActivate: [AuthUnGuardService], component:  SignUpSuccessComponent},
+  {path : 'signin' , canActivate: [AuthUnGuardService], component : SigninComponent},
+  {path : 'survey' , canActivate: [AuthGuardService], component : SurveyComponent ,  children : [
+      {path : '' , canActivate: [AuthGuardService], component: MySurveysComponent},
+      {path : 'create-survey' , canActivate: [AuthGuardService], component: CreateSurveyComponent},
       {path : 'take-survey/:id' , component: TakeSurveyComponent },
     ]},
-  {path : 'survey/create/success' , component: CreateSurveySuccessfulComponent},
-  {path : 'survey/create/failure' , component: CreateSurveyFailureComponent },
+  {path : 'survey/create/success' , canActivate: [AuthGuardService], component: CreateSurveySuccessfulComponent},
+  {path : 'survey/create/failure' , canActivate: [AuthGuardService], component: CreateSurveyFailureComponent },
   {path : 'survey/submit/success' , component: SubmitSurveySuccessComponent},
   {path : 'survey/submit/failure' , component: SubmitSurveyFailureComponent },
   {path : 'not-found' , component : NotFoundComponent},
   {path : '**' , redirectTo : '/not-found' , pathMatch: 'full' }
 ]
-
-
 
 @NgModule({
   imports : [RouterModule.forRoot(appRoutes)],

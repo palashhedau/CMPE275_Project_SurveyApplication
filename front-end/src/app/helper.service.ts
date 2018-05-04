@@ -13,7 +13,7 @@ export class HelperService{
     const params = {Key: folder + image.name + new Date().toISOString()  , Body: image};
 
     bucket.upload(params, function (err, data) {
-      cb(data.Location)
+      cb(data.Location);
     });
   }
 
