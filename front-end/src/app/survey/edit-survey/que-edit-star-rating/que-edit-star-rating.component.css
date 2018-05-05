@@ -1,0 +1,21 @@
+label{
+  margin-right: 10px;
+  margin-bottom: 15px;
+}
+
+a{
+  font-size: 20px;
+  color: red;
+}
+
+
+.options{
+  padding: 20px;
+  background-color: white;
+  min-height: 20px;
+  overflow: hidden;
+}
+
+span{
+  font-size: 15px;
+}

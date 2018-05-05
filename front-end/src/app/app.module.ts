@@ -46,6 +46,18 @@ import { SignUpCheckConfirmationComponent } from './landing/sign-up-check-confir
 import { SignUpEnterCodeComponent } from './landing/sign-up-enter-code/sign-up-enter-code.component';
 import {AuthGuardService} from './auth-guard.service';
 import {AuthUnGuardService} from './auth-unguard.service';
+import { ViewSurveyComponent } from './survey/view-survey/view-survey.component';
+import { EditSurveyComponent } from './survey/edit-survey/edit-survey.component';
+import { QueEditShortanswerComponent } from './survey/edit-survey/que-edit-shortanswer/que-edit-shortanswer.component';
+import { QueEditDropdownSelectImageComponent } from './survey/edit-survey/que-edit-dropdown-select-image/que-edit-dropdown-select-image.component';
+import { QueEditDropdownSelectTextComponent } from './survey/edit-survey/que-edit-dropdown-select-text/que-edit-dropdown-select-text.component';
+import { QueEditMultipleOptionSelectTextComponent } from './survey/edit-survey/que-edit-multiple-option-select-text/que-edit-multiple-option-select-text.component';
+import { QueEditMultipleOptionSelectImageComponent } from './survey/edit-survey/que-edit-multiple-option-select-image/que-edit-multiple-option-select-image.component';
+import { QueEditSingleOptionSelectImageComponent } from './survey/edit-survey/que-edit-single-option-select-image/que-edit-single-option-select-image.component';
+import { QueEditSingleOptionSelectTextComponent } from './survey/edit-survey/que-edit-single-option-select-text/que-edit-single-option-select-text.component';
+import { QueEditDatetimeComponent } from './survey/edit-survey/que-edit-datetime/que-edit-datetime.component';
+import { QueEditStarRatingComponent } from './survey/edit-survey/que-edit-star-rating/que-edit-star-rating.component';
+import { QueEditYesOrNoComponent } from './survey/edit-survey/que-edit-yes-or-no/que-edit-yes-or-no.component';
 
 
 export function authServiceFactory(authService: AuthService): Function {
@@ -89,7 +101,19 @@ export function authServiceFactory(authService: AuthService): Function {
     SubmitSurveyFailureComponent,
     SignUpSuccessComponent,
     SignUpCheckConfirmationComponent,
-    SignUpEnterCodeComponent
+    SignUpEnterCodeComponent,
+    ViewSurveyComponent,
+    EditSurveyComponent,
+    QueEditShortanswerComponent,
+    QueEditDropdownSelectImageComponent,
+    QueEditDropdownSelectTextComponent,
+    QueEditMultipleOptionSelectTextComponent,
+    QueEditMultipleOptionSelectImageComponent,
+    QueEditSingleOptionSelectImageComponent,
+    QueEditSingleOptionSelectTextComponent,
+    QueEditDatetimeComponent,
+    QueEditStarRatingComponent,
+    QueEditYesOrNoComponent
 
   ],
   imports: [

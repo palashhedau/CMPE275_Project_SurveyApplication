@@ -118,7 +118,7 @@ public class Survey {
 		this.category = category;
 	}
 
-	@JsonIgnore
+	
 	public Set<Survey_Submit_Info> getSubmittedSurvery() {
 		return submittedSurvery;
 	}

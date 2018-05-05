@@ -11,7 +11,6 @@ export class QueYesNoComponent implements OnInit {
   @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
 
   deleteQuestion(){
-    console.log("ye hora h delet")
     this.delete.emit({id : this.id});
   }
 

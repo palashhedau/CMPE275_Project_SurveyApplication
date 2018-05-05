@@ -1,0 +1,250 @@
+<div *ngIf="data.id != undefined">
+  <div class="col-xs-8  col-xs-offset-2 form-color">
+    <form  #form="ngForm">
+
+
+      <div class="row">
+        <div class="col-xs-6 margin-bottom-10">
+          <b>Enter the Survey Name</b>
+        </div>
+        <div class="col-xs-6 margin-bottom-10">
+          <b class=" pull-right">Enter Survey Category</b>
+        </div>
+        <div class="col-xs-6 margin-bottom-20">
+          <input type="text"
+                 class="form-control "
+                 id="formName"
+                 placeholder="Untitled Survey"
+                 ngModel
+                 name="name"
+                 required
+                 [(ngModel)]="formName">
+        </div>
+        <div class="col-xs-6 margin-bottom-20">
+          <select
+            type="text"
+            class="form-control "
+            id="category"
+            placeholder="Category"
+            ngModel
+            name="category"
+            required
+            [(ngModel)]="category"
+          >
+            <option selected>General</option>
+            <option>Closed</option>
+            <option>Open</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="col-xs-12 margin-bottom-10 ">
+          <b class="pull-left">Enter Survey End Date</b>
+        </div>
+
+        <div class="col-xs-6 margin-bottom-20">
+          <input type="date"
+                 class="form-control "
+                 id="endDate"
+                 placeholder="End Date"
+                 ngModel
+                 name="endDate"
+                 [(ngModel)]="date">
+        </div>
+      </div>
+
+
+
+
+
+      <!-- Question List-->
+
+      <div *ngFor="let question of questionList; index as i" class="question-div" >
+
+        <div [ngSwitch]="question.questionType"  >
+
+          <div *ngSwitchCase="'Short Answer'">
+            <app-que-edit-shortanswer
+              [question]="question.question"
+              [id]="i"
+              (deleteQuestion)="deleteQuestion($event)">
+            </app-que-edit-shortanswer>
+          </div>
+
+          <div *ngSwitchCase="'Datetime'">
+            <app-que-edit-datetime
+              [question]="question.question"
+              [id]="i"
+              (deleteQuestion)="deleteQuestion($event)">
+
+            </app-que-edit-datetime>
+          </div>
+
+          <div *ngSwitchCase="'Yes/No'">
+              <app-que-edit-yes-or-no
+                [question]="question.question"
+                [id]="i"
+                (deleteQuestion)="deleteQuestion($event)">
+
+              </app-que-edit-yes-or-no>
+          </div>
+
+          <div *ngSwitchCase="'Star Rating'">
+            <app-que-edit-star-rating
+              [question]="question.question"
+              [id]="i"
+              (deleteQuestion)="deleteQuestion($event)"
+              (saveRatingsChoice)="saveRatingsChoice($event)">
+
+            </app-que-edit-star-rating>
+          </div>
+
+
+
+
+          <div *ngSwitchCase="'Dropdown - Image'">
+            <app-que-edit-dropdown-select-image
+              [question]="question.question"
+              [id]="i"
+              (saveChoice)="saveChoice($event)"
+              (deleteQuestion)="deleteQuestion($event)">
+
+            </app-que-edit-dropdown-select-image>
+          </div>
+
+          <div *ngSwitchCase="'Dropdown - Text'">
+            <app-que-edit-dropdown-select-text
+              [question]="question.question"
+              [id]="i"
+              (saveChoice)="saveChoice($event)"
+              (deleteQuestion)="deleteQuestion($event)">
+
+            </app-que-edit-dropdown-select-text>
+          </div>
+
+          <div *ngSwitchCase="'Checkboxes - Image'">
+            <app-que-edit-multiple-option-select-image
+              [question]="question.question"
+              [id]="i"
+              (saveChoice)="saveChoice($event)"
+              (deleteQuestion)="deleteQuestion($event)">
+
+            </app-que-edit-multiple-option-select-image>
+          </div>
+
+          <div *ngSwitchCase="'Checkboxes - Text'">
+            <app-que-edit-multiple-option-select-text
+              [question]="question.question"
+              [id]="i"
+              (saveChoice)="saveChoice($event)"
+              (deleteQuestion)="deleteQuestion($event)">
+
+            </app-que-edit-multiple-option-select-text>
+          </div>
+
+          <div *ngSwitchCase="'Multiple Choice - Image'">
+            <app-que-edit-single-option-select-image
+              [question]="question.question"
+              [id]="i"
+              (saveChoice)="saveChoice($event)"
+              (deleteQuestion)="deleteQuestion($event)">
+
+            </app-que-edit-single-option-select-image>
+          </div>
+
+          <div *ngSwitchCase="'Multiple Choice - Text'">
+            <app-que-edit-single-option-select-text
+              [question]="question.question"
+              [id]="i"
+              (saveChoice)="saveChoice($event)"
+              (deleteQuestion)="deleteQuestion($event)">
+
+            </app-que-edit-single-option-select-text>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Question List end-->
+
+      <!-- Question Selection -->
+
+
+      <div class="submit-total-section">
+        <div class="add-section">
+          <div class="col-xs-12 add-question-heading">
+            <span><b>Add a survey question</b></span>
+            <span class="pull-right"><b>Question Type</b></span>
+          </div>
+          <div class="col-xs-6">
+          <textarea
+            class="form-control col-xs-8 "
+            id="question"
+            ngModel
+            name="question"
+            placeholder="Enter Question"
+            [(ngModel)]="defaultQuestionChoice"
+            #question="ngModel"></textarea>
+          </div>
+          <div class="col-xs-6 " >
+            <select
+              ngModel
+              name="questionType"
+              id="questionType"
+              class="form-control col-xs-4 "
+              required
+              [(ngModel)]="defaultQuestionChoice"
+              (change)="addQuestion()"
+              #questionType="ngModel"
+              [disabled]="question.value === ''"
+            >
+              <option selected>Short Answer</option>
+              <option>Multiple Choice - Text</option>
+              <option>Multiple Choice - Image</option>
+              <option>Checkboxes - Text</option>
+              <option>Checkboxes - Image</option>
+              <option>Dropdown - Text</option>
+              <option>Dropdown - Image</option>
+              <option>Yes/No</option>
+              <option>Star Rating</option>
+              <option>Datetime</option>
+            </select>
+          </div>
+        </div>
+
+
+
+
+
+        <!-- Question Selection End -->
+        <div >
+          <div class="submit-div col-xs-6 ">
+            <button type="submit"
+                    class="btn btn-block submit-button" (click)="createSurvey('Unpublished')"
+                    [disabled]="!form.valid">Save</button>
+          </div>
+
+          <div class="submit-div col-xs-6">
+            <button type="submit"
+                    class="btn btn-primary submit-button" (click)="createSurvey('Published')"
+                    [disabled]="!form.valid">Publish</button>
+          </div>
+        </div>
+        <div class="col-xs-12 error-section">
+          <b>{{errorMessage}}</b>
+        </div>
+
+      </div>
+    </form>
+    <router-outlet></router-outlet>
+  </div>
+
+
+
+
+</div>
