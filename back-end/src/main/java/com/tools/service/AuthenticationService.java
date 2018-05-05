@@ -24,11 +24,11 @@ public class AuthenticationService {
 	@Autowired
 	private AuthRepository authRepository;
 	
-	@Autowired
-	private JavaMailSender sender;
 
 	
 	private PasswordGenerationService passwordGenerator;
+	@Autowired
+	private EmailSenderService emailService;
 	
 	
 	public AuthenticationService() {
@@ -37,16 +37,8 @@ public class AuthenticationService {
 	
 	public Object signup(Auth auth) throws Exception{
 		
-		System.out.println(auth.getEmail() + " -  " + auth.getPassword() + " - " + auth.getType());
-		MimeMessage message = sender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message);
-		helper.setTo("palashhedau900@gmail.com");
-		helper.setText("ander dekh");
-		helper.setSubject("Hi");
-		sender.send(message);
-
-		
-		
+		System.out.println(auth.getEmail() + " -  " + auth.getPassword() + " - " + auth.getType());	
+		emailService.demoEmail();
 		if(authRepository.findByEmail(auth.getEmail()).size() > 0 ) {
 			return new Response(400,"Email already exist");
 		}else {
