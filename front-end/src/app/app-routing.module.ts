@@ -17,6 +17,8 @@ import {SignUpEnterCodeComponent} from './landing/sign-up-enter-code/sign-up-ent
 import {SignUpSuccessComponent} from './landing/sign-up-success/sign-up-success.component';
 import {AuthGuardService} from './auth-guard.service';
 import {AuthUnGuardService} from './auth-unguard.service';
+import {ViewSurveyComponent} from './survey/view-survey/view-survey.component';
+import {EditSurveyComponent} from './survey/edit-survey/edit-survey.component';
 
 
 const appRoutes: Routes = [
@@ -28,8 +30,10 @@ const appRoutes: Routes = [
   {path : 'signin' , canActivate: [AuthUnGuardService], component : SigninComponent},
   {path : 'survey' , canActivate: [AuthGuardService], component : SurveyComponent ,  children : [
       {path : '' , canActivate: [AuthGuardService], component: MySurveysComponent},
+      {path : 'view-survey/:id' , component: ViewSurveyComponent},
       {path : 'create-survey' , canActivate: [AuthGuardService], component: CreateSurveyComponent},
       {path : 'take-survey/:id' , component: TakeSurveyComponent },
+      {path : 'edit-survey/:id' , canActivate: [AuthGuardService], component: EditSurveyComponent },
     ]},
   {path : 'survey/create/success' , canActivate: [AuthGuardService], component: CreateSurveySuccessfulComponent},
   {path : 'survey/create/failure' , canActivate: [AuthGuardService], component: CreateSurveyFailureComponent },

@@ -11,5 +11,5 @@ import com.tools.model.Questions;
 @Repository
 public interface QuestionsRepository extends JpaRepository<Questions,Integer> {
 	List<Questions> findById(int id); 
-	
+	void deleteBySurveyId(int id);
 }

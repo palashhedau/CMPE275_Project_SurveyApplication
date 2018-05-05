@@ -18,7 +18,7 @@ export class CreateSurveyComponent implements OnInit {
   @ViewChild('name')formName: NgModel;
 
   public defaultQuestionChoice = '';
-
+  public errorMessage = '';
   public questionList: any = [];
 
 
@@ -29,31 +29,34 @@ export class CreateSurveyComponent implements OnInit {
   }
 
   addQuestion() {
-
-    if (this.surveyService.addQuestion(this.question.value , this.questionType.value) === true) {
+    this.errorMessage = '';
+    if (this.surveyService.addQuestion(this.question.value , this.questionType.value,
+      this.formName.value, this.category.value, this.date.value) === true) {
       this.questionList.push([this.questionType.value, this.question.value]);
       this.defaultQuestionChoice = '';
-      console.log(this.questionList);
     } else {
-      console.log("Not a good way to add");
-      // give error and dont allow new question
+      this.errorMessage = 'Please check previous question and insert proper values';
       this.defaultQuestionChoice = '';
     }
   }
 
   saveChoice(data: {choice: string, sequence: number , id: string}) {
+    this.errorMessage = '';
     this.surveyService.addChoice(data.choice , data.sequence , data.id);
   }
 
   createSurvey(status: string) {
+    this.errorMessage = '';
     const allowCreateSurvey: boolean = this.surveyService.allowCreateSurvey();
-
+    const _this = this;
     if(allowCreateSurvey === true ) {
       let name = this.formName.value;
       let category = this.category.value;
       let dateVar = this.date.value;
       this.surveyService.createSurvey(name, category, dateVar, status).subscribe(
         (response) => {
+          console.log("LE YE 2", _this.surveyService.id)
+          _this.surveyService.resetVariables();
           if (response.code === 200) {
             this.router.navigate(['/survey/create/success'])
           } else {
@@ -63,9 +66,9 @@ export class CreateSurveyComponent implements OnInit {
         (error) => {
           this.router.navigate(['/survey/create/failure']);
         }
-      )
+      );
     } else {
-      // give error message - Please check all questions
+      this.errorMessage = 'Check all the questions and choices properly/ Check if any question added or not';
     }
   }
 

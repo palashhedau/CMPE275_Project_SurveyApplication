@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Survey_Submit_Info")
 public class Survey_Submit_Info {
@@ -63,7 +65,7 @@ public class Survey_Submit_Info {
 		this.userId = userId;
 	}
 
-
+	@JsonIgnore
 	public Survey getSurvey() {
 		return survey;
 	}

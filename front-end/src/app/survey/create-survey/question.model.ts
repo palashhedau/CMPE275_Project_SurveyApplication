@@ -1,4 +1,5 @@
 export class QuestionsAndAnswers {
+  private id: number;
   private question: string;
   private questionType: string;
   private choice: string [] = [];

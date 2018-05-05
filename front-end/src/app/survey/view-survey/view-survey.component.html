@@ -1,0 +1,88 @@
+<div class="col-xs-8  col-xs-offset-2 form-color">
+  <form  #form="ngForm">
+
+     <div *ngIf="surveyData !== undefined">
+
+      <div class="submit-div-parent header-div row">
+        <div class="submit-div col-xs-12 ">
+          <h2><u>{{surveyData.name}}</u></h2>
+
+        </div>
+
+      </div>
+
+
+      <!-- Question List-->
+      <div class="btn-header question-div row">
+
+
+        <div class="submit-div col-xs-3">
+          <button
+                  class="btn btn-info submit-button "
+                  [disabled]= "!((surveyData.status).trim() === 'Unpublished')"
+                  routerLink="/survey/edit-survey/{{surveyData.id}}"
+          >Edit</button>
+        </div>
+
+        <div class="submit-div col-xs-3 ">
+          <button
+            class="btn btn-default submit-button "
+            [disabled]= "surveyData.status === 'Published' || surveyData.status === 'Closed'"
+          >Publish</button>
+        </div>
+
+        <div class="submit-div col-xs-3 ">
+          <button
+            class="btn btn-primary submit-button "
+            [disabled]= "!(surveyData.status === 'Published')"
+            (click)="unpublish()"
+          >UnPublish</button>
+        </div>
+
+        <div class="submit-div col-xs-3">
+          <button
+            class="btn btn-danger submit-button "
+            [disabled]="surveyData.status === 'Closed'"
+            (click)="closeSurvey()"
+          >Close</button>
+        </div>
+
+      </div>
+      <div class="error-section">
+        <span>{{errorMessage}}</span>
+      </div>
+
+      <div *ngFor="let question of surveyData.questions; index as i" class="question-div row">
+        <div>
+          <div class="question-question col-xs-12 no-padding">
+            <div class="index-question col-xs-1 no-padding">
+              <b>{{i+1}}.</b>
+            </div>
+            <div class="question-data col-xs-11">
+              <span>{{question.question}}</span>
+            </div>
+          </div>
+
+          <div class="answer-choice">
+            <div *ngFor="let choice of question.choice" class="question-choice col-xs-offset-1">
+              <div>
+                <div class="col-xs-3">
+                  <i class="fa fa-dot-circle-o" aria-hidden="true"></i> <span>{{choice.answers}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Question List end-->
+    </div>
+
+
+
+
+  </form>
+</div>
