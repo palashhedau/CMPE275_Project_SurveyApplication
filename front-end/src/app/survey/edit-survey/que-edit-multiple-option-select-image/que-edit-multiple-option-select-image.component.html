@@ -1,29 +1,43 @@
 <div class="main-component">
   <div class="col-xs-12 options">
-    <label for="dropdownText" class="margin-top-10"><span>{{id+1}}.</span> {{question}}</label>
+    <label for="dropdownText" class="margin-top-10"><span>{{id+1}}.</span> {{question.question}}</label>
 
     <a (click)="deleteQuestion()" class="pull-right"><i class="fa fa-times"></i></a>
   </div>
 
   <div class="col-xs-6 options">
     <div class="col-xs-11 no-padding">
-      <input type="file" (change)="saveChoices($event.target.files , -2)" ngModel #text1="ngModel" class="form-control" id="dropdownText" >
+      <input type="file" (change)="saveChoices($event.target.files , 0)" ngModel #text1="ngModel" class="form-control" id="dropdownText" >
+    </div>
+    <div class="col-xs-12 file-name">
+      <span>{{moreOptions[0]['answers'] | slice:42:60}}</span>
     </div>
   </div>
   <div class="col-xs-6 options">
     <div class="col-xs-11 no-padding">
-      <input type="file" (change)="saveChoices($event.target.files , -1)" ngModel #text2="ngModel"  class="form-control" id="dropdownText" >
+      <input type="file" (change)="saveChoices($event.target.files , 1)" ngModel #text2="ngModel"  class="form-control" id="dropdownText" >
+    </div>
+    <div class="col-xs-12 file-name">
+      <span>{{moreOptions[1]['answers'] | slice:42:60}}</span>
     </div>
   </div>
 
   <div *ngFor="let option of moreOptions; index as i" class="col-xs-6 options">
-    <div class="col-xs-11 no-padding">
-      <input type="file" (change)="saveChoices($event.target.files , i)" ngModel #text="ngModel"  class="form-control" id="dropdownText">
+
+    <div *ngIf="i > 1" >
+      <div class="col-xs-11 no-padding">
+        <input type="file" (change)="saveChoices($event.target.files , i)" ngModel #text="ngModel"  class="form-control" id="dropdownText">
+
+      </div>
+
+      <div class="col-xs-1 no-padding">
+        <a (click)="deleteOptions(i)" class="pull-right"><i class="fa fa-times"></i></a>
+      </div>
+      <div class="col-xs-12 file-name">
+        <span>{{option['answers'] | slice:42:60}}</span>
+      </div>
     </div>
 
-    <div class="col-xs-1 no-padding">
-      <a (click)="deleteOptions(i)" class="pull-right"><i class="fa fa-times"></i></a>
-    </div>
   </div>
 
   <div class="col-xs-6 options">

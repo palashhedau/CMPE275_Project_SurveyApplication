@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-ratings',
@@ -10,7 +11,7 @@ export class RatingsComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
   public ratings: number[];
-  @ViewChild('answerChoice') answerChoice : ngModel;
+  @ViewChild('answerChoice') answerChoice : NgModel;
   constructor(private surveyService: SurveyService) { }
 
   ngOnInit() {

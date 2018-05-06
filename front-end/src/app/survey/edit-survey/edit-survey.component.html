@@ -93,7 +93,7 @@
 
           <div *ngSwitchCase="'Star Rating'">
             <app-que-edit-star-rating
-              [question]="question.question"
+              [question]="question"
               [id]="i"
               (deleteQuestion)="deleteQuestion($event)"
               (saveRatingsChoice)="saveRatingsChoice($event)">
@@ -106,17 +106,19 @@
 
           <div *ngSwitchCase="'Dropdown - Image'">
             <app-que-edit-dropdown-select-image
-              [question]="question.question"
+              [question]="question"
               [id]="i"
               (saveChoice)="saveChoice($event)"
-              (deleteQuestion)="deleteQuestion($event)">
+              (deleteQuestion)="deleteQuestion($event)"
+              (deleteOptions)="deleteOptions($event)">
 
+              deleteOptions
             </app-que-edit-dropdown-select-image>
           </div>
 
           <div *ngSwitchCase="'Dropdown - Text'">
             <app-que-edit-dropdown-select-text
-              [question]="question.question"
+              [question]="question"
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)">
@@ -126,7 +128,7 @@
 
           <div *ngSwitchCase="'Checkboxes - Image'">
             <app-que-edit-multiple-option-select-image
-              [question]="question.question"
+              [question]="question"
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)">
@@ -136,7 +138,7 @@
 
           <div *ngSwitchCase="'Checkboxes - Text'">
             <app-que-edit-multiple-option-select-text
-              [question]="question.question"
+              [question]="question"
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)">
@@ -146,7 +148,7 @@
 
           <div *ngSwitchCase="'Multiple Choice - Image'">
             <app-que-edit-single-option-select-image
-              [question]="question.question"
+              [question]="question"
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)">
@@ -156,10 +158,12 @@
 
           <div *ngSwitchCase="'Multiple Choice - Text'">
             <app-que-edit-single-option-select-text
-              [question]="question.question"
+              [question]="question"
               [id]="i"
               (saveChoice)="saveChoice($event)"
-              (deleteQuestion)="deleteQuestion($event)">
+              (deleteQuestion)="deleteQuestion($event)"
+              (deleteOptions)="deleteOptions($event)"
+            >
 
             </app-que-edit-single-option-select-text>
           </div>

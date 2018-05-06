@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyService} from '../survey-service.service';
+import {ResponseParam} from '../../ResponseParam.model';
 
 @Component({
   selector: 'app-view-survey',
@@ -35,7 +36,6 @@ export class ViewSurveyComponent implements OnInit {
         if(typeof response === 'object' && response.code === 404){
           this.router.navigate(['/not-found']);
         }else{
-          console.log(response);
           this.surveyData = response;
         }
       },
@@ -49,7 +49,7 @@ export class ViewSurveyComponent implements OnInit {
     this.errorMessage = ''
     const _this = this;
     this.surveyService.unpublish(this.id).subscribe(
-      (response) => {
+      (response: ResponseParam) => {
         if(response.code === 200){
           _this.getViewSurvey();
         }else{
@@ -65,7 +65,7 @@ export class ViewSurveyComponent implements OnInit {
   closeSurvey(){
     const _this = this;
     this.surveyService.closeSurvey(this.id).subscribe(
-      (response) => {
+      (response: ResponseParam) => {
         if(response.code === 200){
           _this.getViewSurvey();
         }else{

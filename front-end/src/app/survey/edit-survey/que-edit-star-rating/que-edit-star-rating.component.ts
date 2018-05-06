@@ -9,7 +9,9 @@ import {NgModel} from '@angular/forms';
 export class QueEditStarRatingComponent implements OnInit {
   @Input('question') question: string;
   @Input('id') id: string;
-  @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
+  @Output('deleteQuestion') delete = new EventEmitter<{id: string}>();
+  @Output('saveRatingsChoice') saveRatingsChoice = new EventEmitter<{choice: string, sequence: string}>()
+
   constructor() { }
 
   ngOnInit() {
@@ -19,10 +21,7 @@ export class QueEditStarRatingComponent implements OnInit {
     this.delete.emit({id : this.id});
   }
 
-  constructor() { }
-
   saveChoices(element: NgModel) {
-    console.log("Palash3", element.value);
     this.saveRatingsChoice.emit({choice: element.value , sequence: this.id});
   }
 

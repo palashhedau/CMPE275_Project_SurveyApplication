@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-multiple-option-text',
@@ -9,7 +10,7 @@ import {SurveyService} from '../../survey-service.service';
 export class MultipleOptionTextComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
-  @ViewChild('options') option: ngModel;
+  @ViewChild('options') option: NgModel;
 
   public choices: string [] = [];
   constructor(private surveyService : SurveyService) { }

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-datetime',
@@ -9,7 +10,7 @@ import {SurveyService} from '../../survey-service.service';
 export class DatetimeComponent implements OnInit {
   @Input() question: any;
   @Input() id: string;
-  @ViewChild('selectedDate') selectedDate: ngModel;
+  @ViewChild('selectedDate') selectedDate: NgModel;
   constructor(private surveyService : SurveyService) { }
 
   ngOnInit() {

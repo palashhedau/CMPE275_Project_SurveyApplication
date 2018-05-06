@@ -63,8 +63,6 @@ export class SurveyService {
           {headers: new HttpHeaders().append('Content-Type', 'application/json'),
             withCredentials: true}).subscribe(
           (response) => {
-            console.log('I want Id here for the survey added ' + response.code + response.id +
-            response.message);
             _this.id = response.id;
           },
           (error) => {
@@ -232,8 +230,16 @@ export class SurveyService {
   }
 
 
+  /* Edit a Survey */
   getSurveyToEdit(id: String) {
     return this.http.get('http://localhost:8081/get-survey-to-edit/' + id,
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
+  }
+
+  editSurvey(obj: any){
+    return this.http.post('http://localhost:8081/edit-survey/' + obj.id,
+      obj,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }

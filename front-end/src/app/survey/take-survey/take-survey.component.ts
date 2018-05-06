@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyService} from '../survey-service.service';
+import {ResponseParam} from '../../ResponseParam.model';
 
 @Component({
   selector: 'app-take-survey',
@@ -41,7 +42,7 @@ export class TakeSurveyComponent implements OnInit {
 
   submitSurvey(){
     this.surveyService.submitSurvey(this.id).subscribe(
-      (response) => {
+      (response: ResponseParam) => {
         if(response.code === 404){
           this.router.navigate(['/not-found']);
         }else if(response.code === 200){
