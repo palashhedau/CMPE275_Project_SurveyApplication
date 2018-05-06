@@ -135,5 +135,15 @@ public class SurveyController {
 		}
 	}
 	
+	@RequestMapping(path="/get-attempted-survey",method=RequestMethod.GET)
+	public ResponseEntity<?> getSurveyByEmail( HttpSession session ){
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.getAttemptedSurveys((String)session.getAttribute("email")), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
+		}
+	}
+
+	
 	
 }
