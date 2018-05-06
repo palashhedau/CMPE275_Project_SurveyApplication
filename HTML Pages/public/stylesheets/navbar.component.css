@@ -1,0 +1,13 @@
+@charset "ISO-8859-1";
+
+.left-padding-navbar {
+    padding-left: 30px;
+}
+
+.right-padding-navbar {
+    padding-right: 50px;
+}
+
+.right-margin-navbar {
+    margin-right: 50px;
+}
