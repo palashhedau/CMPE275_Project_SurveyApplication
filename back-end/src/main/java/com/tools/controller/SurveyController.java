@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tools.helper.Helper;
 import com.tools.requestParams.SurveyCreateParams;
 import com.tools.requestParams.SurveySubmitParams;
+import com.tools.responseParam.Response;
 import com.tools.service.SurveyService;
 
 @RestController
@@ -30,8 +31,8 @@ public class SurveyController {
 	HttpHeaders headers=new HttpHeaders();
 	
 	@RequestMapping(path="/create-survey",method=RequestMethod.POST)
-	public ResponseEntity<?> createSurvey(@RequestBody SurveyCreateParams params){
-		return new ResponseEntity( surveyService.createSurvey(params) , HttpStatus.OK);
+	public ResponseEntity<?> createSurvey(@RequestBody SurveyCreateParams params, HttpSession session){
+		return new ResponseEntity( surveyService.createSurvey(params,(String)session.getAttribute("email")) , HttpStatus.OK);
 	}
 	
 	@RequestMapping(path="/survey/{id}",method=RequestMethod.POST)
@@ -44,7 +45,7 @@ public class SurveyController {
 	public ResponseEntity<?> getSurvey(HttpSession session){
 		System.out.println("Session " + session.getAttribute("email"));
 		if(session.getAttribute("email")!= null) {
-			return new ResponseEntity( surveyService.getSurvey(), HttpStatus.OK);
+			return new ResponseEntity( surveyService.getSurvey((String)session.getAttribute("email")), HttpStatus.OK);
 		}else {
 			System.out.println(session);
 			return new ResponseEntity( null, HttpStatus.UNAUTHORIZED);
@@ -53,10 +54,14 @@ public class SurveyController {
 		
 	}
 	
-	@RequestMapping(path="/survey/{id}",method=RequestMethod.DELETE)
-	public ResponseEntity<?> closeSurvey(@PathVariable String id ){
-		surveyService.closeSurvey(id);
-		return null; 
+	@RequestMapping(path="/delete-survey/{id}",method=RequestMethod.POST)
+	public ResponseEntity<?> closeSurvey(@PathVariable String id, HttpSession session ){
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.closeSurvey(id, (String)session.getAttribute("email") ), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to close the survey"), HttpStatus.UNAUTHORIZED);
+		}
+		
 	}
 	
 	@RequestMapping(path="/submit-survey/{id}",method=RequestMethod.POST)
@@ -65,9 +70,36 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(path="/get-survey/{id}",method=RequestMethod.GET)
-	public ResponseEntity<?> getSurvey(@PathVariable String id ){
+	public ResponseEntity<?> getSurveyById(@PathVariable String id ){
 		return new ResponseEntity(surveyService.getSurveyById(id), HttpStatus.OK);
 	}
 	
+	@RequestMapping(path="/view-survey/{id}",method=RequestMethod.GET)
+	public ResponseEntity<?> viewSurveyById(@PathVariable String id, HttpSession session ){
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.viewSurveyById(id,(String)session.getAttribute("email")), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to view the survey"), HttpStatus.UNAUTHORIZED);
+		}
+		
+	}
+	
+	@RequestMapping(path="/unpublish-survey/{id}",method=RequestMethod.GET)
+	public ResponseEntity<?> unPublishSurvey(@PathVariable String id, HttpSession session ){
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.unPublishSurveyById(id,(String)session.getAttribute("email")), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to Unpublish the survey"), HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	@RequestMapping(path="/get-survey-to-edit/{id}",method=RequestMethod.GET)
+	public ResponseEntity<?> getSurveyToEditById(@PathVariable String id, HttpSession session ){
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.getSurveyToEditById(id,(String)session.getAttribute("email")), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
+		}
+	}
 	
 }

@@ -8,10 +8,15 @@ import {SurveyService} from '../survey-service.service';
 })
 export class MySurveysComponent implements OnInit {
 
-  public surveyList: any ;
+  public surveyList: any = [];
+  public errorMessage = '';
   constructor(private surveyService: SurveyService) { }
 
   ngOnInit() {
+    this.getSurveys();
+  }
+
+  getSurveys(){
     this.surveyService.getMySurveys().subscribe(
       (response) => {
         this.surveyList = response;
@@ -22,5 +27,20 @@ export class MySurveysComponent implements OnInit {
       }
     );
   }
+
+  closeSurvey(id: string){
+    this.errorMessage = '';
+    const _this = this;
+    this.surveyService.closeSurvey(id).subscribe(
+      (response) => {
+        _this.errorMessage = response.message;
+        _this.getSurveys();
+      },
+      (error) => {
+        this.errorMessage = 'Error occured while closing the survey.';
+      }
+    );
+  }
+
 
 }

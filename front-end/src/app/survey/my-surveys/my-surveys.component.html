@@ -1,17 +1,46 @@
-<div class="col-xs-8 col-xs-offset-2">
+<div *ngIf="surveyList.length > 0" class="col-xs-8 col-xs-offset-2">
    <div class="my-survey">
      <div *ngFor="let survey of surveyList" class="single-survey">
         <div class="row">
+
           <div class="col-xs-4">
-            <a routerLink="/survey/survey.id"><b>{{survey.name}}</b></a>
+            <a routerLink="/survey/view-survey/{{survey.id}}"><b>{{survey.name}}</b></a>
           </div>
+
           <div class="col-xs-4">
-            <span>{{survey.category}} | {{survey.status}} | {{survey.endTime | date : 'yyyy-MM-dd'}} </span>
+            <span>{{survey.category}} | {{survey.status}}
+              <span *ngIf="(survey.endTime) !== null">| {{survey.endTime | date : 'yyyy-MM-dd'}}
+              </span>
+            </span>
           </div>
-          <div class="col-xs-4 ">
-            <button class="btn btn-primary pull-right">Watch</button>
+
+
+          <div *ngIf="(survey.status).trim() === 'Unpublished'" class="col-xs-4 ">
+            <div>
+              <button class="btn btn-primary pull-right btn-publish">Publish</button>
+            </div>
+            <div>
+              <button class="btn btn-primary pull-right btn-edit">Edit</button>
+            </div>
           </div>
+
+
+
+
+          <div *ngIf="(survey.endTime) === null && survey.status=='Published'" class="col-xs-4 ">
+            <button class="btn btn-danger pull-right" (click)="closeSurvey(survey.id)">Close Survey</button>
+          </div>
+
+          <div *ngIf="(survey.status).trim() === 'Closed'" class="col-xs-4 ">
+            <button class="btn btn-info pull-right view-button" >View</button>
+          </div>
+
         </div>
      </div>
    </div>
+</div>
+
+<div *ngIf="surveyList.length == 0">
+  <h2>You haven't created any survey yet</h2>
+  <h4><a routerLink="/survey/create-survey">Create one</a></h4>
 </div>

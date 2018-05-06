@@ -27,3 +27,19 @@ span{
 .single-survey:not(:last-child){
   margin-bottom: 20px;
 }
+
+h2, h4{
+  text-align: center;
+}
+
+.btn-publish{
+  margin-left: 20px;
+}
+
+.btn-edit{
+  width:70px
+}
+
+.view-button{
+  width: 70px;
+}
