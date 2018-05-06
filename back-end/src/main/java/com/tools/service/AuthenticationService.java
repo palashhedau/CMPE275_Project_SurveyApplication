@@ -37,12 +37,10 @@ public class AuthenticationService {
 	
 	public Object signup(Auth auth) throws Exception{
 		System.out.println(auth.getEmail() + " -  " + auth.getPassword() + " - " + auth.getType());	
-		emailService.demoEmail();
+		emailService.demoEmail("123");
 		if(authRepository.findByEmail(auth.getEmail()).size() > 0 ) {
 			return new Response(400,"Email already exist");
 		}else {
-			System.out.println(passwordGenerator.getPassword("prateek"));
-			System.out.println(passwordGenerator.matchPassword("$2a$10$vT4qk2/ftiO7YnxPjohju.flfU1QmYb0RzcqyMv8nfTB5yBorBgDW", "prateek"));
 			com.tools.model.Auth authToSave = new com.tools.model.Auth(auth.getEmail(), auth.getPassword(),
 					auth.getType() , "INACTIVE"); 
 			//Generate code to activate account
