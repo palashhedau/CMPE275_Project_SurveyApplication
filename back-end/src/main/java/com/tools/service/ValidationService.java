@@ -38,7 +38,7 @@ public class ValidationService {
 		if(!passwordValid) {
 			return new Response(400,"Password must be a minimum of 6 characters");	
 		}
-		if(!typeValid) {
+		if(typeValid) {
 			return new Response(400,"Incorrect type provided");	
 		} 
 		return new Response(200,"Status ok");	
