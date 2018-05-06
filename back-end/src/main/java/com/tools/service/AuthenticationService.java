@@ -36,7 +36,6 @@ public class AuthenticationService {
 	}
 	
 	public Object signup(Auth auth) throws Exception{
-		
 		System.out.println(auth.getEmail() + " -  " + auth.getPassword() + " - " + auth.getType());	
 		emailService.demoEmail();
 		if(authRepository.findByEmail(auth.getEmail()).size() > 0 ) {

@@ -40,13 +40,10 @@ public class AuthenticationController {
 		}
 	}
 	
-	
-	
-	
 	@RequestMapping(path="/signup",method=RequestMethod.POST)
 	public ResponseEntity<?> signup(@RequestBody Auth auth) throws Exception{
-		return new ResponseEntity(authService.signup(auth), HttpStatus.OK);
-		
+		System.out.println("getting into signup");
+		return new ResponseEntity(authService.signup(auth), HttpStatus.OK);	
 	}
 	
 	
