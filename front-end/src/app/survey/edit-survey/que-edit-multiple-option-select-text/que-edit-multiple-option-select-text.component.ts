@@ -8,35 +8,45 @@ import {NgModel} from '@angular/forms';
   styleUrls: ['./que-edit-multiple-option-select-text.component.css']
 })
 export class QueEditMultipleOptionSelectTextComponent implements OnInit {
-  @Output('saveChoice') saveChoice = new EventEmitter<{choice: string, sequence: number, id: string }>()
+
+  @Output('saveChoice') saveChoice = new EventEmitter<{choice: string, sequence: number, id: string}>()
   @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
-  @Input('question') question: string;
+  @Input('question') question: any;
   @Input('id') id: string;
+  @Output('deleteOptions') deleteOptionsEdit = new EventEmitter<{ sequence: number, id: string}>()
+
+
+  public optionArray = [];
+
   constructor(private surveyService: SurveyService) { }
   public moreOptions: any = [];
 
+
   ngOnInit() {
+    for(const option of this.question.choice){
+      this.optionArray.push([this.moreOptions.length , option.answers]);
+    }
+
   }
 
   deleteQuestion(){
     this.delete.emit({id : this.id});
   }
 
-  saveChoices(element: NgModel, sequence: number) {
-    if(sequence > -1){
-      this.moreOptions[sequence][1] =  element.value ;
-    }
-    this.saveChoice.emit({choice: element.value, sequence: sequence + 2 , id: this.id});
-  }
+  saveChoices( element: NgModel, sequence: number) {
+  if(sequence > -1){
+  this.optionArray[sequence][1] =  element.value ;
+}
+this.saveChoice.emit({choice: element.value, sequence: sequence , id: this.id});
+}
 
-  addOptions(){
-    this.moreOptions.push([this.moreOptions.length, '']);
-  }
+addOptions(){
+  this.optionArray.push([this.moreOptions.length , '']);
+}
 
-  deleteOptions(index: number){
-    this.moreOptions.splice(index,1);
-    this.surveyService.deleteChoice(index + 2, this.id);
-  }
-
+deleteOptions(index: number){
+  this.optionArray.splice(index,1);
+  this.deleteOptionsEdit.emit({ sequence: index , id: this.id});
+}
 
 }

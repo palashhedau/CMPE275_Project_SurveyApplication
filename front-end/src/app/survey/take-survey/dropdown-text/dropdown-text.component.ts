@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-dropdown-text',
@@ -9,7 +10,7 @@ import {SurveyService} from '../../survey-service.service';
 export class DropdownTextComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
-  @ViewChild('answerChoice') answerChoice: ngModel;
+  @ViewChild('answerChoice') answerChoice: NgModel;
   constructor(private surveyService : SurveyService) { }
 
   ngOnInit() {

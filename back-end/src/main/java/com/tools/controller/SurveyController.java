@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tools.helper.Helper;
+import com.tools.requestParams.EditSurveyParams;
 import com.tools.requestParams.SurveyCreateParams;
 import com.tools.requestParams.SurveySubmitParams;
 import com.tools.responseParam.Response;
@@ -115,6 +116,7 @@ public class SurveyController {
 		}
 	}
 	
+
 	@RequestMapping(path="/invite/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> inviteToSurvey(@PathVariable String id, @RequestParam(value="email", required=false) String email, HttpSession session ){
 		if(session.getAttribute("email") != null) {
@@ -123,4 +125,15 @@ public class SurveyController {
 			return new ResponseEntity(surveyService.inviteToSurvey(id,email), HttpStatus.OK);
 		}
 	}
+
+	@RequestMapping(path="/edit-survey/{id}",method=RequestMethod.POST)
+	public ResponseEntity<?> editById(@PathVariable String id, HttpSession session, @RequestBody EditSurveyParams params ){
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.editSurveyById(params, id,(String)session.getAttribute("email")), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	
 }

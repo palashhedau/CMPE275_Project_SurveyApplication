@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-sign-up-enter-code',
@@ -8,8 +9,8 @@ import {Router} from '@angular/router';
   styleUrls: ['./sign-up-enter-code.component.css']
 })
 export class SignUpEnterCodeComponent implements OnInit {
-  @ViewChild('email') email: ngModel;
-  @ViewChild('code') code: ngModel;
+  @ViewChild('email') email: NgModel;
+  @ViewChild('code') code: NgModel;
   public errorMessage = '';
   constructor(private authService : AuthService,
               private router: Router) { }

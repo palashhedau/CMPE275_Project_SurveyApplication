@@ -28,6 +28,9 @@ import com.tools.repository.InvitesRepository;
 import com.tools.repository.QuestionsRepository;
 import com.tools.repository.SurveyRepository;
 import com.tools.repository.SurveySubmitInfoRepository;
+import com.tools.requestParams.EditSurveyChoiceParams;
+import com.tools.requestParams.EditSurveyParams;
+import com.tools.requestParams.EditSurveyQuestionParams;
 import com.tools.requestParams.QuestionsAndAnswers;
 import com.tools.requestParams.SubmitSurveyQueList;
 import com.tools.requestParams.SurveyCreateParams;
@@ -105,7 +108,41 @@ public class SurveyService {
 	
 	}
 
-
+	public Object editSurveyById(EditSurveyParams params, String id, String email) {
+		Survey survey ;
+		survey = surveyRepository.findById(params.getId()).get(0);
+		survey.setQuestions(new HashSet<Questions>());
+		questionsRepository.deleteBySurveyId(params.getId());
+		
+		
+		for(EditSurveyQuestionParams que : params.getQuestions()) {
+			System.out.println("KKKKKKKKKKKKKKKKKDDDDDDDDDDDDD " + params.getQuestions().size());
+			
+			Questions question = new Questions(que.getQuestion());
+			question.setSurvey(survey);
+			question.setQuestionType(que.getQuestionType());
+			
+			for(EditSurveyChoiceParams ans : que.getChoice()) {
+				
+				Choice answer =  new Choice(ans.getAnswers()); 
+				answer.setQuestions(question);
+				
+				Set<Choice> choice = question.getChoice(); 
+				choice.add(answer);
+				question.setChoice(choice);
+			
+			}
+			
+			Set<Questions> questions = survey.getQuestions(); 
+			questions.add(question);
+			survey.setQuestions( questions);
+			
+		}
+		
+		Survey savedSurvey = surveyRepository.save(survey);
+		return new ResponseWithId(200, "Survey saved successfully", savedSurvey.getId());
+		
+	}
 
 	// 7.c
 	public Object editSurvey(String datetime, String id) {
@@ -325,4 +362,5 @@ public class SurveyService {
 			}
 		return invites;
 	}
+
 }

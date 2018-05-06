@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SurveyService} from '../survey-service.service';
+import {ResponseParam} from '../../ResponseParam.model';
 
 @Component({
   selector: 'app-my-surveys',
@@ -32,7 +33,7 @@ export class MySurveysComponent implements OnInit {
     this.errorMessage = '';
     const _this = this;
     this.surveyService.closeSurvey(id).subscribe(
-      (response) => {
+      (response: ResponseParam) => {
         _this.errorMessage = response.message;
         _this.getSurveys();
       },

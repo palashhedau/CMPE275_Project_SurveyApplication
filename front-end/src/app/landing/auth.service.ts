@@ -40,10 +40,11 @@ export class AuthService{
   }
 
   logout() {
+    const _this = this;
     this.http.get('http://localhost:8081/logout',
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true}).subscribe(
-      (response) => {
+      (response: boolean) => {
         _this.isLoggedIn = response;
       },
       (error) => {

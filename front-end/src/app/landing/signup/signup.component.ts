@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -8,9 +9,9 @@ import {Router} from '@angular/router';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  @ViewChild('email') email: ngModel;
-  @ViewChild('password') password: ngModel;
-  @ViewChild('confirmpassword') confirmpassword: ngModel;
+  @ViewChild('email') email: NgModel;
+  @ViewChild('password') password: NgModel;
+  @ViewChild('confirmpassword') confirmpassword: NgModel;
 
   public errorMessage = '';
   public category = '';

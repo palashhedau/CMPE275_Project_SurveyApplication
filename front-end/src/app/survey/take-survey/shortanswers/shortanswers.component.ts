@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-shortanswers',
@@ -9,7 +10,7 @@ import {SurveyService} from '../../survey-service.service';
 export class ShortanswersComponent implements OnInit {
   @Input('question') question: any;
   @Input('id') id: string;
-  @ViewChild('answer') answer: ngModel;
+  @ViewChild('answer') answer: NgModel;
   constructor(private surveyService : SurveyService) { }
 
   ngOnInit() {

@@ -9,10 +9,13 @@ import {HelperService} from '../../../helper.service';
 })
 export class QueEditSingleOptionSelectImageComponent implements OnInit {
 
+
   @Output('saveChoice') saveChoice = new EventEmitter<{choice: string, sequence: number, id: string }>()
   @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
-  @Input('question') question: string;
+  @Input('question') question: any;
   @Input('id') id: string;
+  @Output('deleteOptions') deleteOptionsInEdit = new EventEmitter<{sequence: number , id: string}>();
+
 
   constructor(private helperService: HelperService,
               private surveyService: SurveyService) { }
@@ -20,6 +23,7 @@ export class QueEditSingleOptionSelectImageComponent implements OnInit {
 
 
   ngOnInit() {
+    this.moreOptions = this.question.choice;
   }
 
   deleteQuestion(){
@@ -27,9 +31,12 @@ export class QueEditSingleOptionSelectImageComponent implements OnInit {
   }
 
   saveChoices(files: any, sequence: number) {
+    console.log("LELELELELELELE")
     const _this = this;
     this.helperService.saveToS3(files[0], 'palash', function(location){
-      _this.surveyService.addChoice(location, sequence + 2, _this.id);
+      _this.saveChoice.emit({choice : location, sequence : sequence , id: _this.id});
+      _this.moreOptions[sequence]['answers'] = location;
+      console.log(_this.moreOptions);
     });
   }
 
@@ -39,11 +46,13 @@ export class QueEditSingleOptionSelectImageComponent implements OnInit {
 
 
   deleteOptions(index: number){
+    console.log("LELELELELELELE 22222222222222222222222")
     this.moreOptions.splice(index,1);
-    this.surveyService.deleteChoice(index+2, this.id);
+    //this.deleteOptionsInEdit.emit({sequence : index, id: this.id});
     //also delete it from S3
     // get url when deleting from service
-    this.helperService.deletefromS3('URL-TO-BE-PASSED');
+    //this.helperService.deletefromS3('URL-TO-BE-PASSED');
   }
+
 
 }
