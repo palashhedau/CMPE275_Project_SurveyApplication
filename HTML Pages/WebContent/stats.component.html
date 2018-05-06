@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Survey Stats</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  	<link rel='stylesheet' href='../public/stylesheets/stats.component.css' />
+  </head>
+  <body>
+  	  
+    
+	<div class="row">
+	    <div class="col-lg-3">
+	    	
+	    </div>
+	    
+	    <!-- Form Code -->
+	    <div class="col-lg-6 form-color">
+	    	
+	    	
+	    	<form>
+	    		  <!-- Survey Name -->	
+				  <div class="form-group margin-top-10 border-bottom-div">
+                    <h1 align="center">Stats</h1>
+                    <h1 align="center">Survey Name</h1>
+				  </div>
+				  <!-- Survey Name End-->
+				  
+                  <!-- Survey Stats (To be printed only once per survey)-->
+				  <div class="form-group">
+					    <label for="stats">Survey Stats</label>
+					    <div class="row" style="padding-left:15px;">
+					    	<h4 align="center">Sample Survey Name</h4>
+						    
+					    </div>
+					    <div class="border-bottom-div">
+                            <label for="startTime" class="display-block">Start Time :</label>
+                            <label for="endTime" class="display-block">End Time :</label>
+                            <label for="totalParticipants" class="display-block">Total Number of Participants :</label>
+                            <label for="participantsRate" class="display-block">Participantion Rate :</label>
+                        </div>
+					        
+					    
+				  </div>
+				  <!-- Survey Stats End-->
+                  
+                  <!-- Question Stats -->
+				  <div class="form-group">
+					    <label for="formName">Question</label>
+                        
+                        <div class="row" style="padding-left:15px;">
+					    	<h4 align="center">Sample Question</h4>
+						    
+                        </div>
+                        
+					    <!-- Short Answer (To be printed multiple times for each short answer received)-->
+					    <div class="border-bottom-div ">
+					    	<textarea class="form-control " id="shortAnswer" rows="3" placeholder="Answers Received" disabled></textarea>
+                        </div>
+                        
+                        <!-- Multiple Choice, Radio Box and Dropdown -->
+					    <div class="border-bottom-div">
+                            <label for="option1" class="display-block">Option 1 :</label>
+                            <label for="option2" class="display-block">Option 2 :</label>
+                            <label for="option3" class="display-block">Option 3 :</label>
+                            <label for="option4" class="display-block">Option 4 :</label>
+                            <small id="small" class="form-text text-muted">Number of responses received for each options</small>
+                        </div>
+                        
+                        <!-- Response Rate -->
+					    <div class="border-bottom-div">
+                            <label for="responseRate    " class="display-block">Response Rate :</label>
+                            <small id="small" class="form-text text-muted">Number of responses received for each question</small>
+                        </div>
+					    
+				  </div>
+				  <!-- Question Stats End-->
+				  
+                  
+			</form>
+	    	
+	    	
+	    	
+	    </div>
+	    <!-- Form Code End -->
+	    <div class="col-lg-2">
+	    	
+	    </div>
+	</div>    
+	
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+</html>
