@@ -21,12 +21,12 @@ public class EmailSenderService {
 
 	@Async
 	public void demoEmail() throws MessagingException {
-		MimeMessage message = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message);
-		helper.setTo("emailprateeksharma@gmail.com");
-		helper.setText("ander dekh");
-		helper.setSubject("Hi");
-		javaMailSender.send(message);
+//		MimeMessage message = javaMailSender.createMimeMessage();
+//		MimeMessageHelper helper = new MimeMessageHelper(message);
+//		helper.setTo("emailprateeksharma@gmail.com");
+//		helper.setText("ander dekh");
+//		helper.setSubject("Hi");
+//		javaMailSender.send(message);
 	}
 
 }
