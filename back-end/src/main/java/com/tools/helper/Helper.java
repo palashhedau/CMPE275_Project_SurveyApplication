@@ -72,4 +72,11 @@ public class Helper {
 		}
 	}
 	
+	public int codeGenerator()
+	{
+		int x = (int)(Math.random()*((100000000-1)+1))+1;
+		System.out.println("Random numbers: "+x);
+		return x;
+	}
+	
 }

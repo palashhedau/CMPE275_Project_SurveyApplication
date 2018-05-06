@@ -119,6 +119,16 @@ public class Survey {
 	}
 
 	
+	public Set<Invites> getInvites() {
+		return invites;
+	}
+
+
+	public void setInvites(Set<Invites> invites) {
+		this.invites = invites;
+	}
+
+
 	public Set<Survey_Submit_Info> getSubmittedSurvery() {
 		return submittedSurvery;
 	}
@@ -161,7 +171,10 @@ public class Survey {
 		this.questions = questions;
 	} 
 	
-	
+	@OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "survey")
+	private Set<Invites> invites = new HashSet<>();
 	
 	
 }

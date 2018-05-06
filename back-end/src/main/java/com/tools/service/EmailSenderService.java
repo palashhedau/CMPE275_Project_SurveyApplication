@@ -28,5 +28,15 @@ public class EmailSenderService {
 		helper.setSubject("Hi");
 		javaMailSender.send(message);
 	}
+	
+	@Async
+	public void inviteEmail(String email, String url) throws MessagingException {
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		helper.setTo(email);
+		helper.setText("invite URL: "+url);
+		helper.setSubject("Invitation to take survey innSurveyApe");
+		javaMailSender.send(message);
+	}
 
 }
