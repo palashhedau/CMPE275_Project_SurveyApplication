@@ -5,6 +5,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.hamcrest.core.IsNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.tools.helper.Helper;
 import com.tools.repository.AuthRepository;
 import com.tools.requestParams.Auth;
+import com.tools.requestParams.VerifyAccount;
 import com.tools.responseParam.Response;
 
 
@@ -61,8 +63,24 @@ public class ValidationService {
 		return (password.length() >= 6);
 	}
 	
+	public boolean activationCodeValidation(String code) {
+		return (code != null && !code.isEmpty() && code.length() == 6);
+	}
+	
 	public boolean validateType(String type) {
 		return (type == "surveyor" || type == "surveyee");
+	}
+	
+	public Response verifyAccount(VerifyAccount details) {
+		boolean emailValid = isValidEmailAddress(details.getEmail());
+		boolean codeValid = activationCodeValidation(details.getactivationCode());
+		if(!emailValid) {
+			return new Response(400,"Email format is invalid");
+		}
+		if(!codeValid) {
+			return new Response(400,"Code is not valid");
+		}
+		return new Response(200,"Status ok");
 	}
 
 }

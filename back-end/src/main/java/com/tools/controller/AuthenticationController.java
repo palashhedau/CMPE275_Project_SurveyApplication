@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tools.helper.Helper;
 import com.tools.requestParams.Auth;
+import com.tools.requestParams.VerifyAccount;
 import com.tools.responseParam.Response;
 import com.tools.service.AuthenticationService;
 
@@ -44,6 +45,12 @@ public class AuthenticationController {
 	public ResponseEntity<?> signup(@RequestBody Auth auth) throws Exception{
 		System.out.println("getting into signup");
 		return new ResponseEntity(authService.signup(auth), HttpStatus.OK);	
+	}
+	
+	@RequestMapping(path="/account-verification",method=RequestMethod.POST)
+	public ResponseEntity<?> accountVerification(@RequestBody VerifyAccount verifyAccount) throws Exception{
+		System.out.println("getting into signup");
+		return new ResponseEntity(authService.activateAccount(verifyAccount), HttpStatus.OK);	
 	}
 	
 	
