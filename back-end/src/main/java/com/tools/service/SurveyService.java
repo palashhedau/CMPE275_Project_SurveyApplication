@@ -195,7 +195,7 @@ public class SurveyService {
 			if(survey.getStatus().equalsIgnoreCase("Published") && helper.compareDate(new Date(), survey.getEndTime())) {
 				Survey_Submit_Info info = new Survey_Submit_Info();
 				info.setSurvey(survey);
-				info.setUserId(1);
+				info.setUserEmail(email);
 				
 				List<SubmitSurveyQueList> questionsList  = params.getQuestionList() ;
 				for(SubmitSurveyQueList list : questionsList) {
@@ -361,6 +361,21 @@ public class SurveyService {
 				}
 			}
 		return invites;
+	}
+
+	public Object getAttemptedSurveys(String email) {
+		//get attempted surveys of the user
+		
+		List<Survey_Submit_Info> serveySubmittedList = surveySubmitInfoRepository.findByEmail(email);
+		
+		if(serveySubmittedList.size() == 0) {
+			System.out.println("LOLLLLLL");
+			return new Response(404, "No Attempted Surveys");
+		}else {
+			return serveySubmittedList;
+		}
+		
+		
 	}
 
 }

@@ -23,7 +23,7 @@ public class Survey_Submit_Info {
 	@GeneratedValue
 	int id;
 	
-	int userId ;
+	String userEmail ;
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -56,14 +56,15 @@ public class Survey_Submit_Info {
 	}
 
 
-	public int getUserId() {
-		return userId;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
+
 
 	@JsonIgnore
 	public Survey getSurvey() {
