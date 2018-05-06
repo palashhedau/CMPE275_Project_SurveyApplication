@@ -82,8 +82,8 @@ public class AuthenticationController {
 	
 	
 	@RequestMapping(path="/activate-account",method=RequestMethod.POST)
-	public ResponseEntity<?> activateAccount(@RequestBody Auth auth){
-		return new ResponseEntity(authService.activateAccount(auth.getEmail() , auth.getPassword()), HttpStatus.OK); 
+	public ResponseEntity<?> activateAccount(@RequestBody VerifyAccount auth){
+		return new ResponseEntity(authService.activateAccount(auth), HttpStatus.OK); 
 	}
 	
 	

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -15,12 +17,14 @@ import org.springframework.util.MultiValueMap;
 import com.tools.helper.Helper;
 import com.tools.model.Auth;
 import com.tools.model.Choice;
+import com.tools.model.Invites;
 import com.tools.model.Questions;
 import com.tools.model.Survey;
 import com.tools.model.Survey_Submit_Info;
 import com.tools.model.Survey_Submit_Response;
 import com.tools.model.Survey_Submit_Response_Answers;
 import com.tools.repository.AuthRepository;
+import com.tools.repository.InvitesRepository;
 import com.tools.repository.QuestionsRepository;
 import com.tools.repository.SurveyRepository;
 import com.tools.repository.SurveySubmitInfoRepository;
@@ -47,7 +51,14 @@ public class SurveyService {
 	@Autowired
 	private SurveySubmitInfoRepository surveySubmitInfoRepository;
 	
+	@Autowired
+	private InvitesRepository invitesRepository;
+	
+	@Autowired
+	private EmailSenderService emailSenderService;
+	
 	Helper helper = new Helper();
+	String host="http://localhost/survey/take-survey/";
 	
 	public Object createSurvey(SurveyCreateParams params, String email) {
 		
@@ -139,10 +150,10 @@ public class SurveyService {
 
 
 
-	public Object submitSurvey(String id, SurveySubmitParams params) {
+	public Object submitSurvey(String id,String code,String email, SurveySubmitParams params) {
 		List<Survey> surveyList =  surveyRepository.findById(Integer.parseInt(id));
 		if(surveyList.size() > 0) {
-			Survey survey = surveyList.get(0);
+			Survey survey = surveyList.get(0); 
 			System.out.println(survey.getStatus());
 			if(survey.getStatus().equalsIgnoreCase("Published") && helper.compareDate(new Date(), survey.getEndTime())) {
 				Survey_Submit_Info info = new Survey_Submit_Info();
@@ -173,8 +184,19 @@ public class SurveyService {
 					tempSurveyResponse.add(response);
 					info.setSubmittedSurveyResponse(tempSurveyResponse);
 				}
-				
 				surveySubmitInfoRepository.save(info);
+				if(!survey.getCategory().equalsIgnoreCase("general"))
+				{
+					//Invites invites=invitesRepository.
+					List<Invites> invites=invitesRepository.findByCodeAndEmail(Integer.parseInt(code),email);
+					if(invites.size()>0)
+					{
+						Invites inv=invites.get(0);
+						inv.setStatus(true);
+						//inv.setCode(Integer.parseInt(code));
+						invitesRepository.save(inv);
+					}
+				}
 				return new Response(200, "Survey submitted successfully");
 			}else return new Response(404, "Survey Not active");
 		}else return new Response(404, "Survey Not Found");
@@ -200,7 +222,16 @@ public class SurveyService {
 		if(surveyList.size() == 0) {
 			return new Response(404, "No such Survey Exist");
 		}else {
-			return surveyList;
+			List<Invites> invite = invitesRepository.findBySurveyAndStatus(Integer.parseInt(id),0);
+			if(invite.size()>0)
+			{
+				return surveyList;
+			}
+			else
+			{
+				// to send message as survey already taken
+				return null;
+			}
 		}
 	}
 
@@ -240,10 +271,6 @@ public class SurveyService {
 			return new Response(404,"No such Survey exist");
 		}
 	}
-
-
-
-	
 	
 	public Object getSurveyToEditById(String id, String email) {
 		List<Survey> surveyList = surveyRepository.findByIdAndAuthEmailAndStatus(Integer.parseInt(id), email, "Unpublished");
@@ -255,5 +282,47 @@ public class SurveyService {
 		}
 	}
 
-	
+	public Object inviteToSurvey(String id, String email) {
+		int code=0;
+		String surveyCategory="";
+		String url="";
+		Invites invites=new Invites();
+		List<Survey> survey = surveyRepository.findById(Integer.parseInt(id));
+		
+		//List<Survey> surveyList = surveyRepository.findByIdAndAuthEmailAndStatus(Integer.parseInt(id), email, "Unpublished");
+		if(survey.size() == 0) {
+			System.out.println("LOLLLLLL");
+			return new Response(404, "No such Survey Exist");
+		}else {
+			surveyCategory= survey.get(0).getCategory();
+			code=helper.codeGenerator();
+			
+			
+			invites.setEmail(email);
+			invites.setStatus(false);
+			invites.setSurvey(survey.get(0));
+			if(surveyCategory.equalsIgnoreCase("General"))
+			{
+				invites.setCode(Integer.parseInt(id));
+				url=host+"general-survey/"+id +"/"+id;
+			}
+			else if(surveyCategory.equalsIgnoreCase("Closed"))
+			{
+				invites.setCode(code);
+				url=host+"closed-survey/"+id +"/"+code;
+			}
+			else if(surveyCategory.equalsIgnoreCase("Open")) 
+			{
+				invites.setCode(code);
+				url=host+"open-survey/"+id +"/"+code;
+			}
+			invitesRepository.save(invites);
+				try {
+					emailSenderService.inviteEmail(email, url);
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+			}
+		return invites;
+	}
 }

@@ -5,12 +5,19 @@ export class HelperService{
     const image = imageFile;
     const AWSService = (<any>window).AWS;
     const folder = foldername + '/';
+	
+	
+	const extension_index=image.name.lastIndexOf(".");
+    const imagename=image.name.substring(0,extension_index);
+    const extension=image.name.substring(extension_index,image.name.length);
+
+    const final_imagename=folder + imagename + new Date().toISOString()+extension;
 
     AWSService.config.accessKeyId = 'AKIAIJQ7IVQFSUQRBNEA';
     AWSService.config.secretAccessKey = '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';
 
     const bucket = new AWSService.S3({params: {Bucket: 'surveyimageupload'}});
-    const params = {Key: folder + image.name + new Date().toISOString()  , Body: image};
+    const params = {Key: final_imagename  , Body: image};
 
     bucket.upload(params, function (err, data) {
       cb(data.Location);
