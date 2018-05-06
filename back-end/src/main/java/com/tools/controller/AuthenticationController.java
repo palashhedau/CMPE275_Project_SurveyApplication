@@ -43,13 +43,11 @@ public class AuthenticationController {
 	
 	@RequestMapping(path="/signup",method=RequestMethod.POST)
 	public ResponseEntity<?> signup(@RequestBody Auth auth) throws Exception{
-		System.out.println("getting into signup");
 		return new ResponseEntity(authService.signup(auth), HttpStatus.OK);	
 	}
 	
 	@RequestMapping(path="/account-verification",method=RequestMethod.POST)
 	public ResponseEntity<?> accountVerification(@RequestBody VerifyAccount verifyAccount) throws Exception{
-		System.out.println("getting into signup");
 		return new ResponseEntity(authService.activateAccount(verifyAccount), HttpStatus.OK);	
 	}
 	
@@ -77,15 +75,5 @@ public class AuthenticationController {
 		
 		return new ResponseEntity("Palash", HttpStatus.OK); 
 	}
-	
-	
-	
-	
-	@RequestMapping(path="/activate-account",method=RequestMethod.POST)
-	public ResponseEntity<?> activateAccount(@RequestBody VerifyAccount auth){
-		return new ResponseEntity(authService.activateAccount(auth), HttpStatus.OK); 
-	}
-	
-	
 	
 }

@@ -22,12 +22,12 @@ public class EmailSenderService {
 	}
 
 	@Async
-	public void demoEmail(String code) throws MessagingException {
+	public void sendVerificationEmail(String code, String email) throws MessagingException {
 		MimeMessage message = javaMailSender.createMimeMessage();
 		message.setContent(composeSignUpEmail(code), "text/html; charset=utf-8");
 		MimeMessageHelper helper = new MimeMessageHelper(message);
-		helper.setTo("emailprateeksharma@gmail.com");
-		helper.setSubject("Hi");
+		helper.setTo(email);
+		helper.setSubject("Verify your account!");
 		javaMailSender.send(message);
 	}
 	
@@ -50,6 +50,26 @@ public class EmailSenderService {
 		return message;
 	}
 	
+	
+	public String composeActivationSuccessfulEmail(String email) {
+		String message = "";
+		message += "<body style=\"background-color: #ccffcc\"><center> <h1 style=\"font-family: Arial; color:#3399ff;\"> SurveyApe </h1> \n" + 
+				"<br>\n" + 
+				"<br>\n" + 
+				"<br>\n" + 
+				"<h2 style=\"font-family: Arial; color:#ff9966;\"> Your account was successfully activated </h2> \n" + 
+				"\n" + 
+				"<h2 style=\"font-family: Arial; color:#ff9966;\"> Your username is <span style=\"font-size: 28px; color:#ff9966;\">";
+		
+		message+= email;
+		
+		message += "</span></h2>\n" + 
+				"</center>\n" + 
+				"</body>\n" + 
+				"";
+		return message;
+	}
+	
 	@Async
 	public void inviteEmail(String email, String url) throws MessagingException {
 		MimeMessage message = javaMailSender.createMimeMessage();
@@ -60,5 +80,17 @@ public class EmailSenderService {
 		javaMailSender.send(message);
 
 	}
+	
+	@Async
+	public void sendActivationSuccessfulEmail(String username, String email) throws MessagingException {
+		MimeMessage message = javaMailSender.createMimeMessage();
+		message.setContent(composeActivationSuccessfulEmail(username), "text/html; charset=utf-8");
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		helper.setTo(email);
+		helper.setSubject("Account successfully activated!");
+		javaMailSender.send(message);
+	}
+	
+	
 
 }

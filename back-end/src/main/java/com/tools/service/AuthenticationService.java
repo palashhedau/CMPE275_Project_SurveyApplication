@@ -39,7 +39,6 @@ public class AuthenticationService {
 	
 	public Object signup(Auth auth) throws Exception{
 		String verificationCode = getVerificationCode();
-		emailService.demoEmail(verificationCode);
 		String hashed = passwordGenerator.getPassword(auth.getPassword());
 		if(authRepository.findByEmail(auth.getEmail()).size() > 0 ) {
 			return new Response(400,"Email already exist");
@@ -47,9 +46,9 @@ public class AuthenticationService {
 			com.tools.model.Auth authToSave = new com.tools.model.Auth(auth.getEmail(), hashed,
 					auth.getType() , "INACTIVE"); 
 			//Generate code to activate account
+			emailService.sendVerificationEmail(verificationCode, auth.getEmail());
 			authToSave.setActivationCode(verificationCode);
 			authRepository.save(authToSave);
-			// Send an email to the user and send the code in the mail
 			return new Response(201,"User successfully registerd. Please check Email");
 		}
 		
@@ -60,7 +59,6 @@ public class AuthenticationService {
 		List<com.tools.model.Auth> authList = authRepository.findByEmail(auth.getEmail());
 		System.out.println("SSSS" + auth.getEmail() + authList.size());
 		if(authList.size() > 0) {
-			
 			com.tools.model.Auth authCred = authList.get(0);
 			System.out.println(authCred.getStatus());
 			if(authCred.getStatus().equalsIgnoreCase("ACTIVE")) {
@@ -72,7 +70,7 @@ public class AuthenticationService {
 		}
 	}
 
-	public Object activateAccount(VerifyAccount verifyAccount) {
+	public Object activateAccount(VerifyAccount verifyAccount) throws Exception {
 		List<com.tools.model.Auth> authList = authRepository.findByEmailAndStatus(verifyAccount.getEmail(),"INACTIVE");
 		if(authList.size() > 0) {
 			com.tools.model.Auth auth = authList.get(0);
@@ -80,6 +78,7 @@ public class AuthenticationService {
 				//activate account
 				auth.setStatus("ACTIVE");
 				authRepository.save(auth);
+				emailService.sendActivationSuccessfulEmail(auth.getUsername(), auth.getEmail());
 				return new Response(200, "Account activated Succesfully");
 			}
 			return new Response(400,"Incorrect activation code provided") ; 

@@ -26,11 +26,11 @@ public class ValidationService {
 	private AuthRepository authRepository;
 	
 	public Response signup(Auth auth) {
-		System.out.println(authRepository);
 		boolean emailValid = isValidEmailAddress(auth.getEmail());
 		boolean emailExists = doesEmailAlreadyExist(auth.getEmail());
 		boolean passwordValid = passwordValidation(auth.getPassword());
 		boolean typeValid = validateType(auth.getType());
+		System.out.println(typeValid);
 		if(!emailValid) {
 			return new Response(400,"Email format is invalid");
 		}
@@ -40,8 +40,8 @@ public class ValidationService {
 		if(!passwordValid) {
 			return new Response(400,"Password must be a minimum of 6 characters");	
 		}
-		if(typeValid) {
-			return new Response(400,"Incorrect type provided");	
+		if(!typeValid) {
+			return new Response(400,"Incorrect account type provided");	
 		} 
 		return new Response(200,"Status ok");	
 	}
@@ -68,7 +68,7 @@ public class ValidationService {
 	}
 	
 	public boolean validateType(String type) {
-		return (type == "surveyor" || type == "surveyee");
+		return (type.equals("surveyor") || type.equals("surveyee"));
 	}
 	
 	public Response verifyAccount(VerifyAccount details) {
