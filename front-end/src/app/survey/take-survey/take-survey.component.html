@@ -1,100 +1,126 @@
 <div class="col-xs-8  col-xs-offset-2 form-color">
   <form  #form="ngForm">
-
-
-
     <!-- Question List-->
-    <div *ngFor="let question of questionList; index as i" class="question-div" >
-      <div [ngSwitch]="question.questionType"  >
+    <div *ngIf="showSurveyArea">
+      <div  *ngFor="let question of questionList; index as i" class="question-div" >
+        <div [ngSwitch]="question.questionType"  >
 
-        <div *ngSwitchCase="'Short Answer'">
+          <div *ngSwitchCase="'Short Answer'">
             <app-shortanswers
               [question]="question"
               [id]="i">
             </app-shortanswers>
-        </div>
+          </div>
 
-        <div *ngSwitchCase="'Multiple Choice - Text'">
+          <div *ngSwitchCase="'Multiple Choice - Text'">
             <app-single-option-text
               [question]="question"
               [id]="i">
             </app-single-option-text>
-        </div>
+          </div>
 
-        <div *ngSwitchCase="'Multiple Choice - Image'">
-          <app-single-option-image
-            [question]="question"
-            [id]="i">
-          </app-single-option-image>
-        </div>
+          <div *ngSwitchCase="'Multiple Choice - Image'">
+            <app-single-option-image
+              [question]="question"
+              [id]="i">
+            </app-single-option-image>
+          </div>
 
-        <div *ngSwitchCase="'Checkboxes - Text'" >
-          <app-multiple-option-text
-            [question]="question"
-            [id]="i">
-          </app-multiple-option-text>
-        </div>
+          <div *ngSwitchCase="'Checkboxes - Text'" >
+            <app-multiple-option-text
+              [question]="question"
+              [id]="i">
+            </app-multiple-option-text>
+          </div>
 
-        <div *ngSwitchCase="'Checkboxes - Image'">
-          <app-multiple-option-image
-            [question]="question"
-            [id]="i">
-          </app-multiple-option-image>
-        </div>
+          <div *ngSwitchCase="'Checkboxes - Image'">
+            <app-multiple-option-image
+              [question]="question"
+              [id]="i">
+            </app-multiple-option-image>
+          </div>
 
-        <div *ngSwitchCase="'Dropdown - Text'">
+          <div *ngSwitchCase="'Dropdown - Text'">
             <app-dropdown-text
               [question]="question"
               [id]="i">
             </app-dropdown-text>
-        </div>
+          </div>
 
-        <div *ngSwitchCase="'Dropdown - Image'">
-          <app-dropdown-image
-            [question]="question"
-            [id]="i">
-          </app-dropdown-image>
-        </div>
+          <div *ngSwitchCase="'Dropdown - Image'">
+            <app-dropdown-image
+              [question]="question"
+              [id]="i">
+            </app-dropdown-image>
+          </div>
 
-        <div *ngSwitchCase="'Yes/No'" >
-          <app-yesno
-            [question]="question"
-            [id]="i">
-          </app-yesno>
-        </div>
+          <div *ngSwitchCase="'Yes/No'" >
+            <app-yesno
+              [question]="question"
+              [id]="i">
+            </app-yesno>
+          </div>
 
-        <div *ngSwitchCase="'Star Rating'">
-          <app-ratings
-            [question]="question"
-            [id]="i">
-          </app-ratings>
-        </div>
+          <div *ngSwitchCase="'Star Rating'">
+            <app-ratings
+              [question]="question"
+              [id]="i">
+            </app-ratings>
+          </div>
 
-        <div *ngSwitchCase="'Datetime'" class="datetime-div" >
-          <app-datetime
-            [question]="question"
-            [id]="i">
-          </app-datetime>
+          <div *ngSwitchCase="'Datetime'" class="datetime-div" >
+            <app-datetime
+              [question]="question"
+              [id]="i">
+            </app-datetime>
+          </div>
+
         </div>
 
       </div>
+      <div class="submit-div-parent">
+
+        <div class="submit-div col-xs-6 ">
+          <button type="submit"
+                  class="btn btn-default submit-button" (click)="submitSurvey('Saved')"
+          >Save</button>
+        </div>
+        <div class="submit-div col-xs-6">
+          <button type="submit"
+                  class="btn btn-primary submit-button" (click)="submitSurvey('Submitted')"
+          >Submit</button>
+        </div>
+        <div class=" error-section col-xs-12">
+          {{errorMessage}}
+        </div>
+      </div>
+    </div>
+
+    <!-- Question List end-->
+    <div class="question-div" *ngIf="showSurveyArea == false">
+
+        <div class="invite-div col-xs-offset-4 col-xs-4">
+          <div class="form-group email-div">
+            <label for="email">Enter email </label>
+            <input
+              type="email"
+              class="form-control"
+              email
+              id="email"
+              required
+
+              name="email"
+              [(ngModel)] = "email"
+              >
+          </div>
+          <div class="form-group">
+            <a (click)="skipUser()">Skip</a>
+          </div>
+        </div>
+
 
     </div>
-    <!-- Question List end-->
 
-   <div class="submit-div-parent">
-
-       <div class="submit-div col-xs-6 ">
-         <button type="submit"
-                 class="btn btn-default submit-button" (click)="submitSurvey('Saved')"
-         >Save</button>
-       </div>
-       <div class="submit-div col-xs-6">
-         <button type="submit"
-                 class="btn btn-primary submit-button" (click)="submitSurvey('Submitted')"
-         >Submit</button>
-       </div>
-   </div>
   </form>
   <router-outlet></router-outlet>
 </div>

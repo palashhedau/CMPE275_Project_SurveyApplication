@@ -1,0 +1,17 @@
+.invite-div{
+  padding: 30px;
+}
+
+.email-div{
+  margin-bottom: 30px;
+}
+
+
+input[type=email].ng-invalid.ng-touched {
+  border : 1px solid red
+}
+
+
+.message-section{
+  color : red;
+}

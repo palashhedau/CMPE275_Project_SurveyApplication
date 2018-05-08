@@ -16,7 +16,7 @@
       <div class="btn-header question-div row">
 
 
-        <div class="submit-div col-xs-3">
+        <div class="submit-div col-xs-2">
           <button
                   class="btn btn-info submit-button "
                   [disabled]= "!((surveyData.status).trim() === 'Unpublished')"
@@ -24,7 +24,7 @@
           >Edit</button>
         </div>
 
-        <div class="submit-div col-xs-3 ">
+        <div class="submit-div col-xs-2 ">
           <button
             class="btn btn-default submit-button "
             (click)="publish()"
@@ -32,7 +32,7 @@
           >Publish</button>
         </div>
 
-        <div class="submit-div col-xs-3 ">
+        <div class="submit-div col-xs-2 ">
           <button
             class="btn btn-primary submit-button "
             [disabled]= "!(surveyData.status === 'Published')"
@@ -40,13 +40,30 @@
           >UnPublish</button>
         </div>
 
-        <div class="submit-div col-xs-3">
+        <div class="submit-div col-xs-2">
           <button
             class="btn btn-danger submit-button "
             [disabled]="surveyData.status === 'Closed'"
             (click)="closeSurvey()"
           >Close</button>
         </div>
+
+        <div class="submit-div col-xs-2">
+
+          <button
+            class="btn btn-primary submit-button "
+            [disabled]=" ( surveyData.status === 'Closed' || surveyData.status === 'Unpublished' )"
+            routerLink="/survey/invite/{{id}}"
+          >Invite</button>
+        </div>
+
+        <div class="submit-div col-xs-2">
+          <button
+            class="btn btn-primary submit-info "
+            routerLink="/survey/stats/{{id}}"
+          >Stats</button>
+        </div>
+
 
       </div>
       <div class="error-section">
