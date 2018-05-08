@@ -70,10 +70,7 @@ public class SurveyService {
 	String host="http://localhost/survey/take-survey/";
 	
 	public Object createSurvey(SurveyCreateParams params, String email) {
-		
 		System.out.println("New ID to add ? " + params.getId());
-		
-		
 		Survey survey = new Survey(email , params.getPublish() , 
 				params.getEndTime().equalsIgnoreCase("")? null : helper.parseDate(params.getEndTime()) ,
 				params.getType(), params.getStatus(), params.getCategory());
