@@ -110,9 +110,11 @@ public class SurveyController {
 			emailCaptured = (String)session.getAttribute("email");
 		}else if(email.isPresent()) {
 			// without signed in user hai 
+
 			emailCaptured = email.get();
 		}
 		System.out.println("cddddd " + emailCaptured);
+
 		return new ResponseEntity(surveyService.getSurveyById(id, code, emailCaptured), HttpStatus.OK);
 	}
 	
@@ -123,7 +125,6 @@ public class SurveyController {
 		}else {
 			return new ResponseEntity(new Response(404, "Not Authorized to view the survey"), HttpStatus.UNAUTHORIZED);
 		}
-		
 	}
 	
 	@RequestMapping(path="/unpublish-survey/{id}",method=RequestMethod.POST)
@@ -155,6 +156,7 @@ public class SurveyController {
 	}
 	
 
+
 	
 	@RequestMapping(path="/invite/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> inviteToSurvey(@PathVariable String id, 
@@ -170,6 +172,7 @@ public class SurveyController {
 			}
 		}else return new ResponseEntity(new Response(400,"You are not Authorized to invite"), HttpStatus.OK);
 		
+
 	}
 	
 
@@ -189,6 +192,15 @@ public class SurveyController {
 		}else {
 			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
 		}
+	}
+	
+	@RequestMapping(path="/survey-stats/{id}", method=RequestMethod.GET)
+	public ResponseEntity<?> getSurveyDetails(@PathVariable int id, HttpSession session ) {
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.getSurveryStats(id), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
+		}	
 	}
 
 	@RequestMapping(path="/view-my-response/{id}",method=RequestMethod.GET)

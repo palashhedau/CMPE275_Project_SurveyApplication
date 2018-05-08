@@ -30,6 +30,8 @@ public class Survey {
 	
 	Date endTime ;
 	
+	Date startTime ;
+	
 	String type ;
 	
 	String status ;
@@ -205,6 +207,14 @@ public class Survey {
 		this.questions = questions;
 	} 
 	
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
 	
 	
 	

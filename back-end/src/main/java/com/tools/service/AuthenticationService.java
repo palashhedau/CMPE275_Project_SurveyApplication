@@ -55,8 +55,7 @@ public class AuthenticationService {
 		
 	}
 	
-	public Object signin(Auth auth){
-		
+	public Object signin(Auth auth) {
 		List<com.tools.model.Auth> authList = authRepository.findByEmail(auth.getEmail());
 		System.out.println("SSSS" + auth.getEmail() + authList.size());
 		if(authList.size() > 0) {

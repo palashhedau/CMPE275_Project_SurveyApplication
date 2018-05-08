@@ -72,10 +72,7 @@ public class SurveyService {
 	String host="http://localhost/survey/take-survey/";
 	
 	public Object createSurvey(SurveyCreateParams params, String email) {
-		
 		System.out.println("New ID to add ? " + params.getId());
-		
-		
 		Survey survey = new Survey(email , params.getPublish() , 
 				params.getEndTime().equalsIgnoreCase("")? null : helper.parseDate(params.getEndTime()) ,
 				params.getType(), params.getStatus(), params.getCategory());
@@ -256,12 +253,9 @@ public class SurveyService {
 						Survey_Submit_Response_Answers answer = new Survey_Submit_Response_Answers();
 						answer.setAnswer(ans);
 						answer.setQuestions(que);
-						
 						surveySubmitResponseAnswerRepository.save(answer);
-					
 					}
 				}
-				
 				surveySubmitInfoRepository.save(info);
 				
 				if(email!=null || !email.equals(""))
@@ -286,7 +280,6 @@ public class SurveyService {
 				return new Response(200, "Survey submitted successfully");
 				}else return new Response(404, "Survey Not active");
 		}else return new Response(404, "Survey Not Found");
-		
 	}
 
 
@@ -319,7 +312,6 @@ public class SurveyService {
 				 if(alreadyUsedSurvey.size() == 1) {
 					 return alreadyUsedSurvey.get(0);
 				 }
-				 
 			}
 			
 			Survey survey = surveyList.get(0);
@@ -358,6 +350,7 @@ public class SurveyService {
 
 
 	public Object unPublishSurveyById(String id, String attribute) {
+
 		List<Survey> surveyList = surveyRepository.findById(Integer.parseInt(id)) ;
 		if(surveyList.size() == 1 ) {
 			Survey survey = surveyList.get(0);
@@ -420,6 +413,14 @@ public class SurveyService {
 		
 		List<Survey> survey = surveyRepository.findById(Integer.parseInt(id));
 		
+List<Auth> _users=authRepository.findByEmail(email);
+		boolean isUserRegisterd=false;
+		if(_users.size()>0)
+		{
+			isUserRegisterd=true;
+		}
+		
+
 		if(survey.size() == 0) {
 			return new Response(404, "No such Survey Exist");
 		}else {
@@ -445,12 +446,15 @@ public class SurveyService {
 			}
 			else if(surveyCategory.equalsIgnoreCase("Closed"))
 			{
+
 				if(isUserRegisterd)
 				{
 					invites.setCode(code);
 					url=host + id + "/" + code;
 				}
+
 				else return new Response(400,"User not registered");
+
 			}
 			else if(surveyCategory.equalsIgnoreCase("Open")) 
 			{
@@ -507,6 +511,6 @@ public class SurveyService {
 			return new Response(404, "No such survey exists to edit");	
 		}
 	}
-	
+
 
 }
