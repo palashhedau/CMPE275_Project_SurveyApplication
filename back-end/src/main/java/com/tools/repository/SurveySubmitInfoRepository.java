@@ -14,5 +14,6 @@ public interface SurveySubmitInfoRepository extends JpaRepository<Survey_Submit_
 
 	//List<Survey_Submit_Info> findByEmail(String email);
 	List<Survey_Submit_Info> findByUserEmailAndStatusAndSurveyId(String email, String status, int id);
+	List<Survey_Submit_Info> findBySurvey(int id);
 	
 }

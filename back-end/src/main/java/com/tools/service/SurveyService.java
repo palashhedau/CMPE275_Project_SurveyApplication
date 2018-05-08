@@ -246,13 +246,19 @@ public class SurveyService {
 						Survey_Submit_Response_Answers answer = new Survey_Submit_Response_Answers();
 						answer.setAnswer(ans);
 						answer.setQuestions(que);
-						
 						surveySubmitResponseAnswerRepository.save(answer);
-					
 					}
 				}
-				
 				surveySubmitInfoRepository.save(info);
+				
+				if(email!=null || !email.equals(""))
+				{
+					try {
+						emailSenderService.surveySubmitEmail(email,survey.getName());
+					} catch (MessagingException e) {
+						e.printStackTrace();
+					}
+				}
 				
 				if(!survey.getCategory().equalsIgnoreCase("General"))
 				{
@@ -269,7 +275,6 @@ public class SurveyService {
 				return new Response(200, "Survey submitted successfully");
 				}else return new Response(404, "Survey Not active");
 		}else return new Response(404, "Survey Not Found");
-		
 	}
 
 
@@ -298,7 +303,6 @@ public class SurveyService {
 				 if(alreadyUsedSurvey.size() == 1) {
 					 return alreadyUsedSurvey.get(0);
 				 }
-				 
 			}
 			
 			Survey survey = surveyList.get(0);
@@ -337,23 +341,29 @@ public class SurveyService {
 
 
 	public Object unPublishSurveyById(String id, String attribute) {
+		//chk for owner 
 		System.out.println("YAHA AAYA 1 ");
 		List<Survey> surveyList = surveyRepository.findById(Integer.parseInt(id)) ;
 		if(surveyList.size() == 1 ) {
 			Survey survey = surveyList.get(0);
 			System.out.println("YAHA AAYA 2");
 			// 7.b.1
-			if((survey.getStatus().equalsIgnoreCase("Published"))) {
-				System.out.println("YAHA AAYA 3");
-				if( survey.getSubmittedSurvery().size() == 0) {
-					survey.setStatus("Unpublished");
-					surveyRepository.save(survey);
-					System.out.println("YAHA AAYA 4");
-					return new Response(200,"Successfully Unpublished the survey");
-				};
-				return new  Response(400,"Cannot Unpublish the survey as it has some survey taken");
+			if(survey.getCreator().equalsIgnoreCase(attribute))
+			{
+				if((survey.getStatus().equalsIgnoreCase("Published"))) {
+					System.out.println("YAHA AAYA 3");
+					if( survey.getSubmittedSurvery().size() == 0) {
+						survey.setStatus("Unpublished");
+						surveyRepository.save(survey);
+						System.out.println("YAHA AAYA 4");
+						return new Response(200,"Successfully Unpublished the survey");
+					};
+					return new  Response(400,"Cannot Unpublish the survey as it has some survey taken");
+				}
+				return new Response(400,"Survey status is already closed/Unpublished");
 			}
-			return new Response(400,"Survey status is already closed/Unpublished");
+			else
+				return new Response(400,"Yoy don't have rights to unpublish this survey as you are not the owner of this survey.");			
 		}else {
 			return new Response(404,"No such Survey exist");
 		}
@@ -393,6 +403,13 @@ public class SurveyService {
 		Invites invites=new Invites();
 		List<Survey> survey = surveyRepository.findById(Integer.parseInt(id));
 		
+		List<Auth> _users=authRepository.findByEmail(email);
+		boolean isUserRegisterd=false;
+		if(_users.size()>0)
+		{
+			isUserRegisterd=true;
+		}
+		
 		//List<Survey> surveyList = surveyRepository.findByIdAndAuthEmailAndStatus(Integer.parseInt(id), email, "Unpublished");
 		if(survey.size() == 0) {
 			System.out.println("LOLLLLLL");
@@ -401,10 +418,6 @@ public class SurveyService {
 			surveyCategory= survey.get(0).getCategory();
 			code=helper.codeGenerator();
 			
-			
-			invites.setEmail(email);
-			invites.setStatus(false);
-			invites.setSurvey(survey.get(0));
 			if(surveyCategory.equalsIgnoreCase("General"))
 			{
 				invites.setCode(Integer.parseInt(id));
@@ -412,14 +425,27 @@ public class SurveyService {
 			}
 			else if(surveyCategory.equalsIgnoreCase("Closed"))
 			{
-				invites.setCode(code);
-				url=host + id + "/" + code;
+				//shld be valid and available in Auth
+				if(isUserRegisterd)
+				{
+					invites.setCode(code);
+					url=host + id + "/" + code;
+				}
+				else
+				{
+					return new Response(400,"User not registered");
+				}
 			}
 			else if(surveyCategory.equalsIgnoreCase("Open")) 
 			{
 				invites.setCode(code);
 				url=host + id +"/"+code;
 			}
+			
+			invites.setEmail(email);
+			invites.setStatus(false);
+			invites.setSurvey(survey.get(0));
+			
 			invitesRepository.save(invites);
 				try {
 					emailSenderService.inviteEmail(email, url);
@@ -427,7 +453,7 @@ public class SurveyService {
 					e.printStackTrace();
 				}
 			}
-		return invites;
+		return new Response(200,"Successfully invited");
 	}
 
 	public Object getAttemptedSurveys(String email) {

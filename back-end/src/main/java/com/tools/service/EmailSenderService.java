@@ -70,13 +70,44 @@ public class EmailSenderService {
 		return message;
 	}
 	
+	public String composeSurveySubmitSuccessfulEmail(String surveyName) {
+		String message = "";
+		message += "<body style=\"background-color: #ccffcc\"><center> <h1 style=\"font-family: Arial; color:#3399ff;\"> SurveyApe </h1> \n" + 
+				"<br>\n" + 
+				"<br>\n" + 
+				"<br>\n" + 
+				"<h2 style=\"font-family: Arial; color:#ff9966;\"> You have successfully submitted survey "+
+				surveyName+" </h2>";
+		
+		message += "</center>\n" + 
+				"</body>\n" + 
+				"";
+		return message;
+	}
+	
+	public String composeInviteSurveyEmail(String url) {
+		String message = "";
+		message += "<body style=\"background-color: #ccffcc\"><center> <h1 style=\"font-family: Arial; color:#3399ff;\"> SurveyApe </h1> \n" + 
+				"<br>\n" + 
+				"<br>\n" + 
+				"<br>\n" + 
+				"<h2 style=\"font-family: Arial; color:#ff9966;\"> You are invited to take the survey. You can take the survey with following link: "+
+				url+" </h2>";
+		
+		message += "</center>\n" + 
+				"</body>\n" + 
+				"";
+		return message;
+	}
+	
 	@Async
 	public void inviteEmail(String email, String url) throws MessagingException {
 		MimeMessage message = javaMailSender.createMimeMessage();
+		message.setContent(composeInviteSurveyEmail(url), "text/html; charset=utf-8");
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		helper.setTo(email);
 		helper.setText("invite URL: "+url);
-		helper.setSubject("Invitation to take survey innSurveyApe");
+		helper.setSubject("Invitation to take survey in SurveyApe");
 		javaMailSender.send(message);
 
 	}
@@ -91,6 +122,15 @@ public class EmailSenderService {
 		javaMailSender.send(message);
 	}
 	
-	
+	@Async
+	public void surveySubmitEmail(String email, String surveyName) throws MessagingException {
+		MimeMessage message = javaMailSender.createMimeMessage();
+		message.setContent(composeSurveySubmitSuccessfulEmail(surveyName), "text/html; charset=utf-8");
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		helper.setTo(email);
+		helper.setSubject("Survey successfully submitted");
+		javaMailSender.send(message);
+
+	}
 
 }
