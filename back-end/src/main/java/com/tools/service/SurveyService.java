@@ -229,6 +229,7 @@ public class SurveyService {
 					info = infoList.get(0);
 					System.out.println("Deletig old questions");
 					// delete old response
+					
 					surveySubmitResponseAnswerRepository.deleteByQuestionsSurveySubmittedSurveryId(info.getId());
 				}else {
 					info.setSurvey(survey);
@@ -292,7 +293,7 @@ public class SurveyService {
 			return new Response(404, "No such Survey Exist");
 		}
 		else {
-			
+			System.out.println("--------- 1 ");
 			//get their unfinished survey if any
 			if(!email.equalsIgnoreCase("")) {
 				 List<Survey> alreadyUsedSurvey = surveyRepository.
@@ -303,7 +304,7 @@ public class SurveyService {
 				 }
 				 
 			}
-			
+			System.out.println("--------- 2 ");
 			Survey survey = surveyList.get(0);
 			survey.setSubmittedSurvery(null);
 			if(survey.getCategory().equalsIgnoreCase("General")) {

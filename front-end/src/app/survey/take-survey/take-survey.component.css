@@ -69,3 +69,9 @@ input.ng-invalid.ng-touched , select.ng-invalid.ng-touched  {
   min-height: 20px;
   overflow: hidden;
 }
+
+.error-section{
+  margin-top: 20px;
+  color : red;
+
+}

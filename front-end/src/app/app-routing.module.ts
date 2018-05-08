@@ -19,6 +19,8 @@ import {AuthGuardService} from './auth-guard.service';
 import {AuthUnGuardService} from './auth-unguard.service';
 import {ViewSurveyComponent} from './survey/view-survey/view-survey.component';
 import {EditSurveyComponent} from './survey/edit-survey/edit-survey.component';
+import {SurveyInviteComponent} from './survey/survey-invite/survey-invite.component';
+import {SurveyStatsComponent} from './survey/survey-stats/survey-stats.component';
 
 
 const appRoutes: Routes = [
@@ -39,6 +41,8 @@ const appRoutes: Routes = [
   {path : 'survey/create/failure' , canActivate: [AuthGuardService], component: CreateSurveyFailureComponent },
   {path : 'survey/submit/success' , component: SubmitSurveySuccessComponent},
   {path : 'survey/submit/failure' , component: SubmitSurveyFailureComponent },
+  {path : 'survey/invite/:id' , component: SurveyInviteComponent },
+  {path : 'survey/stats/:id' , component: SurveyStatsComponent},
   {path : 'not-found' , component : NotFoundComponent},
   {path : '**' , redirectTo : '/not-found' , pathMatch: 'full' }
 ]

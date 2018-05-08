@@ -1,5 +1,7 @@
 package com.tools.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,20 +88,22 @@ public class SurveyController {
 		}
 	}
 	
-	@RequestMapping(path="/get-survey/{id}/{code}/{email}",method=RequestMethod.GET)
-	public ResponseEntity<?> getSurveyById(@PathVariable String id, @PathVariable int code,
-			@PathVariable String email, HttpSession session){
+	@RequestMapping(value= { "/get-survey/{id}/{code}", "/get-survey/{id}/{code}/{email}"},
+			method=RequestMethod.GET)
+	public ResponseEntity<?> getSurveyById(@PathVariable String id, 
+			@PathVariable int code,
+			@PathVariable Optional<String> email, HttpSession session){
 		
 		String emailCaptured = "";
 		
 		if(session.getAttribute("email")!= null) {
 			//session  wala hai
 			emailCaptured = (String)session.getAttribute("email");
-		}else if(!email.equalsIgnoreCase("")) {
+		}else if(email.isPresent()) {
 			// without signed in user hai 
-			emailCaptured = email;
+			emailCaptured = email.get();
 		}
-		
+		System.out.println("cddddd " + emailCaptured);
 		return new ResponseEntity(surveyService.getSurveyById(id, code, emailCaptured), HttpStatus.OK);
 	}
 	

@@ -12,13 +12,13 @@ a{
 }
 
 span{
-  color: lightgray;
+  color: gray;
   font-size: 12px;
 }
 
 
 .single-survey{
-  padding: 20px;
+  padding: 35px;
   background-color: white;
 
 }

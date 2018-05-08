@@ -192,13 +192,18 @@ export class SurveyService {
     this.surveyCode = code;
   }
 
+  setSurveySubmittedList(params: any){
+    this.questionToSubmitList = params;
+    console.log("Setted Successfully " + this.questionToSubmitList.length)
+  }
+
   setChoice(id: number, choice: string, questionType: string){
       console.log(id + " " + choice + " " + questionType);
       let found: boolean = false;
       if (this.questionToSubmitList.length > 0) {
+        console.log("Trying to add")
         for(const question of this.questionToSubmitList){
             if(question.getId() === id){
-              /*matlab mil gaya , iska set choice kar*/
               question.setChoice(choice, questionType);
               found = true;
               break;
@@ -231,14 +236,15 @@ export class SurveyService {
         status: status
     };
 
+    console.log("YE LE --- " + this.questionToSubmitList)
     return this.http.post('http://localhost:8081/submit-survey/' + id + '/' + this.surveyCode
       , requestBody, {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
-  getSurveyById(id: string,code: string) {
+  getSurveyById(id: string,code: string, email: string) {
     /* check survey type and session on server side*/
-    return this.http.get('http://localhost:8081/get-survey/' + id + '/' + code + "/" + "palash@gmail.com");
+    return this.http.get('http://localhost:8081/get-survey/' + id + '/' + code + '/' + email);
   }
 
   /* Close the survey */
@@ -285,5 +291,13 @@ export class SurveyService {
         withCredentials: true});
   }
 
+  /* Invite */
+
+  inviteSurvey(email: string, id: string, type: string){
+    return this.http.post('http://localhost:8081/invite/' + id,
+      {email : email, type: type},
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
+  }
 
 }
