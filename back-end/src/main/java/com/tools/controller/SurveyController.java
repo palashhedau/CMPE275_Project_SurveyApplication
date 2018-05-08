@@ -168,6 +168,15 @@ public class SurveyController {
 			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
 		}
 	}
+	
+	@RequestMapping(path="/survey-stats/{id}", method=RequestMethod.GET)
+	public ResponseEntity<?> getSurveyDetails(@PathVariable int id, HttpSession session ) {
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.getSurveryStats(id), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
+		}	
+	}
 
 	
 	

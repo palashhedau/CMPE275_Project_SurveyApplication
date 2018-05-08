@@ -19,6 +19,6 @@ public interface SurveyRepository extends JpaRepository<Survey,Integer> {
 	List<Survey> findByIdAndEmailAndStatus(int id, String email, String status);
 	List<Survey> findByIdAndSubmittedSurveryUserEmailAndSubmittedSurveryStatus(int id, String email, String status);
 	
-    @Query(value="SELECT * FROM survey s where s.end_time < :today && status!= 'closed'", nativeQuery=true) 
+    @Query(value="SELECT * FROM survey s where s.end_time < :today && status!= 'Closed'", nativeQuery=true) 
 	List<Survey> findExpriredSurveys(@Param("today") Date today);
 } 

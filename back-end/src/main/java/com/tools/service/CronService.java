@@ -27,7 +27,7 @@ public class CronService {
     		formatter.format(date);
     		List<Survey> closed = surveyRepository.findExpriredSurveys(date);
     		for(int i=0; i < closed.size(); i++) {
-    			closed.get(i).setStatus("closed");
+    			closed.get(i).setStatus("Closed");
     			surveyRepository.save(closed.get(i));
     		}
     }

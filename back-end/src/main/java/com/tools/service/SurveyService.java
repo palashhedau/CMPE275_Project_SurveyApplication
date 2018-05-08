@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.tools.helper.Helper;
 import com.tools.model.Auth;
@@ -39,6 +40,7 @@ import com.tools.requestParams.SurveyCreateParams;
 import com.tools.requestParams.SurveySubmitParams;
 import com.tools.responseParam.Response;
 import com.tools.responseParam.ResponseWithId;
+import com.tools.responseParam.SurveyStats;
 
 @Transactional(isolation=Isolation.READ_COMMITTED,propagation=Propagation.REQUIRED,rollbackFor=Exception.class,timeout=10)
 @Service
@@ -445,6 +447,21 @@ public class SurveyService {
 		return null ;
 		
 		
+	}
+	
+	public Object getSurveryStats(int id) {
+		List<Survey> surveyList = surveyRepository.findById(id);
+		if(surveyList!= null && surveyList.size() > 0) {
+			Survey survey = surveyList.get(0);
+			SurveyStats stats = new SurveyStats();
+			stats.setStartTime(survey.getStartTime());
+			stats.setEndTime(survey.getEndTime());
+			stats.setParticipants(survey.getSubmittedSurvery().size());
+			stats.setParticipationRate(survey.getSubmittedSurvery().size()/survey.getInvites().size());
+			return stats;	
+		} else {
+			return new Response(404, "No such survey exists to edit");	
+		}
 	}
 
 }
