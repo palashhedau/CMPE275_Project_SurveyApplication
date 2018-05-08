@@ -87,9 +87,14 @@ export class TakeSurveyComponent implements OnInit {
   submitSurvey(status: string){
     this.errorMessage = ''
 
+    console.log(this.surveyService.questionToSubmitList.length + " " + this.questionList.length)
     // checking if all the questions answered
-    if(this.surveyService.questionToSubmitList.length === this.questionList.length ){
-      this.surveyService.submitSurvey(this.id, status).subscribe(
+    if(status === 'Submitted' && this.surveyService.questionToSubmitList.length !== this.questionList.length){
+      this.errorMessage = 'Please answer all the questions';
+      return;
+    }
+
+    this.surveyService.submitSurvey(this.id, status).subscribe(
         (response: ResponseParam) => {
           if(response.code === 404){
             this.router.navigate(['/not-found']);
@@ -101,13 +106,6 @@ export class TakeSurveyComponent implements OnInit {
           this.router.navigate(['/survey/submit/failure']);
         }
       );
-    } else {
-      this.errorMessage = 'Please answer all the questions';
     }
-
-
-  }
-
-
 
 }

@@ -1,0 +1,31 @@
+<div *ngIf="surveyList.length > 0" class="col-xs-8 col-xs-offset-2">
+  <div class="my-survey">
+    <div *ngFor="let survey of surveyList" class="single-survey">
+      <div class="row">
+
+        <div class="col-xs-4">
+          <a routerLink="/survey/attempted-survey/view/{{survey.id}}"><b>{{survey.name}}</b></a>
+        </div>
+
+        <div class="col-xs-5">
+            <span class="pull-right">{{survey.category}}
+              <span *ngIf="(survey.endTime) !== null">| {{survey.endTime | date : 'yyyy-MM-dd'}}
+              </span>
+            </span>
+        </div>
+
+        <div *ngFor="let submitted of survey.submittedSurvery" class="col-xs-3">
+            <div *ngIf=" !(survey.category === 'General') && submitted.userEmail == email && submitted.status === 'Saved'">
+                <a routerLink="/survey/take-survey/{{survey.id}}/{{survey.invites[0]['code']}}">Complete Survey {{submitted.status}}</a>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="surveyList.length == 0">
+  <h2>You haven't created any survey yet</h2>
+  <h4><a routerLink="/survey/create-survey">Create one</a></h4>
+</div>

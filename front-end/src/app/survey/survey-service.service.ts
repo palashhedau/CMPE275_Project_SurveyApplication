@@ -116,7 +116,6 @@ export class SurveyService {
       if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
         if(type === 'Star Rating' ){
           if(this.questionObject.getChoices().length === 0){
-            console.log("--- " _ this.questionObject)
             allowSave = false;
           }
         }
@@ -194,7 +193,6 @@ export class SurveyService {
 
   setSurveySubmittedList(params: any){
     this.questionToSubmitList = params;
-    console.log("Setted Successfully " + this.questionToSubmitList.length)
   }
 
   setChoice(id: number, choice: string, questionType: string){
@@ -256,22 +254,21 @@ export class SurveyService {
   }
 
   /* View Survey by ID */
-  viewSurvey(id: String) {
+  viewSurvey(id: string) {
     return this.http.get('http://localhost:8081/view-survey/' + id,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
-  unpublish(id: String) {
+  unpublish(id: string) {
     console.log(id)
     return this.http.get('http://localhost:8081/unpublish-survey/' + id,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
-  publish(id: String) {
-    console.log(id)
-    return this.http.get('http://localhost:8081/publish-survey/' + id,
+  publishSurvey(id: string) {
+    return this.http.post('http://localhost:8081/publish-survey/' + id,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
@@ -296,6 +293,20 @@ export class SurveyService {
   inviteSurvey(email: string, id: string, type: string){
     return this.http.post('http://localhost:8081/invite/' + id,
       {email : email, type: type},
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
+  }
+
+  /* Get Attempted Survey */
+
+  getAttemptedSurvey(id: string){
+    return this.http.get('http://localhost:8081/get-attempted-survey',
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
+  }
+
+  viewMyResponse(id: string){
+    return this.http.get('http://localhost:8081/view-my-response/' + id,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }

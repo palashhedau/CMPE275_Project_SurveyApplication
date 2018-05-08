@@ -1,0 +1,69 @@
+.form-color {
+  background-color: #F0F8FF;
+  padding: 40px
+}
+
+.btn-danger, .btn-default, .btn-info, .btn-primary{
+  width: 90px;
+}
+
+h2{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.question-div{
+  padding: 20px;
+  background-color: white;
+}
+
+.index-question{
+  font-size: 16px;
+}
+
+.no-padding{
+  padding: 0px;
+}
+
+.header-div{
+  background-color: #eff0f1;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+
+small{
+  margin-left: 25px;
+}
+
+.question-choice{
+  margin-right: 20px;
+}
+
+
+
+.question-question{
+  margin-bottom: 20px;
+}
+
+i{
+  color:darkseagreen;
+}
+
+
+.btn-header{
+  padding: 30px;
+  overflow: hidden;
+  background-color: ghostwhite;
+}
+
+.error-section{
+  color: red;
+  overflow: hidden;
+}
+
+
+img{
+  max-height: 50px;
+}

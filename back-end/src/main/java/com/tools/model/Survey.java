@@ -40,6 +40,10 @@ public class Survey {
 	
 	String email ;
 	
+	Date startTime ;
+	
+	
+	
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "survey")
@@ -78,6 +82,14 @@ public class Survey {
 	}
 	
 	
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
 	public String getEmail() {
 		return email;
 	}

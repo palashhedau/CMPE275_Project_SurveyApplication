@@ -21,6 +21,8 @@ import {ViewSurveyComponent} from './survey/view-survey/view-survey.component';
 import {EditSurveyComponent} from './survey/edit-survey/edit-survey.component';
 import {SurveyInviteComponent} from './survey/survey-invite/survey-invite.component';
 import {SurveyStatsComponent} from './survey/survey-stats/survey-stats.component';
+import {SurveyAttemptedComponent} from './survey/survey-attempted/survey-attempted.component';
+import {ViewAttemptedSurveysComponent} from './survey/view-attempted-surveys/view-attempted-surveys.component';
 
 
 const appRoutes: Routes = [
@@ -32,6 +34,8 @@ const appRoutes: Routes = [
   {path : 'signin' , canActivate: [AuthUnGuardService], component : SigninComponent},
   {path : 'survey' , canActivate: [AuthGuardService], component : SurveyComponent ,  children : [
       {path : '' , canActivate: [AuthGuardService], component: MySurveysComponent},
+      {path : 'attempted-survey' , canActivate: [AuthGuardService], component: SurveyAttemptedComponent},
+      {path : 'attempted-survey/view/:id' , canActivate: [AuthGuardService], component: ViewAttemptedSurveysComponent},
       {path : 'view-survey/:id' , component: ViewSurveyComponent},
       {path : 'create-survey' , canActivate: [AuthGuardService], component: CreateSurveyComponent},
       {path : 'edit-survey/:id' , canActivate: [AuthGuardService], component: EditSurveyComponent },
@@ -41,8 +45,8 @@ const appRoutes: Routes = [
   {path : 'survey/create/failure' , canActivate: [AuthGuardService], component: CreateSurveyFailureComponent },
   {path : 'survey/submit/success' , component: SubmitSurveySuccessComponent},
   {path : 'survey/submit/failure' , component: SubmitSurveyFailureComponent },
-  {path : 'survey/invite/:id' , component: SurveyInviteComponent },
-  {path : 'survey/stats/:id' , component: SurveyStatsComponent},
+  {path : 'survey/invite/:id' , canActivate: [AuthGuardService], component: SurveyInviteComponent },
+  {path : 'survey/stats/:id' , canActivate: [AuthGuardService], component: SurveyStatsComponent},
   {path : 'not-found' , component : NotFoundComponent},
   {path : '**' , redirectTo : '/not-found' , pathMatch: 'full' }
 ]
