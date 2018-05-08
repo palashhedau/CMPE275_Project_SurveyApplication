@@ -30,14 +30,13 @@ export class SurveyInviteComponent implements OnInit {
     );
   }
 
-  invite(){
+  inviteToTakeSurvey(){
 
     this.message = '';
-
     if(this.email.valid == true && this.invitationType !== ''){
       // call API
       this.surveyService.inviteSurvey(this.email.value, this.id, this.invitationType).subscribe(
-        (response: ResponseParam){
+        (response: ResponseParam) => {
         this.message = response.message;
         if(response.code ===  200){
           setTimeout(() => {

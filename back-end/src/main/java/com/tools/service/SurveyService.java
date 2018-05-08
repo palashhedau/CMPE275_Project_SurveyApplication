@@ -227,7 +227,6 @@ public class SurveyService {
 
 				//check if this survey is taken my the email id or not?
 				List<Survey_Submit_Info> infoList = surveySubmitInfoRepository.findByUserEmailAndStatusAndSurveyId(email, "Saved" , Integer.parseInt(id));
-				
 				Survey_Submit_Info info = new Survey_Submit_Info();
 				
 				if(infoList.size() > 0) {
@@ -240,7 +239,6 @@ public class SurveyService {
 				}
 			
 				info.setStatus(params.getStatus());
-				
 				List<SubmitSurveyQueList> questionsList  = params.getQuestionList() ;
 				
 				for(SubmitSurveyQueList list : questionsList) {
@@ -258,8 +256,7 @@ public class SurveyService {
 				}
 				surveySubmitInfoRepository.save(info);
 				
-				if(email!=null || !email.equals(""))
-				{
+				if(email!=null || !email.equals("")){
 					try {
 						emailSenderService.surveySubmitEmail(email,survey.getName());
 					} catch (MessagingException e) {
@@ -292,10 +289,6 @@ public class SurveyService {
 
 
 	public Object getSurveyById(String id, int code, String email) {
-		System.out.println("Mai bulaya isko");
-		
-		
-		
 		//check if user eligible for taking survey
 		List<Survey> surveyList = surveyRepository.findByIdAndStatus(Integer.parseInt(id), "Published");
 		
@@ -413,51 +406,30 @@ public class SurveyService {
 		
 		List<Survey> survey = surveyRepository.findById(Integer.parseInt(id));
 		
-List<Auth> _users=authRepository.findByEmail(email);
-		boolean isUserRegisterd=false;
-		if(_users.size()>0)
-		{
-			isUserRegisterd=true;
-		}
-		
-
 		if(survey.size() == 0) {
 			return new Response(404, "No such Survey Exist");
 		}else {
-			
 			if(!survey.get(0).getCreator().equalsIgnoreCase(owner)) {
 				return new Response(400, "You are nit eligible to invite to this survey");
-			}
-			
-			List<Auth> _users=authRepository.findByEmail(email);
-			boolean isUserRegisterd=false;
-			if(_users.size()>0)
-			{
-				isUserRegisterd=true;
 			}
 			
 			surveyCategory= survey.get(0).getCategory();
 			code=helper.codeGenerator();
 			
-			if(surveyCategory.equalsIgnoreCase("General"))
-			{
+			if(surveyCategory.equalsIgnoreCase("General")){
 				invites.setCode(Integer.parseInt(id));
 				url=host +id + "/" + id;
 			}
-			else if(surveyCategory.equalsIgnoreCase("Closed"))
-			{
-
-				if(isUserRegisterd)
+			else if(surveyCategory.equalsIgnoreCase("Closed")){
+				List<Auth> _users = authRepository.findByEmail(email);
+				if(_users.size()>0)
 				{
 					invites.setCode(code);
 					url=host + id + "/" + code;
 				}
-
 				else return new Response(400,"User not registered");
-
 			}
-			else if(surveyCategory.equalsIgnoreCase("Open")) 
-			{
+			else if(surveyCategory.equalsIgnoreCase("Open")) {
 				invites.setCode(code);
 				url=host + id +"/"+code;
 			}
@@ -472,7 +444,7 @@ List<Auth> _users=authRepository.findByEmail(email);
 				} catch (MessagingException e) {
 					e.printStackTrace();
 				}
-			}
+		}
 		return new Response(200,"Successfully invited");
 	}
 
@@ -505,7 +477,28 @@ List<Auth> _users=authRepository.findByEmail(email);
 			stats.setStartTime(survey.getStartTime());
 			stats.setEndTime(survey.getEndTime());
 			stats.setParticipants(survey.getSubmittedSurvery().size());
-			stats.setParticipationRate(survey.getSubmittedSurvery().size()/survey.getInvites().size());
+			stats.setSubmissions(survey.getSubmittedSurvery().size());
+			stats.setInvited(survey.getInvites().size());
+			
+			int registeredUser = 0;
+			int guestUser = 0;
+			//calculate RegisteredSurveyees
+			System.out.println("Size of the survey email " + survey.getSubmittedSurvery().size());
+			for(Survey_Submit_Info response : survey.getSubmittedSurvery()) {
+				if( authRepository.findByEmail(response.getUserEmail()).size() > 0) 
+					registeredUser++;
+				else guestUser++ ;
+			}
+			
+			if((registeredUser + guestUser) < 3) {
+				registeredUser = 0;
+				guestUser = 0;
+				stats.setSubmissions(survey.getSubmittedSurvery().size());
+			}
+			
+			stats.setGuestSurveyees(guestUser);
+			stats.setRegisteredSurvyees(registeredUser);
+			
 			return stats;	
 		} else {
 			return new Response(404, "No such survey exists to edit");	
