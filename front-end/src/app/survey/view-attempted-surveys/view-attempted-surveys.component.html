@@ -1,0 +1,55 @@
+<div class="col-xs-8  col-xs-offset-2 form-color">
+  <form  #form="ngForm">
+
+    <div *ngIf="questionList.length > 0 ">
+
+      <!-- Question List-->
+
+      <div class="error-section">
+        <span>{{errorMessage}}</span>
+      </div>
+
+      <div *ngFor="let question of questionList; index as i" class="question-div row">
+        <div>
+          <div class="question-question col-xs-12 no-padding">
+            <div class="index-question col-xs-1 no-padding">
+              <b>{{i+1}}.</b>
+            </div>
+            <div class="question-data col-xs-11">
+              <span>{{question.question}}</span>
+            </div>
+          </div>
+
+          <div class="answer-choice">
+            <div *ngFor="let choice of question.surveySubmitResponseAnswers" class="question-choice col-xs-offset-1">
+              <div>
+                <div class="col-xs-3">
+
+                  <div class="col-xs-11 no-padding"
+                       *ngIf="question.questionType === 'Multiple Choice - Image' || question.questionType === 'Checkboxes - Image' || question.questionType === 'Dropdown - Image' ">
+                    <img src="{{choice.answer}}">
+                  </div>
+                  <div class="col-xs-11 no-padding"
+                       *ngIf="!(question.questionType === 'Multiple Choice - Image' || question.questionType === 'Checkboxes - Image' || question.questionType === 'Dropdown - Image')">
+                    <span>{{choice.answer}}</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+      <!-- Question List end-->
+    </div>
+
+
+
+
+  </form>
+</div>

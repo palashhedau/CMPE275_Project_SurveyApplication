@@ -37,19 +37,29 @@ public class SurveyController {
 	
 	@RequestMapping(path="/create-survey",method=RequestMethod.POST)
 	public ResponseEntity<?> createSurvey(@RequestBody SurveyCreateParams params, HttpSession session){
-		//return new ResponseEntity( surveyService.createSurvey(params,(String)session.getAttribute("email")) , HttpStatus.OK);
-		return new ResponseEntity( surveyService.createSurvey(params,(String)session.getAttribute("email")) , HttpStatus.OK);
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity( surveyService.createSurvey(params,(String)session.getAttribute("email")) , HttpStatus.OK);
+		}
+		return new ResponseEntity( new Response(400,"Not Authorized to create the survey.") , HttpStatus.UNAUTHORIZED);
+		
 	}
 	
+	
+	
+	
+	/* Not Sure if this method is required */
 	@RequestMapping(path="/survey/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> editSurvey(@RequestBody String datetime, @PathVariable String id ){
 		surveyService.editSurvey(datetime, id);
 		return null; 
 	}
+	/* Not Sure if this method is required */
+	
+	
+	
 	
 	@RequestMapping(path="/survey",method=RequestMethod.GET)
 	public ResponseEntity<?> getSurvey(HttpSession session){
-		System.out.println("Session " + session.getAttribute("email"));
 		if(session.getAttribute("email")!= null) {
 			return new ResponseEntity( surveyService.getSurvey((String)session.getAttribute("email")), HttpStatus.OK);
 		}else {
@@ -76,16 +86,15 @@ public class SurveyController {
 			@PathVariable String code,
 			@RequestParam(value="email", required=false) String email,
 			HttpSession session  ){
-		System.out.println("Lolaaaaaaaaaaaaaaaaaaaa");
+		
 		if(session.getAttribute("email") != null){
 			return new ResponseEntity( surveyService.submitSurvey(id,code,(String)session.getAttribute("email"), params), HttpStatus.OK);
 		}
 		else if(email!=null){
 			return new ResponseEntity( surveyService.submitSurvey(id,code,email, params), HttpStatus.OK);
 		}
-		else{
-			return new ResponseEntity( surveyService.submitSurvey(id,code,"", params), HttpStatus.OK);
-		}
+		return new ResponseEntity( surveyService.submitSurvey(id,code,"", params), HttpStatus.OK);
+		
 	}
 	
 	@RequestMapping(value= { "/get-survey/{id}/{code}", "/get-survey/{id}/{code}/{email}"},
@@ -118,7 +127,7 @@ public class SurveyController {
 		}
 	}
 	
-	@RequestMapping(path="/unpublish-survey/{id}",method=RequestMethod.GET)
+	@RequestMapping(path="/unpublish-survey/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> unPublishSurvey(@PathVariable String id, HttpSession session ){
 		if(session.getAttribute("email") != null) {
 			return new ResponseEntity(surveyService.unPublishSurveyById(id,(String)session.getAttribute("email")), HttpStatus.OK);
@@ -146,14 +155,26 @@ public class SurveyController {
 		}
 	}
 	
+
+
+	
 	@RequestMapping(path="/invite/{id}",method=RequestMethod.POST)
-	public ResponseEntity<?> inviteToSurvey(@PathVariable String id, @RequestBody String email,@RequestBody String type, HttpSession session ){
-		if(email != null) {
-			return new ResponseEntity(surveyService.inviteToSurvey(id,email), HttpStatus.OK);
-		}else {
-			return new ResponseEntity(surveyService.inviteToSurvey(id,email), HttpStatus.OK);
-		}
+	public ResponseEntity<?> inviteToSurvey(@PathVariable String id, 
+			@RequestBody String email,
+			@RequestBody String type,
+			HttpSession session ){
+		
+		if(session.getAttribute("email") != null) {
+			if(email != null && !email.equalsIgnoreCase("")) {
+				return new ResponseEntity(surveyService.inviteToSurvey(id,email,(String) session.getAttribute("email")), HttpStatus.OK);
+			}else {
+				return new ResponseEntity(new Response(400,"Please provide email"), HttpStatus.OK);
+			}
+		}else return new ResponseEntity(new Response(400,"You are not Authorized to invite"), HttpStatus.OK);
+		
+
 	}
+	
 
 	@RequestMapping(path="/edit-survey/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> editById(@PathVariable String id, HttpSession session, @RequestBody EditSurveyParams params ){
@@ -182,6 +203,23 @@ public class SurveyController {
 		}	
 	}
 
+	@RequestMapping(path="/view-my-response/{id}",method=RequestMethod.GET)
+	public ResponseEntity<?> viewMyResponse( HttpSession session, @PathVariable String id ){
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.viewMyResponse((String)session.getAttribute("email"), id), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to view the response"), HttpStatus.UNAUTHORIZED);
+		}
+	}
+
+	@RequestMapping(path="/survey-stats/{id}", method=RequestMethod.GET)
+	public ResponseEntity<?> getSurveyDetails(@PathVariable int id, HttpSession session ) {
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.getSurveryStats(id), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
+		}	
+	}
 	
 	
 }

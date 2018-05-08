@@ -60,6 +60,8 @@ import { QueEditStarRatingComponent } from './survey/edit-survey/que-edit-star-r
 import { QueEditYesOrNoComponent } from './survey/edit-survey/que-edit-yes-or-no/que-edit-yes-or-no.component';
 import { SurveyInviteComponent } from './survey/survey-invite/survey-invite.component';
 import { SurveyStatsComponent } from './survey/survey-stats/survey-stats.component';
+import { SurveyAttemptedComponent } from './survey/survey-attempted/survey-attempted.component';
+import { ViewAttemptedSurveysComponent } from './survey/view-attempted-surveys/view-attempted-surveys.component';
 
 
 
@@ -118,7 +120,9 @@ export function authServiceFactory(authService: AuthService): Function {
     QueEditStarRatingComponent,
     QueEditYesOrNoComponent,
     SurveyInviteComponent,
-    SurveyStatsComponent
+    SurveyStatsComponent,
+    SurveyAttemptedComponent,
+    ViewAttemptedSurveysComponent
   ],
   imports: [
     BrowserModule,

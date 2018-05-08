@@ -66,7 +66,7 @@ export class ViewSurveyComponent implements OnInit {
   publish(){
     this.errorMessage = ''
     const _this = this;
-    this.surveyService.publish(this.id).subscribe(
+    this.surveyService.publishSurvey(this.id).subscribe(
       (response: ResponseParam) => {
         if(response.code === 200){
           _this.getViewSurvey();
