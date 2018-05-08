@@ -311,4 +311,12 @@ export class SurveyService {
         withCredentials: true});
   }
 
+  /* Stats */
+  getStats(id: string){
+    return this.http.get('http://localhost:8081/survey-stats/' + id,
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
+  }
+
+
 }

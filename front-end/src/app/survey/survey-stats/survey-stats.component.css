@@ -1,0 +1,11 @@
+.my-survey{
+  background-color: #F0F8FF;
+  padding: 30px
+}
+
+.stats-component{
+  padding: 30px;
+  background-color: white;
+  margin-bottom: 20px;
+  overflow: hidden;
+}

@@ -1,3 +1,63 @@
-<p>
-  survey-stats works!
-</p>
+<div *ngIf="stats.invited !== undefined" class="col-xs-8 col-xs-offset-2">
+  <div class="my-survey">
+      <div class="stats-component">
+          <div class="col-xs-10">
+              <b>Start Date</b>
+          </div>
+          <div class="col-xs-2">
+            <b *ngIf="stats.startTime != null">{{stats.startTime  | date : 'yyyy-MM-dd'}}</b>
+            <b *ngIf="stats.startTime == null">Not Specified</b>
+          </div>
+      </div>
+
+    <div class="stats-component">
+      <div class="col-xs-10">
+        <b>End Time</b>
+      </div>
+      <div class="col-xs-2">
+        <b *ngIf="stats.endTime !== null">{{stats.endTime  | date : 'yyyy-MM-dd'}}</b>
+        <b *ngIf="stats.endTime === null">Not Specified</b>
+      </div>
+    </div>
+
+    <div class="stats-component">
+      <div class="col-xs-10">
+        <b># of Participants</b>
+      </div>
+      <div class="col-xs-2">
+        <b>{{stats.participants}}</b>
+      </div>
+    </div>
+
+    <div class="stats-component">
+      <div class="col-xs-10">
+        <b>Total Submission</b>
+      </div>
+      <div class="col-xs-2">
+        <b> {{stats.submissions}}</b>
+      </div>
+    </div>
+
+
+    <div class="stats-component">
+      <div class="col-xs-10">
+        <b># of Registered Surveyees</b>
+      </div>
+      <div class="col-xs-2">
+        <b> {{stats.registeredSurvyees}}</b>
+      </div>
+    </div>
+
+    <div class="stats-component">
+      <div class="col-xs-10">
+        <b># of Guest Surveyees</b>
+      </div>
+      <div class="col-xs-2">
+        <b>{{stats.guestSurveyees}}</b>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

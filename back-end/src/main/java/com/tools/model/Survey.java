@@ -30,7 +30,7 @@ public class Survey {
 	
 	Date endTime ;
 	
-	Date startTime ;
+	
 	
 	String type ;
 	
@@ -84,14 +84,7 @@ public class Survey {
 	}
 	
 	
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
+	
 	public String getEmail() {
 		return email;
 	}

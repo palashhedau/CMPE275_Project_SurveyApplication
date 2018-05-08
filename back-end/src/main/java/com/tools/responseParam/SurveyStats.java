@@ -6,8 +6,19 @@ public class SurveyStats {
 	int participants;
 	Date startTime;
 	Date endTime;
-	float participationRate;
-
+	int  submissions;
+	int invited;
+	int registeredSurvyees ;
+	int guestSurveyees;
+	
+	
+	
+	public int getGuestSurveyees() {
+		return guestSurveyees;
+	}
+	public void setGuestSurveyees(int guestSurveyees) {
+		this.guestSurveyees = guestSurveyees;
+	}
 	public int getParticipants() {
 		return participants;
 	}
@@ -26,10 +37,22 @@ public class SurveyStats {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-	public float getParticipationRate() {
-		return participationRate;
+	public int getSubmissions() {
+		return submissions;
 	}
-	public void setParticipationRate(float participationRate) {
-		this.participationRate = participationRate;
+	public void setSubmissions(int submissions) {
+		this.submissions = submissions;
+	}
+	public int getInvited() {
+		return invited;
+	}
+	public void setInvited(int invited) {
+		this.invited = invited;
+	}
+	public int getRegisteredSurvyees() {
+		return registeredSurvyees;
+	}
+	public void setRegisteredSurvyees(int registeredSurvyees) {
+		this.registeredSurvyees = registeredSurvyees;
 	}
 }
