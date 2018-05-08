@@ -25,18 +25,22 @@ public class Survey_Submit_Info {
 	
 	String userEmail ;
 	
+	String status;
 	
+	
+
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id", nullable = false)
 	Survey survey;
 
-	
+	/*
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
-            mappedBy = "survey_submit_info")
-	private Set<Survey_Submit_Response> submittedSurveyResponse = new HashSet<>();
+            mappedBy = "surveySubmitInfo")
+	private Set<Survey_Submit_Response> submittedSurveyResponse = new HashSet<>();*/
 
-	public Set<Survey_Submit_Response> getSubmittedSurveyResponse() {
+	/*public Set<Survey_Submit_Response> getSubmittedSurveyResponse() {
 		return submittedSurveyResponse;
 	}
 
@@ -44,7 +48,7 @@ public class Survey_Submit_Info {
 	public void setSubmittedSurveyResponse(Set<Survey_Submit_Response> submittedSurveyResponse) {
 		this.submittedSurveyResponse = submittedSurveyResponse;
 	}
-
+*/
 
 	public int getId() {
 		return id;
@@ -54,7 +58,15 @@ public class Survey_Submit_Info {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public String getStatus() {
+		return status;
+	}
 
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 
 	public String getUserEmail() {
 		return userEmail;

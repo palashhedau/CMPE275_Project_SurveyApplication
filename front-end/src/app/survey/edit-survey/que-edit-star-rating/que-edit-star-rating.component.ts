@@ -15,6 +15,7 @@ export class QueEditStarRatingComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log("CHecking length " + this.question.choice[0]['answers'])
   }
 
   deleteQuestion(){

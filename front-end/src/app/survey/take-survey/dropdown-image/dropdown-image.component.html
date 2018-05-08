@@ -17,18 +17,19 @@
         id="answerChoice"
         class="form-control col-xs-4"
         required
+        [(ngModel)]="selectedAnswer"
         (change)="selectAnswer()"
         #answerChoice="ngModel"
       >
         <option
           *ngFor="let choice of question.choice; index as i"
-          [value]="choice['answers']"
-          style="background-image:url('http://www.smiletvgroup.com/wp-content/uploads/2013/08/url.jpg');"
+          style="background-image: url('choice['answers']')"
         >
           {{choice['answers']}}
-        </option>
+       </option>
 
       </select>
+
     </div>
 
   </div>

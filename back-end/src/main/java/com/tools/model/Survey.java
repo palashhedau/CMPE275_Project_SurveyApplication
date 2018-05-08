@@ -38,24 +38,54 @@ public class Survey {
 	
 	String name ;
 	
+	String email ;
+	
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "survey")
 	private Set<Questions> questions = new HashSet<>();
+	
 	
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "survey")
 	private Set<Survey_Submit_Info> submittedSurvery = new HashSet<>();
 	
-	
+	/*
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-	Auth auth ; 
+	Auth auth ; */
+	
+	
+	@OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "survey")
+	private Set<Invites> invites = new HashSet<>();
+	
+	
+	
 	
 	Survey(){}
 	
+	public Survey(String creator , boolean publish , Date endTime, String type , String status, String category) {
+		super();
+		this.status = status;
+		this.creator = creator;
+		this.publish = publish;
+		this.endTime = endTime;
+		this.type = type; 
+		this.category = category;
+	}
 	
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -74,14 +104,14 @@ public class Survey {
 		this.category = category;
 	}
 	
-	@JsonIgnore
-	public Auth getAuth() {
+	
+	/*public Auth getAuth() {
 		return auth;
 	}
 
 	public void setAuth(Auth auth) {
 		this.auth = auth;
-	}
+	}*/
 
 	public boolean getPublish() {
 		return publish;
@@ -108,15 +138,7 @@ public class Survey {
 	}
 	
 
-	public Survey(String creator , boolean publish , Date endTime, String type , String status, String category) {
-		super();
-		this.status = status;
-		this.creator = creator;
-		this.publish = publish;
-		this.endTime = endTime;
-		this.type = type; 
-		this.category = category;
-	}
+	
 
 	
 	public Set<Invites> getInvites() {
@@ -171,10 +193,7 @@ public class Survey {
 		this.questions = questions;
 	} 
 	
-	@OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "survey")
-	private Set<Invites> invites = new HashSet<>();
+	
 	
 	
 }

@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Auth")
 public class Auth {
@@ -40,11 +42,12 @@ public class Auth {
 	public void setActivationCode(String activationCode) {
 		this.activationCode = activationCode;
 	}
-	@OneToMany(cascade = CascadeType.ALL,
+	
+	/*@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "auth")
 	private Set<Survey> survey = new HashSet<>();
-	
+	*/
 	
 	
 	public String getEmail() {
@@ -53,13 +56,14 @@ public class Auth {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	/*@JsonIgnore
 	public Set<Survey> getSurvey() {
 		return survey;
 	}
 	public void setSurvey(Set<Survey> survey) {
 		this.survey = survey;
 	}
-	
+	*/
 	public Auth() {
 		
 	}

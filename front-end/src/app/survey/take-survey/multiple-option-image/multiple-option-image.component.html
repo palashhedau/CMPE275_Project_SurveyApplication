@@ -14,13 +14,12 @@
         <input
           type="checkbox"
           name="options"
+          [checked]="checkIfChecked(choice['answers'])"
           (click)="getValue(choice)"
           value="{{choice['answers']}}">
-
-
-      </div>
+    </div>
       <div class="col-xs-6 no-padding">
-        <img src="choice['answers']" class="img-responsive img-circle">
+        <img src="{{choice['answers']}}" class="img-responsive img-circle">
       </div>
     </div>
   </div>

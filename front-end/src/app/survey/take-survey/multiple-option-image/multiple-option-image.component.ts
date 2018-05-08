@@ -12,16 +12,27 @@ export class MultipleOptionImageComponent implements OnInit {
   @Input() id: string;
   @ViewChild('options') option: NgModel;
 
+  public selectedOptions : [];
+
   public choices: string [] = [];
   constructor(private surveyService : SurveyService) { }
 
   ngOnInit() {
     this.choices = this.question.choice;
+    this.selectedOptions = this.question.surveySubmitResponseAnswers;
   }
 
   getValue(choice : any){
     this.surveyService.setChoice(this.question.id , choice['answers'], this.question.questionType);
   }
 
+  checkIfChecked(option: String) {
+    for (const answers of this.selectedOptions) {
+      if (answers['answer'] === option) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }

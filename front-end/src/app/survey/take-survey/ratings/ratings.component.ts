@@ -11,6 +11,7 @@ export class RatingsComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
   public ratings: number[];
+  public answer: string;
   @ViewChild('answerChoice') answerChoice : NgModel;
   constructor(private surveyService: SurveyService) { }
 
@@ -19,6 +20,10 @@ export class RatingsComponent implements OnInit {
         this.ratings = Array.from({length: 10}, (v, k) => k+1);
       } else {
         this.ratings = Array.from({length: 5}, (v, k) => k+1);
+      }
+
+      if(this.question.surveySubmitResponseAnswers.length > 0){
+        this.answer = this.question.surveySubmitResponseAnswers[0]['answer'];
       }
   }
 

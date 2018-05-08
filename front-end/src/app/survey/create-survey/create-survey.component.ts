@@ -48,7 +48,6 @@ export class CreateSurveyComponent implements OnInit {
   createSurvey(status: string) {
     this.errorMessage = '';
     const allowCreateSurvey: boolean = this.surveyService.allowCreateSurvey();
-    const _this = this;
     if(allowCreateSurvey === true ) {
       let name = this.formName.value;
       let category = this.category.value;
@@ -56,7 +55,7 @@ export class CreateSurveyComponent implements OnInit {
       this.surveyService.createSurvey(name, category, dateVar, status).subscribe(
         (response) => {
           console.log("LE YE 2", _this.surveyService.id)
-          _this.surveyService.resetVariables();
+          this.surveyService.resetVariables();
           if (response.code === 200) {
             this.router.navigate(['/survey/create/success'])
           } else {

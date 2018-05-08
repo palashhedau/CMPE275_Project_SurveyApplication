@@ -14,6 +14,8 @@ export class SurveyService {
   public questionList: QuestionsAndAnswers[] = [];
   public questionObject: QuestionsAndAnswers;
   public id: number;
+  public surveyId: string;
+  public surveyCode: string;
 
   public questionToSubmitList: QuestionsSubmitSurvey [] = [];
 
@@ -103,6 +105,7 @@ export class SurveyService {
     } else {
       this.questionList[parseInt(id, 10)].setChoice(choice);
     }
+    console.log(this.questionObject)
   }
 
   allowCreateSurvey() {
@@ -111,14 +114,21 @@ export class SurveyService {
 
       const type: string = this.questionObject.getQuestionType();
       if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
-        if (this.questionObject.getChoices().length > 1 ) {
+        if(type === 'Star Rating' ){
+          if(this.questionObject.getChoices().length === 0){
+            console.log("--- " _ this.questionObject)
+            allowSave = false;
+          }
+        }
+        else if (this.questionObject.getChoices().length > 1 ) {
           for (let choice of this.questionObject.getChoices()) {
+            console.log(type)
             if (choice.trim() === '') {
               allowSave = false;
               break;
             }
           }
-        } else {
+        }  else{
           allowSave = false;
         }
       }
@@ -174,6 +184,14 @@ export class SurveyService {
 
   /*Submit Survey*/
 
+  setSurveyId(id: string){
+    this.surveyId = id;
+  }
+
+  setSurveyCode(code: string){
+    this.surveyCode = code;
+  }
+
   setChoice(id: number, choice: string, questionType: string){
       console.log(id + " " + choice + " " + questionType);
       let found: boolean = false;
@@ -192,19 +210,35 @@ export class SurveyService {
         this.questionToSubmitList.push(new QuestionsSubmitSurvey(id));
         this.questionToSubmitList[this.questionToSubmitList.length - 1].setChoice(choice, questionType);
       }
+
+      /*save the survey as well*/
+      this.submitSurvey(this.surveyId, 'Saved').subscribe(
+        (response) => {
+          console.log("Hua re save");
+        } ,
+        (error) => {
+          console.log('Error occured');
+        }
+      );
+
+
   }
 
-  submitSurvey(id) {
+  submitSurvey(id: string, status: string) {
     /* check survey type and session on server side*/
     const requestBody = {
-      questionList: this.questionToSubmitList
+      questionList: this.questionToSubmitList,
+        status: status
     };
-    return this.http.post('http://localhost:8081/submit-survey/' + id , requestBody);
+
+    return this.http.post('http://localhost:8081/submit-survey/' + id + '/' + this.surveyCode
+      , requestBody, {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
   }
 
-  getSurveyById(id: string) {
+  getSurveyById(id: string,code: string) {
     /* check survey type and session on server side*/
-    return this.http.get('http://localhost:8081/get-survey/' + id);
+    return this.http.get('http://localhost:8081/get-survey/' + id + '/' + code + "/" + "palash@gmail.com");
   }
 
   /* Close the survey */
@@ -225,6 +259,13 @@ export class SurveyService {
   unpublish(id: String) {
     console.log(id)
     return this.http.get('http://localhost:8081/unpublish-survey/' + id,
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
+  }
+
+  publish(id: String) {
+    console.log(id)
+    return this.http.get('http://localhost:8081/publish-survey/' + id,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }

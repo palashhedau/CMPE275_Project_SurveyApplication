@@ -60,6 +60,7 @@ import { QueEditStarRatingComponent } from './survey/edit-survey/que-edit-star-r
 import { QueEditYesOrNoComponent } from './survey/edit-survey/que-edit-yes-or-no/que-edit-yes-or-no.component';
 
 
+
 export function authServiceFactory(authService: AuthService): Function {
   return () => authService.checkSession();
 }
@@ -114,7 +115,6 @@ export function authServiceFactory(authService: AuthService): Function {
     QueEditDatetimeComponent,
     QueEditStarRatingComponent,
     QueEditYesOrNoComponent
-
   ],
   imports: [
     BrowserModule,

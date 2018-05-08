@@ -13,7 +13,8 @@
       <div class="choice-div">
        <input
          type="radio"
-         name="options"
+         name="optionsSingleText"
+         [(ngModel)]="selectedAnswer"
          (click)="getValue(choice)"
          value="{{choice['answers']}}"> {{choice['answers']}}
       </div>

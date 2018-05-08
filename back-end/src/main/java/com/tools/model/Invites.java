@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Invites")
 public class Invites {
@@ -58,6 +60,7 @@ public class Invites {
 		this.status = status;
 	}
 
+	@JsonIgnore
 	public Survey getSurvey() {
 		return survey;
 	}

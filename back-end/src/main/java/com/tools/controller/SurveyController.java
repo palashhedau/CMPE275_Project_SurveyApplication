@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tools.helper.Helper;
@@ -35,7 +36,7 @@ public class SurveyController {
 	@RequestMapping(path="/create-survey",method=RequestMethod.POST)
 	public ResponseEntity<?> createSurvey(@RequestBody SurveyCreateParams params, HttpSession session){
 		//return new ResponseEntity( surveyService.createSurvey(params,(String)session.getAttribute("email")) , HttpStatus.OK);
-		return new ResponseEntity( surveyService.createSurvey(params,"amita.mathkar@gmail.com") , HttpStatus.OK);
+		return new ResponseEntity( surveyService.createSurvey(params,(String)session.getAttribute("email")) , HttpStatus.OK);
 	}
 	
 	@RequestMapping(path="/survey/{id}",method=RequestMethod.POST)
@@ -68,24 +69,38 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(path="/submit-survey/{id}/{code}",method=RequestMethod.POST)
-	public ResponseEntity<?> submitSurvey(@RequestBody SurveySubmitParams params, @PathVariable String id, @PathVariable String code,@RequestParam(value="email", required=false) String email, HttpSession session  ){
-		if(session.getAttribute("email") != null)
-		{
+	public ResponseEntity<?> submitSurvey(@RequestBody SurveySubmitParams params, 
+			@PathVariable String id,
+			@PathVariable String code,
+			@RequestParam(value="email", required=false) String email,
+			HttpSession session  ){
+		System.out.println("Lolaaaaaaaaaaaaaaaaaaaa");
+		if(session.getAttribute("email") != null){
 			return new ResponseEntity( surveyService.submitSurvey(id,code,(String)session.getAttribute("email"), params), HttpStatus.OK);
 		}
-		else if(email!=null)
-		{
+		else if(email!=null){
 			return new ResponseEntity( surveyService.submitSurvey(id,code,email, params), HttpStatus.OK);
 		}
-		else
-		{
+		else{
 			return new ResponseEntity( surveyService.submitSurvey(id,code,"", params), HttpStatus.OK);
 		}
 	}
 	
-	@RequestMapping(path="/get-survey/{id}/{code}",method=RequestMethod.GET)
-	public ResponseEntity<?> getSurveyById(@PathVariable String id, @PathVariable int code ){
-		return new ResponseEntity(surveyService.getSurveyById(id), HttpStatus.OK);
+	@RequestMapping(path="/get-survey/{id}/{code}/{email}",method=RequestMethod.GET)
+	public ResponseEntity<?> getSurveyById(@PathVariable String id, @PathVariable int code,
+			@PathVariable String email, HttpSession session){
+		
+		String emailCaptured = "";
+		
+		if(session.getAttribute("email")!= null) {
+			//session  wala hai
+			emailCaptured = (String)session.getAttribute("email");
+		}else if(!email.equalsIgnoreCase("")) {
+			// without signed in user hai 
+			emailCaptured = email;
+		}
+		
+		return new ResponseEntity(surveyService.getSurveyById(id, code, emailCaptured), HttpStatus.OK);
 	}
 	
 	@RequestMapping(path="/view-survey/{id}",method=RequestMethod.GET)
@@ -104,6 +119,16 @@ public class SurveyController {
 			return new ResponseEntity(surveyService.unPublishSurveyById(id,(String)session.getAttribute("email")), HttpStatus.OK);
 		}else {
 			return new ResponseEntity(new Response(404, "Not Authorized to Unpublish the survey"), HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+
+	@RequestMapping(path="/publish-survey/{id}",method=RequestMethod.GET)
+	public ResponseEntity<?> publishSurvey(@PathVariable String id, HttpSession session ){
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.publishSurveyById(id,(String)session.getAttribute("email")), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to Publish the survey"), HttpStatus.UNAUTHORIZED);
 		}
 	}
 	

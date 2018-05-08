@@ -59,8 +59,27 @@ export class ViewSurveyComponent implements OnInit {
       (error) => {
         _this.errorMessage = 'Error Occured while unpublishing the survey';
       }
-    )
+    );
   }
+
+
+  publish(){
+    this.errorMessage = ''
+    const _this = this;
+    this.surveyService.publish(this.id).subscribe(
+      (response: ResponseParam) => {
+        if(response.code === 200){
+          _this.getViewSurvey();
+        }else{
+          _this.errorMessage = response.message;
+        }
+      },
+      (error) => {
+        _this.errorMessage = 'Error Occured while Publishing the survey';
+      }
+    );
+  }
+
 
   closeSurvey(){
     const _this = this;

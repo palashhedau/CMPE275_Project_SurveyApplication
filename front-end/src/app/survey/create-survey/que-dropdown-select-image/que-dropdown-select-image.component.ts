@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
 import {NgModel} from '@angular/forms';
 import {HelperService} from '../../../helper.service';
+import {AuthService} from '../../../landing/auth.service';
 
 @Component({
   selector: 'app-que-dropdown-select-image',
@@ -16,7 +17,8 @@ export class QueDropdownSelectImageComponent implements OnInit {
   @Input('id') id: string;
 
   constructor(private helperService: HelperService,
-              private surveyService: SurveyService) { }
+              private surveyService: SurveyService,
+              private authService : AuthService) { }
   public moreOptions: any = [];
 
 
@@ -29,7 +31,7 @@ export class QueDropdownSelectImageComponent implements OnInit {
 
   saveChoices(files: any, sequence: number) {
     const _this = this;
-    this.helperService.saveToS3(files[0], 'palash', function(location){
+    this.helperService.saveToS3(files[0], this.authService.email, function(location){
       _this.surveyService.addChoice(location, sequence + 2, _this.id);
     });
   }

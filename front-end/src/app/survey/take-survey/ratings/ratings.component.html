@@ -17,6 +17,7 @@
           id="answerChoice"
           class="form-control col-xs-4"
           required
+          [(ngModel)]="answer"
           (change)="selectAnswer()"
           #answerChoice="ngModel"
         >

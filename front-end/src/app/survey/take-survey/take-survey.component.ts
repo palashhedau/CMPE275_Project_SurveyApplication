@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyService} from '../survey-service.service';
 import {ResponseParam} from '../../ResponseParam.model';
+import {AuthService} from '../../landing/auth.service';
 
 @Component({
   selector: 'app-take-survey',
@@ -11,27 +12,42 @@ import {ResponseParam} from '../../ResponseParam.model';
 export class TakeSurveyComponent implements OnInit {
   public id: string;
   public questionList: any = [];
+  public code: string;
+  public  isLoggedIn = false;
 
   constructor(private currentRoute: ActivatedRoute,
               private surveyService: SurveyService,
               private currentPath: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.id = this.currentRoute.snapshot.params['id'];
     this.currentRoute.params.subscribe(
       (params: Params) => {
         this.id = params['id'];
+        this.code = params['code'];
+        this.surveyService.setSurveyCode(this.code);
       }
     );
 
-    this.surveyService.getSurveyById(this.id).subscribe(
+
+    this.surveyService.getSurveyById(this.id, this.code).subscribe(
       (response) => {
         console.log(typeof response);
+        this.isLoggedIn = this.authService.isLoggedIn;
         if(typeof response === 'object' && response.code === 404){
           this.router.navigate(['/not-found']);
-        }else{
-          this.questionList = response[0].questions;
+        } else {
+          console.log(this.authService.email + " " + response.email)
+          if(response.email === this.authService.email){
+            /*this.router.navigate(['/not-found']);
+            return;*/
+          }
+
+         /* CHange code here to assign only the*/
+          this.questionList = response.questions;
+          this.surveyService.setSurveyId(this.id);
         }
       },
       (error) => {
@@ -40,8 +56,8 @@ export class TakeSurveyComponent implements OnInit {
     );
   }
 
-  submitSurvey(){
-    this.surveyService.submitSurvey(this.id).subscribe(
+  submitSurvey(status: string){
+    this.surveyService.submitSurvey(this.id, status).subscribe(
       (response: ResponseParam) => {
         if(response.code === 404){
           this.router.navigate(['/not-found']);
@@ -54,4 +70,7 @@ export class TakeSurveyComponent implements OnInit {
       }
     );
   }
+
+
+
 }

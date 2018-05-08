@@ -6,6 +6,7 @@ import {ResponseParams} from './response.model';
 @Injectable()
 export class AuthService{
   public isLoggedIn = false;
+  public email : string;
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
@@ -24,15 +25,17 @@ export class AuthService{
   }
 
   activate(email: string, code: string){
-    return this.http.post<ResponseParams>('http://localhost:8081/activate-account',{email: email, password: code});
+    return this.http.post<ResponseParams>('http://localhost:8081/account-verification',
+      {email: email, password: code});
   }
 
   checkSession(): Promise<any> {
     return this.http
       .get('http://localhost:8081/check-session', {withCredentials: true})
       .toPromise()
-      .then((data: any) => {
-        this.isLoggedIn = data;
+      .then((data: {auth : boolean, email : string}) => {
+        this.isLoggedIn = data.auth;
+        this.email = data.email;
       })
       .catch((err: any) => {
         this.isLoggedIn = false;
