@@ -27,6 +27,7 @@
         <div class="submit-div col-xs-3 ">
           <button
             class="btn btn-default submit-button "
+            (click)="publish()"
             [disabled]= "surveyData.status === 'Published' || surveyData.status === 'Closed'"
           >Publish</button>
         </div>
@@ -67,7 +68,16 @@
             <div *ngFor="let choice of question.choice" class="question-choice col-xs-offset-1">
               <div>
                 <div class="col-xs-3">
-                  <i class="fa fa-dot-circle-o" aria-hidden="true"></i> <span>{{choice.answers}}</span>
+
+                  <div class="col-xs-11 no-padding"
+                    *ngIf="question.questionType === 'Multiple Choice - Image' || question.questionType === 'Checkboxes - Image' || question.questionType === 'Dropdown - Image' ">
+                    <img src="{{choice.answers}}">
+                  </div>
+                  <div class="col-xs-11 no-padding"
+                    *ngIf="!(question.questionType === 'Multiple Choice - Image' || question.questionType === 'Checkboxes - Image' || question.questionType === 'Dropdown - Image')">
+                    <span>{{choice.answers}}</span>
+                  </div>
+
                 </div>
               </div>
             </div>

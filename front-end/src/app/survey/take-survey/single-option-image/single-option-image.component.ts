@@ -13,10 +13,16 @@ export class SingleOptionImageComponent implements OnInit {
   @ViewChild('options') option: NgModel;
 
   public choices: string [] = [];
+  public selectedAnswer: string;
+
   constructor(private surveyService: SurveyService) { }
 
   ngOnInit() {
     this.choices = this.question.choice;
+    console.log("COCO COLA " + this.question.surveySubmitResponseAnswers.length)
+    if(this.question.surveySubmitResponseAnswers.length > 0){
+      this.selectedAnswer = this.question.surveySubmitResponseAnswers[0]['answer'];
+    }
   }
 
   getValue(choice: any) {

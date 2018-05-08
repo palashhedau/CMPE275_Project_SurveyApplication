@@ -62,3 +62,8 @@ i{
   color: red;
   padding: 30px;
 }
+
+
+img{
+  max-height: 50px;
+}

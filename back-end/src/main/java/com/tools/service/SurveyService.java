@@ -21,13 +21,15 @@ import com.tools.model.Invites;
 import com.tools.model.Questions;
 import com.tools.model.Survey;
 import com.tools.model.Survey_Submit_Info;
-import com.tools.model.Survey_Submit_Response;
+
 import com.tools.model.Survey_Submit_Response_Answers;
 import com.tools.repository.AuthRepository;
 import com.tools.repository.InvitesRepository;
 import com.tools.repository.QuestionsRepository;
 import com.tools.repository.SurveyRepository;
 import com.tools.repository.SurveySubmitInfoRepository;
+import com.tools.repository.SurveySubmitResponseAnswerRepository;
+
 import com.tools.requestParams.EditSurveyChoiceParams;
 import com.tools.requestParams.EditSurveyParams;
 import com.tools.requestParams.EditSurveyQuestionParams;
@@ -60,6 +62,10 @@ public class SurveyService {
 	@Autowired
 	private EmailSenderService emailSenderService;
 	
+	
+	@Autowired
+	private SurveySubmitResponseAnswerRepository surveySubmitResponseAnswerRepository;
+	
 	Helper helper = new Helper();
 	String host="http://localhost/survey/take-survey/";
 	
@@ -67,15 +73,16 @@ public class SurveyService {
 		
 		System.out.println("New ID to add ? " + params.getId());
 		
-		Survey survey ;
+		
+		Survey survey = new Survey(email , params.getPublish() , 
+				params.getEndTime().equalsIgnoreCase("")? null : helper.parseDate(params.getEndTime()) ,
+				params.getType(), params.getStatus(), params.getCategory());
 		if(params.getId() != 0) {
 			survey = surveyRepository.findById(params.getId()).get(0);
 			survey.setQuestions(new HashSet<Questions>());
 			questionsRepository.deleteBySurveyId(params.getId());
 		}else {
-			survey = new Survey(email , params.getPublish() , helper.parseDate(params.getEndTime()) , params.getType(), params.getStatus(), params.getCategory());
-			List<Auth> auth = authRepository.findByEmail(email);
-			survey.setAuth(auth.get(0));
+			survey.setEmail(email);
 			survey.setName(params.getName());
 		}
 		
@@ -105,7 +112,7 @@ public class SurveyService {
 		
 		Survey savedSurvey = surveyRepository.save(survey);
 		return new ResponseWithId(200, "Survey saved successfully", savedSurvey.getId());
-	
+	 
 	}
 
 	public Object editSurveyById(EditSurveyParams params, String id, String email) {
@@ -188,41 +195,69 @@ public class SurveyService {
 
 
 	public Object submitSurvey(String id,String code,String email, SurveySubmitParams params) {
+		System.out.println("IDDDDDDDDD " + id + " " + code + " " + params.getStatus() );
+		
 		List<Survey> surveyList =  surveyRepository.findById(Integer.parseInt(id));
 		if(surveyList.size() > 0) {
 			Survey survey = surveyList.get(0); 
-			System.out.println(survey.getStatus());
-			if(survey.getStatus().equalsIgnoreCase("Published") && helper.compareDate(new Date(), survey.getEndTime())) {
+			
+			// check if user is eligible to submit the survey
+			// check if already submitted 
+			boolean allowSubmit = true;		
+			if(!survey.getCategory().equalsIgnoreCase("General")) {
+				List<Invites> invites = invitesRepository.findBySurveyIdAndStatusAndEmailAndCode(Integer.parseInt(id), false, email, Integer.parseInt(code));
+				if(invites.size() == 0) {
+					return new Response(400, "Either you have already filled the "
+							+ "survey or you are not eligible");
+				}
+			}
+			
+			
+			
+			// Submitting the survey
+			if(survey.getStatus().equalsIgnoreCase("Published") && 
+					 survey.getEndTime() != null ? helper.compareDate(new Date(), survey.getEndTime()):
+						 true
+					) {
+
+				//check if this survey is taken my the email id or not?
+				List<Survey_Submit_Info> infoList = surveySubmitInfoRepository.findByUserEmailAndStatusAndSurveyId(email, "Saved" , Integer.parseInt(id));
+				
 				Survey_Submit_Info info = new Survey_Submit_Info();
-				info.setSurvey(survey);
-				info.setUserEmail(email);
+				
+				if(infoList.size() > 0) {
+					info = infoList.get(0);
+					System.out.println("Deletig old questions");
+					// delete old response
+					surveySubmitResponseAnswerRepository.deleteByQuestionsSurveySubmittedSurveryId(info.getId());
+				}else {
+					info.setSurvey(survey);
+					info.setUserEmail(email);
+				}
+			
+				info.setStatus(params.getStatus());
 				
 				List<SubmitSurveyQueList> questionsList  = params.getQuestionList() ;
+				System.out.println("Question lisy " + questionsList.size());
 				for(SubmitSurveyQueList list : questionsList) {
 					
 					// find question by ID
 					Questions que = questionsRepository.findById(list.getQuestionId()).get(0);
 					
-					Survey_Submit_Response response = new Survey_Submit_Response();
-					response.setSurvey_submit_info(info);
-					response.setQuestions(que);
 					
 					for(String ans : list.getChoice()) {
 						Survey_Submit_Response_Answers answer = new Survey_Submit_Response_Answers();
 						answer.setAnswer(ans);
-						answer.setSurvey_submit_response(response);
+						answer.setQuestions(que);
 						
-						Set<Survey_Submit_Response_Answers> tempResponse = response.getSubmittedSurveyResponseAnswer();
-						tempResponse.add(answer);
-						response.setSubmittedSurveyResponseAnswer(tempResponse);
-					}
+						surveySubmitResponseAnswerRepository.save(answer);
 					
-					Set<Survey_Submit_Response> tempSurveyResponse = info.getSubmittedSurveyResponse();
-					tempSurveyResponse.add(response);
-					info.setSubmittedSurveyResponse(tempSurveyResponse);
+					}
 				}
+				
 				surveySubmitInfoRepository.save(info);
-				if(!survey.getCategory().equalsIgnoreCase("general"))
+				
+				if(!survey.getCategory().equalsIgnoreCase("General"))
 				{
 					//Invites invites=invitesRepository.
 					List<Invites> invites=invitesRepository.findByCodeAndEmail(Integer.parseInt(code),email);
@@ -235,47 +270,65 @@ public class SurveyService {
 					}
 				}
 				return new Response(200, "Survey submitted successfully");
-			}else return new Response(404, "Survey Not active");
+				}else return new Response(404, "Survey Not active");
 		}else return new Response(404, "Survey Not Found");
-	
+		
 	}
 
 
 
 	
 	public Object getSurvey(String email) {
-		List<Auth> authList = authRepository.findByEmail(email);
-		if(authList.size() > 0) {
-			return surveyRepository.findByAuthId(authList.get(0).getId());
-		}
-		return null ; 
+		return surveyRepository.findByEmail(email);
 	}
 
 
 
-	public Object getSurveyById(String id) {
+	public Object getSurveyById(String id, int code, String email) {
 		//check if user eligible for taking survey
 		List<Survey> surveyList = surveyRepository.findByIdAndStatus(Integer.parseInt(id), "Published");
+		
 		if(surveyList.size() == 0) {
 			return new Response(404, "No such Survey Exist");
-		}else {
-			List<Invites> invite = invitesRepository.findBySurveyAndStatus(Integer.parseInt(id),0);
-			if(invite.size()>0)
-			{
-				return surveyList;
-			}
-			else
-			{
-				// to send message as survey already taken
-				return null;
-			}
 		}
+		else {
+			
+			//get their unfinished survey if any
+			if(!email.equalsIgnoreCase("")) {
+				 List<Survey> alreadyUsedSurvey = surveyRepository.
+						 findByIdAndSubmittedSurveryUserEmailAndSubmittedSurveryStatus
+						 (Integer.parseInt(id),email,"Saved");
+				 if(alreadyUsedSurvey.size() == 1) {
+					 return alreadyUsedSurvey.get(0);
+				 }
+				 
+			}
+			
+			Survey survey = surveyList.get(0);
+			survey.setSubmittedSurvery(null);
+			if(survey.getCategory().equalsIgnoreCase("General")) {
+				System.out.println("General ");
+				return survey ;
+			}else if(survey.getCategory().equalsIgnoreCase("Open") || survey.getCategory().equalsIgnoreCase("Closed")) {
+				if(!email.equalsIgnoreCase("")) {
+					if(invitesRepository.findBySurveyIdAndStatusAndEmailAndCode(Integer.parseInt(id),false, email, code).size()>0) {
+						return survey;
+					}
+					else return new Response(400, "Not Authorized to view the survey");
+				}else {
+					return new Response(400,"Not allowed to view the survey");
+				}
+				
+			}
+			return survey; 
+		}
+		
 	}
 
 
 
 	public Object viewSurveyById(String id, String email) {
-		List<Survey> surveyList = surveyRepository.findByIdAndAuthEmail(Integer.parseInt(id), email);
+		List<Survey> surveyList = surveyRepository.findByIdAndEmail(Integer.parseInt(id), email);
 		if(surveyList.size()>0) {
 			return surveyList.get(0);
 		}else {
@@ -299,7 +352,7 @@ public class SurveyService {
 					survey.setStatus("Unpublished");
 					surveyRepository.save(survey);
 					System.out.println("YAHA AAYA 4");
-					return new Response(200,"Successfully closed the survey");
+					return new Response(200,"Successfully Unpublished the survey");
 				};
 				return new  Response(400,"Cannot Unpublish the survey as it has some survey taken");
 			}
@@ -309,10 +362,26 @@ public class SurveyService {
 		}
 	}
 	
+	public Object publishSurveyById(String id, String email) {
+		List<Survey> surveyList = surveyRepository.findByIdAndEmail(Integer.parseInt(id),email) ;
+		if(surveyList.size() == 1 ) {
+			Survey survey = surveyList.get(0);
+			if(survey.getStatus().equalsIgnoreCase("Unpublished")) {
+				survey.setStatus("Published");
+				surveyRepository.save(survey);
+				return new Response(200,"Successfully published the survey");
+			}
+			return new Response(400,"Survey status is already closed/published");
+		}else {
+			return new Response(404,"No such Survey exist");
+		}
+	}
+	
+	
+	
 	public Object getSurveyToEditById(String id, String email) {
-		List<Survey> surveyList = surveyRepository.findByIdAndAuthEmailAndStatus(Integer.parseInt(id), email, "Unpublished");
+		List<Survey> surveyList = surveyRepository.findByIdAndEmailAndStatus(Integer.parseInt(id), email, "Unpublished");
 		if(surveyList.size() == 0) {
-			System.out.println("LOLLLLLL");
 			return new Response(404, "No such Survey Exist to edit");
 		}else {
 			return surveyList.get(0);
@@ -320,6 +389,7 @@ public class SurveyService {
 	}
 
 	public Object inviteToSurvey(String id, String email) {
+		// check if session invite user is owner of the survey
 		int code=0;
 		String surveyCategory="";
 		String url="";
@@ -341,17 +411,17 @@ public class SurveyService {
 			if(surveyCategory.equalsIgnoreCase("General"))
 			{
 				invites.setCode(Integer.parseInt(id));
-				url=host+"general-survey/"+id +"/"+id;
+				url=host +id + "/" + id;
 			}
 			else if(surveyCategory.equalsIgnoreCase("Closed"))
 			{
 				invites.setCode(code);
-				url=host+"closed-survey/"+id +"/"+code;
+				url=host + id + "/" + code;
 			}
 			else if(surveyCategory.equalsIgnoreCase("Open")) 
 			{
 				invites.setCode(code);
-				url=host+"open-survey/"+id +"/"+code;
+				url=host + id +"/"+code;
 			}
 			invitesRepository.save(invites);
 				try {
@@ -366,14 +436,16 @@ public class SurveyService {
 	public Object getAttemptedSurveys(String email) {
 		//get attempted surveys of the user
 		
-		List<Survey_Submit_Info> serveySubmittedList = surveySubmitInfoRepository.findByEmail(email);
+		/*List<Survey_Submit_Info> serveySubmittedList = surveySubmitInfoRepository.findByEmail(email);
 		
 		if(serveySubmittedList.size() == 0) {
 			System.out.println("LOLLLLLL");
 			return new Response(404, "No Attempted Surveys");
 		}else {
 			return serveySubmittedList;
-		}
+		}*/
+		
+		return null ;
 		
 		
 	}

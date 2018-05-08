@@ -14,12 +14,13 @@
       <div class="choice-div col-xs-1 no-padding">
         <input
           type="radio"
-          name="options"
+          name="optionsSingleImageRadio"
+         [(ngModel)] = "selectedAnswer"
           (click)="getValue(choice)"
           value="{{choice['answers']}}">
       </div>
-      <div class="col-xs-11 no-padding">
-        <img src="choice['answers']" class="img-responsive img-circle">
+      <div class="col-xs-5 no-padding">
+        <img src="{{choice['answers']}}" class="img-responsive img-circle">
       </div>
     </div>
   </div>

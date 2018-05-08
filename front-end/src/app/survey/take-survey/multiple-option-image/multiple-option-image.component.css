@@ -21,3 +21,8 @@ b{
 .choice-div{
   padding-bottom: 10px;
 }
+
+img{
+  max-height: 50px;
+  max-width: 50px;
+}

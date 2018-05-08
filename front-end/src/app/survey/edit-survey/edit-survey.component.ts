@@ -38,7 +38,6 @@ export class EditSurveyComponent implements OnInit {
   }
 
   getSurveyToEdit(){
-    const _this = this;
     this.surveyService.getSurveyToEdit(this.id).subscribe(
       (response) => {
         if (response.code === 'undefined') {
@@ -64,11 +63,17 @@ export class EditSurveyComponent implements OnInit {
     this.errorMessage = '';
     if (this.allowCreateSurveyOrAddQuestion() === true) {
       this.createSurveyAsync('Unpublished');
+
+      let choiceToBeSubstituted = [{id: 0, answers: ''},{id: 0, answers: ''}]
+      if(this.questionType.value == 'Star Rating'){
+        choiceToBeSubstituted = [{id: 0, answers: ''}]
+      }
+
       const questionObject = {
         id: 0,
         question: this.question.value,
         questionType: this.questionType.value,
-        choice: [{id: 0, answers: ''},{id: 0, answers: ''}]
+        choice: choiceToBeSubstituted
       };
       this.questionList.push(questionObject);
     } else {
@@ -134,22 +139,21 @@ export class EditSurveyComponent implements OnInit {
 
     for (const currentQue of this.questionList) {
       const type: string = currentQue.questionType;
-      if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
-        if (currentQue.choice.length > 1 ) {
-          for (const choice of currentQue.choice) {
-            if (choice.answers.trim() === '') {
-              return false;
-            }
-          }
-        } else if ( type === 'Star Rating') {
-          if (currentQue.choice.length === 0) {
-            return false;
-          }
-        }  else {
+      if ( type === 'Star Rating') {
+        if (currentQue.choice.length === 0 || (currentQue.choice[0]['answers'] === '') ) {
           return false;
         }
       }
-    }
+      else if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
+        if (currentQue.choice.length > 1 ) {
+          for (const choice of currentQue.choice) {
+            if (choice.answers.trim() === '') {
+             return false;
+            }
+          }
+        }
+        }
+      }
     return true;
   }
 
@@ -188,7 +192,7 @@ export class EditSurveyComponent implements OnInit {
   }
 
   saveRatingsChoice(data:{choice: string, sequence: string}){
-    this.questionList[parseInt(data.sequence, 10)].choice[0]= data.choice;
+    this.questionList[parseInt(data.sequence, 10)].choice[0]['answers'] = data.choice;
   }
 
 }

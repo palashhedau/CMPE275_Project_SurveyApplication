@@ -31,11 +31,11 @@ export class MySurveysComponent implements OnInit {
 
   closeSurvey(id: string){
     this.errorMessage = '';
-    const _this = this;
+
     this.surveyService.closeSurvey(id).subscribe(
       (response: ResponseParam) => {
-        _this.errorMessage = response.message;
-        _this.getSurveys();
+        this.errorMessage = response.message;
+        this.getSurveys();
       },
       (error) => {
         this.errorMessage = 'Error occured while closing the survey.';

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tools.helper.Helper;
 import com.tools.requestParams.Auth;
 import com.tools.requestParams.VerifyAccount;
+import com.tools.responseParam.AuthResponse;
 import com.tools.responseParam.Response;
 import com.tools.service.AuthenticationService;
 
@@ -34,10 +35,10 @@ public class AuthenticationController {
 	public ResponseEntity<?> checkSession(HttpSession session) throws Exception{
 		System.out.println(session.getAttribute("email"));
 		if(session.getAttribute("email")!= null) {
-			return new ResponseEntity(true, HttpStatus.OK);
+			return new ResponseEntity(new AuthResponse(true, (String)session.getAttribute("email")), HttpStatus.OK);
 		}else {
 			System.out.println("HIEIEIEIEIE");
-			return new ResponseEntity(false, HttpStatus.OK);
+			return new ResponseEntity(new AuthResponse(false, ""), HttpStatus.OK);
 		}
 	}
 	

@@ -13,6 +13,7 @@
         <div class="form-group">
           <input class="form-control" type="date"
                  name="selectedDate"
+                 [(ngModel)]="selectedAnswer"
                  (change)="logDate()"
                   ngModel
                   #selectedDate="ngModel">

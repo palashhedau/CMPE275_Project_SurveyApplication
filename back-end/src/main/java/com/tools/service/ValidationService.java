@@ -68,7 +68,7 @@ public class ValidationService {
 	}
 	
 	public boolean validateType(String type) {
-		return (type.equals("surveyor") || type.equals("surveyee"));
+		return (type.equalsIgnoreCase("surveyor") || type.equalsIgnoreCase("surveyee"));
 	}
 	
 	public Response verifyAccount(VerifyAccount details) {

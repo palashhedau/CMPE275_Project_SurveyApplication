@@ -33,7 +33,7 @@ public class Questions {
 	
 	Questions(){}
 	
-	@JsonIgnore
+	/*@JsonIgnore
 	public Set<Survey_Submit_Response> getSurveySubmitResponse() {
 		return surveySubmitResponse;
 	}
@@ -43,7 +43,7 @@ public class Questions {
 
 	public void setSurveySubmitResponse(Set<Survey_Submit_Response> surveySubmitResponse) {
 		this.surveySubmitResponse = surveySubmitResponse;
-	}
+	}*/
 
 
 	@OneToMany(cascade = CascadeType.ALL,
@@ -52,12 +52,31 @@ public class Questions {
 	private Set<Choice> choice = new HashSet<>();
 	
 	
+	/*@OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "questions")
+	private Set<Survey_Submit_Response> surveySubmitResponse = new HashSet<>();*/
+	
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "questions")
-	private Set<Survey_Submit_Response> surveySubmitResponse = new HashSet<>();
+	private Set<Survey_Submit_Response_Answers> surveySubmitResponseAnswers = new HashSet<>();
 	
+
 	
+	public Set<Survey_Submit_Response_Answers> getSurveySubmitResponseAnswers() {
+		return surveySubmitResponseAnswers;
+	}
+
+
+
+
+	public void setSurveySubmitResponseAnswers(Set<Survey_Submit_Response_Answers> surveySubmitResponseAnswers) {
+		this.surveySubmitResponseAnswers = surveySubmitResponseAnswers;
+	}
+
+
+
 
 	public String getQuestionType() {
 		return questionType;
