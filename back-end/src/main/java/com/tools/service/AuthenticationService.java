@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
@@ -54,16 +55,18 @@ public class AuthenticationService {
 		
 	}
 	
-	public Object signin(Auth auth){
-		
+	public Object signin(Auth auth) {
 		List<com.tools.model.Auth> authList = authRepository.findByEmail(auth.getEmail());
 		System.out.println("SSSS" + auth.getEmail() + authList.size());
 		if(authList.size() > 0) {
 			com.tools.model.Auth authCred = authList.get(0);
 			System.out.println(authCred.getStatus());
 			if(authCred.getStatus().equalsIgnoreCase("ACTIVE")) {
-				//compare password
-				return new Response(200 , "Successfully loggedIn");
+				if(passwordGenerator.matchPassword(authCred.getPassword(), auth.getPassword())) {
+					return new Response(200 , "Successfully loggedIn");
+				} else {
+					 return new Response(400, "Incorrect password");
+				}
 			}else return new Response(400, "Account not activated");
 		}else {
 			return new Response(404 , "Email/Password Incorrect");
