@@ -3,7 +3,7 @@
   padding: 40px
 }
 
-.btn-danger, .btn-default, .btn-info{
+.btn-danger, .btn-default, .btn-info, .btn-primary{
   width: 90px;
 }
 

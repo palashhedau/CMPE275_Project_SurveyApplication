@@ -58,6 +58,8 @@ import { QueEditSingleOptionSelectTextComponent } from './survey/edit-survey/que
 import { QueEditDatetimeComponent } from './survey/edit-survey/que-edit-datetime/que-edit-datetime.component';
 import { QueEditStarRatingComponent } from './survey/edit-survey/que-edit-star-rating/que-edit-star-rating.component';
 import { QueEditYesOrNoComponent } from './survey/edit-survey/que-edit-yes-or-no/que-edit-yes-or-no.component';
+import { SurveyInviteComponent } from './survey/survey-invite/survey-invite.component';
+import { SurveyStatsComponent } from './survey/survey-stats/survey-stats.component';
 
 
 
@@ -114,7 +116,9 @@ export function authServiceFactory(authService: AuthService): Function {
     QueEditSingleOptionSelectTextComponent,
     QueEditDatetimeComponent,
     QueEditStarRatingComponent,
-    QueEditYesOrNoComponent
+    QueEditYesOrNoComponent,
+    SurveyInviteComponent,
+    SurveyStatsComponent
   ],
   imports: [
     BrowserModule,

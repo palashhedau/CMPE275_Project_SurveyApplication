@@ -1,5 +1,7 @@
 package com.tools.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,20 +88,24 @@ public class SurveyController {
 		}
 	}
 	
-	@RequestMapping(path="/get-survey/{id}/{code}/{email}",method=RequestMethod.GET)
-	public ResponseEntity<?> getSurveyById(@PathVariable String id, @PathVariable int code,
-			@PathVariable String email, HttpSession session){
+	@RequestMapping(value= { "/get-survey/{id}/{code}", "/get-survey/{id}/{code}/{email}"},
+			method=RequestMethod.GET)
+	public ResponseEntity<?> getSurveyById(@PathVariable String id, 
+			@PathVariable int code,
+			@PathVariable Optional<String> email, HttpSession session){
 		
 		String emailCaptured = "";
 		
 		if(session.getAttribute("email")!= null) {
 			//session  wala hai
 			emailCaptured = (String)session.getAttribute("email");
-		}else if(!email.equalsIgnoreCase("")) {
+		}else if(email.isPresent()) {
 			// without signed in user hai 
-			emailCaptured = email;
+
+			emailCaptured = email.get();
 		}
-		
+		System.out.println("cddddd " + emailCaptured);
+
 		return new ResponseEntity(surveyService.getSurveyById(id, code, emailCaptured), HttpStatus.OK);
 	}
 	
@@ -110,7 +116,6 @@ public class SurveyController {
 		}else {
 			return new ResponseEntity(new Response(404, "Not Authorized to view the survey"), HttpStatus.UNAUTHORIZED);
 		}
-		
 	}
 	
 	@RequestMapping(path="/unpublish-survey/{id}",method=RequestMethod.GET)
@@ -141,11 +146,10 @@ public class SurveyController {
 		}
 	}
 	
-
 	@RequestMapping(path="/invite/{id}",method=RequestMethod.POST)
-	public ResponseEntity<?> inviteToSurvey(@PathVariable String id, @RequestParam(value="email", required=false) String email, HttpSession session ){
-		if(session.getAttribute("email") != null) {
-			return new ResponseEntity(surveyService.inviteToSurvey(id,(String)session.getAttribute("email")), HttpStatus.OK);
+	public ResponseEntity<?> inviteToSurvey(@PathVariable String id, @RequestBody String email,@RequestBody String type, HttpSession session ){
+		if(email != null) {
+			return new ResponseEntity(surveyService.inviteToSurvey(id,email), HttpStatus.OK);
 		}else {
 			return new ResponseEntity(surveyService.inviteToSurvey(id,email), HttpStatus.OK);
 		}
