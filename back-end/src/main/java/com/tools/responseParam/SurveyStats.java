@@ -1,6 +1,7 @@
 package com.tools.responseParam;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class SurveyStats {
 	int participants;
@@ -10,9 +11,14 @@ public class SurveyStats {
 	int invited;
 	int registeredSurvyees ;
 	int guestSurveyees;
-	
-	
-	
+    HashMap<String, QuestionStats> questions = new HashMap<String, QuestionStats>();
+    
+	public HashMap<String, QuestionStats> getQuestions() {
+		return questions;
+	}
+	public void setQuestions(HashMap<String, QuestionStats> hmap) {
+		this.questions = hmap;
+	}
 	public int getGuestSurveyees() {
 		return guestSurveyees;
 	}

@@ -531,6 +531,7 @@ public class SurveyService {
 		try {
 			List<Survey> surveyList = surveyRepository.findById(id);
 			if (surveyList != null && surveyList.size() > 0) {
+			    HashMap<String, QuestionStats> hmap = new HashMap<String, QuestionStats>();
 				Survey survey = surveyList.get(0);
 				SurveyStats stats = new SurveyStats();
 				stats.setStartTime(survey.getStartTime());
@@ -538,7 +539,12 @@ public class SurveyService {
 				stats.setParticipants(survey.getSubmittedSurvery().size());
 				stats.setSubmissions(survey.getSubmittedSurvery().size());
 				stats.setInvited(survey.getInvites().size());
-
+				Set<Questions> questions = survey.getQuestions();
+				for (Questions q : questions) {
+					QuestionStats questionStats = (QuestionStats) getQuestionStats(q.getId());
+					hmap.put(q.getQuestion(), questionStats);
+				}
+				stats.setQuestions(hmap);
 				int registeredUser = 0;
 				int guestUser = 0;
 				// calculate RegisteredSurveyees
