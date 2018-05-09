@@ -31,7 +31,6 @@ export class MySurveysComponent implements OnInit {
 
   closeSurvey(id: string){
     this.errorMessage = '';
-
     this.surveyService.closeSurvey(id).subscribe(
       (response: ResponseParam) => {
         this.errorMessage = response.message;

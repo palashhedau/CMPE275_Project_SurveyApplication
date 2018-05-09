@@ -1,4 +1,11 @@
 <div class="main-component">
+  <div class="options" *ngIf="unique === false">
+    <div class="col-xs-10 error-warning" style="color: red">
+      <b>{{errorMessage}}</b>
+    </div>
+  </div>
+
+
   <div class="options">
     <div class="col-xs-10">
       <label for="dropdownText" class="margin-top-10"><span>{{id+1}}.</span> {{question}}</label>

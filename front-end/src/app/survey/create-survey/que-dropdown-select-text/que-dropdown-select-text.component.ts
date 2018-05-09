@@ -13,6 +13,8 @@ export class QueDropdownSelectTextComponent implements OnInit {
   @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
   @Input('question') question: string;
   @Input('id') id: string;
+  public unique: boolean;
+  public errorMessage = '';
 
   constructor(private surveyService: SurveyService) { }
   public moreOptions: any = [];
@@ -25,15 +27,26 @@ export class QueDropdownSelectTextComponent implements OnInit {
     this.delete.emit({id : this.id});
   }
 
+
   saveChoices(element: NgModel, sequence: number) {
-    if(sequence > -1){
+    this.unique = this.surveyService.addChoice(element.value, sequence + 2 , this.id);
+    if(sequence > -1 && this.unique === true){
       this.moreOptions[sequence][1] =  element.value ;
+      this.errorMessage = '';
     }
-    this.saveChoice.emit({choice: element.value, sequence: sequence + 2 , id: this.id});
+    if(this.unique === false){
+      this.errorMessage = 'Please enter unique options';
+    }
   }
 
   addOptions(){
-    this.moreOptions.push([this.moreOptions.length, '']);
+    if(this.unique === true){
+      this.errorMessage = '';
+      this.moreOptions.push([this.moreOptions.length, '']);
+    }else{
+      this.errorMessage = 'Please enter unique options before adding new';
+    }
+
   }
 
   deleteOptions(index: number){

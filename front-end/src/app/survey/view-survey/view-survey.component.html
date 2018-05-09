@@ -95,6 +95,12 @@
                     <span>{{choice.answers}}</span>
                   </div>
 
+                  <div class="col-xs-11 no-padding"
+                       *ngIf="(question.questionType === 'Yes/No')">
+                    <span>Yes</span>
+                    <span>No</span>
+                  </div>
+
                 </div>
               </div>
             </div>
