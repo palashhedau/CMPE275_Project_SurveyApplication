@@ -137,7 +137,7 @@ public class SurveyController {
 	}
 	
 
-	@RequestMapping(path="/publish-survey/{id}",method=RequestMethod.GET)
+	@RequestMapping(path="/publish-survey/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> publishSurvey(@PathVariable String id, HttpSession session ){
 		if(session.getAttribute("email") != null) {
 			return new ResponseEntity(surveyService.publishSurveyById(id,(String)session.getAttribute("email")), HttpStatus.OK);

@@ -132,5 +132,27 @@ public class EmailSenderService {
 		javaMailSender.send(message);
 
 	}
+	
+	@Async
+	public void sendQRCodeEmail(String url, String email) throws MessagingException {
+		MimeMessage message = javaMailSender.createMimeMessage();
+		message.setContent(composeQRCodeMessage(url), "text/html; charset=utf-8");
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		helper.setTo(email);
+		helper.setSubject("Verify your account!");
+		javaMailSender.send(message);
+	}
+	
+	public String composeQRCodeMessage(String url) {
+		String message = "";
+		message += "<body style=\"background-color: #ccffcc\"><center> <h1 style=\"font-family: Arial; color:#3399ff;\"> SurveyApe </h1> \n" + 
+				"<br>\n" + 
+				"<br>\n" + 
+				"<br>\n" + 
+				"<h2 style=\"font-family: Arial; color:#ff9966;\"> You are invited to take the survey. You can take the survey using the QR code below : "+
+				"</h2>";
+		message += "<img src='"+url+"' style='height:100px; width:100px'/>";
+		return message;
+	}
 
 }
