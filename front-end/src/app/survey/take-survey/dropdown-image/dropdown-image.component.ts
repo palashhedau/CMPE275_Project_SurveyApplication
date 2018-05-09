@@ -7,6 +7,7 @@ import {NgModel} from '@angular/forms';
   templateUrl: './dropdown-image.component.html',
   styleUrls: ['./dropdown-image.component.css']
 })
+
 export class DropdownImageComponent implements OnInit {
 
   @Input('question') question: any;
@@ -14,7 +15,8 @@ export class DropdownImageComponent implements OnInit {
   @ViewChild('answerChoice') answerChoice: NgModel;
   public selectedAnswer: string;
 
-  constructor(private surveyService : SurveyService) { }
+  constructor(private surveyService : SurveyService) { 
+  }
 
   ngOnInit() {
     if(this.question.surveySubmitResponseAnswers.length > 0){
@@ -25,5 +27,7 @@ export class DropdownImageComponent implements OnInit {
   selectAnswer(){
     this.surveyService.setChoice(this.question.id , this.answerChoice.value, this.question.questionType);
   }
+
+
 
 }

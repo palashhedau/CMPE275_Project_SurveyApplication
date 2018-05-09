@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 import { AppComponent } from './app.component';
 import { FormsModule} from '@angular/forms';
 import { SignupComponent } from './landing/signup/signup.component';
@@ -129,6 +129,7 @@ export function authServiceFactory(authService: AuthService): Function {
     FormsModule,
     AppRouting,
     HttpClientModule,
+    NgSelectModule
   ],
   providers: [
     {

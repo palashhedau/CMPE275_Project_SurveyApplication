@@ -6,29 +6,23 @@
     <div class="col-xs-11">
       {{question.question}}
     </div>
-  </div>
+
 
   <div class="answer-area">
 
     <div class="choice-div col-xs-8 col-xs-offset-1">
-      <select
-        ngModel
-        name="answerChoice"
-        id="answerChoice"
-        class="form-control col-xs-4"
-        required
-        [(ngModel)]="selectedAnswer"
-        (change)="selectAnswer()"
-        #answerChoice="ngModel"
-      >
-        <option
-          *ngFor="let choice of question.choice; index as i"
-          style="background-image: url('choice['answers']')"
-        >
-          {{choice['answers']}}
-       </option>
 
-      </select>
+
+      <ng-select class="custom" [items]="question['choice']" bindLabel="answers" bindValue="answers">
+    <ng-template class="custom"  ng-label-tmp let-item="item">
+        <img height="300" width="500" [src]="item.answers"/>
+    </ng-template>
+    <ng-template class="custom"  ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+        <img height="300" width="500" [src]="item.answers"/>
+    </ng-template>
+</ng-select>
+
+
 
     </div>
 
@@ -37,3 +31,4 @@
 
 
 </div>
+

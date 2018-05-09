@@ -5,12 +5,17 @@
   padding: 30px;
 }
 
+
 b{
   font-size: 15px;
 }
 
 .question-area{
   margin-bottom: 40px;
+}
+
+.answer-area {
+  min-height: 500px;
 }
 
 .no-padding{
