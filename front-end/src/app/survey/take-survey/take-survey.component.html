@@ -79,7 +79,12 @@
 
       </div>
       <div class="submit-div-parent">
-
+        <div class="get-email-div col-xs-12 ">
+          <input  type="checkbox"
+          ngModel
+          name="getEmail"
+          #getEmail="ngModel"> Click here to get an email
+        </div>
         <div class="submit-div col-xs-6 ">
           <button type="submit"
                   class="btn btn-default submit-button" (click)="submitSurvey('Saved')"

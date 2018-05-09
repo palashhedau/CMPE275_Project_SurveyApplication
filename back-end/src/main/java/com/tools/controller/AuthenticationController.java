@@ -20,7 +20,7 @@ import com.tools.responseParam.Response;
 import com.tools.service.AuthenticationService;
 
 @RestController
-@CrossOrigin(origins = "*",allowCredentials="true")
+@CrossOrigin(origins = "*",allowCredentials="true",maxAge=65432421)
 public class AuthenticationController {
 	
 	@Autowired

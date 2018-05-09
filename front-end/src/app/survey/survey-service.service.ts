@@ -85,9 +85,9 @@ export class SurveyService {
 
   addChoice(choice: string , sequence: number , id: string) {
     if ( parseInt(id,10 ) === this.questionList.length) {
-      this.questionObject.addChoice(choice , sequence);
+      return this.questionObject.addChoice(choice , sequence);
     } else {
-      this.questionList[parseInt(id,10 )].addChoice(choice, sequence);
+      return this.questionList[parseInt(id,10 )].addChoice(choice, sequence);
     }
   }
 
@@ -110,6 +110,28 @@ export class SurveyService {
 
   allowCreateSurvey() {
     let allowSave = true;
+
+
+    /*check all questionList as well*/
+    for (const currentQue of this.questionList) {
+      const type: string = currentQue.questionType;
+      if ( type === 'Star Rating') {
+        if (currentQue.choice.length === 0 || (currentQue.choice[0]['answers'] === '') ) {
+          return false;
+        }
+      }
+      else if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
+        if (currentQue.choice.length > 1 ) {
+          for (const choice of currentQue.choice) {
+            if (choice.trim() === '') {
+              return false;
+            }
+          }
+        }
+      }
+    }
+
+
     if (this.questionObject !== undefined){
 
       const type: string = this.questionObject.getQuestionType();
@@ -227,11 +249,12 @@ export class SurveyService {
 
   }
 
-  submitSurvey(id: string, status: string) {
+  submitSurvey(id: string, status: string, confirmEmail: boolean) {
     /* check survey type and session on server side*/
     const requestBody = {
       questionList: this.questionToSubmitList,
-        status: status
+        status: status,
+      confirmEmail : confirmEmail
     };
 
     console.log("YE LE --- " + this.questionToSubmitList)
@@ -262,13 +285,13 @@ export class SurveyService {
 
   unpublish(id: string) {
     console.log(id)
-    return this.http.get('http://localhost:8081/unpublish-survey/' + id,
+    return this.http.post('http://localhost:8081/unpublish-survey/' + id,{},
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
   publishSurvey(id: string) {
-    return this.http.post('http://localhost:8081/publish-survey/' + id,
+    return this.http.post('http://localhost:8081/publish-survey/' + id, {},
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }

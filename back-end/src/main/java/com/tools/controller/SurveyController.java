@@ -60,6 +60,7 @@ public class SurveyController {
 	
 	@RequestMapping(path="/survey",method=RequestMethod.GET)
 	public ResponseEntity<?> getSurvey(HttpSession session){
+		System.out.println(session.getAttribute("email"));
 		if(session.getAttribute("email")!= null) {
 			return new ResponseEntity( surveyService.getSurvey((String)session.getAttribute("email")), HttpStatus.OK);
 		}else {
@@ -139,6 +140,7 @@ public class SurveyController {
 
 	@RequestMapping(path="/publish-survey/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> publishSurvey(@PathVariable String id, HttpSession session ){
+		
 		if(session.getAttribute("email") != null) {
 			return new ResponseEntity(surveyService.publishSurveyById(id,(String)session.getAttribute("email")), HttpStatus.OK);
 		}else {

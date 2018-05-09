@@ -63,6 +63,8 @@ export class ViewSurveyComponent implements OnInit {
   }
 
 
+
+
   publish(){
     this.errorMessage = ''
     const _this = this;
@@ -79,6 +81,7 @@ export class ViewSurveyComponent implements OnInit {
       }
     );
   }
+
 
 
   closeSurvey(){
