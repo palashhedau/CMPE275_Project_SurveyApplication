@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tools.helper.Helper;
 import com.tools.requestParams.EditSurveyParams;
+import com.tools.requestParams.ExtendEndDateTime;
 import com.tools.requestParams.SurveyCreateParams;
 import com.tools.requestParams.SurveySubmitParams;
 import com.tools.responseParam.Response;
@@ -210,6 +211,17 @@ public class SurveyController {
 	public ResponseEntity<?> getSurveyDetails(@PathVariable int id, HttpSession session ) {
 		if(session.getAttribute("email") != null) {
 			return new ResponseEntity(surveyService.getSurveryStats(id), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
+		}	
+	}
+	
+	@RequestMapping(path="/extend-enddate/{id}", method=RequestMethod.POST)
+	public ResponseEntity<?> extendEndDate(@PathVariable int id,
+			@RequestBody ExtendEndDateTime obj,
+			HttpSession session ) {
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.extendEndDate(id, obj), HttpStatus.OK);
 		}else {
 			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
 		}	

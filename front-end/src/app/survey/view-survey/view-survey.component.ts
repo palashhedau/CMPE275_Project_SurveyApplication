@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyService} from '../survey-service.service';
 import {ResponseParam} from '../../ResponseParam.model';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-view-survey',
@@ -13,12 +14,14 @@ export class ViewSurveyComponent implements OnInit {
   public id: string;
   public surveyData: any;
   public errorMessage= '';
+  @ViewChild('endDate') endDate: NgModel;
+  public date: any;
+
   constructor(private currentRoute: ActivatedRoute,
               private surveyService: SurveyService,
               private router: Router) { }
 
   ngOnInit() {
-    console.log("View call hua re")
     this.id = this.currentRoute.snapshot.params['id'];
     this.currentRoute.params.subscribe(
       (params: Params) => {
@@ -27,6 +30,31 @@ export class ViewSurveyComponent implements OnInit {
       }
     );
   }
+
+  extend(){
+
+    this.errorMessage = '';
+    if(this.endDate.value === '' ){
+      this.errorMessage = 'Please enter proper date';
+      return;
+    }
+
+    this.surveyService.extendEndDate(this.id, this.endDate.value).subscribe(
+      (response : ResponseParam) => {
+        if(response.code){
+          this.errorMessage = response.message;
+          setTimeout(()=> {
+            this.errorMessage = ''
+          },3000);
+        }
+      },
+      (error) => {
+
+      }
+    );
+
+  }
+
 
   getViewSurvey() {
     this.errorMessage = ''
@@ -97,6 +125,9 @@ export class ViewSurveyComponent implements OnInit {
       (error) => {
         _this.errorMessage = 'Error occured while closing the survey';
       }
-    )
+    );
   }
+
+
+
 }

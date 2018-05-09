@@ -40,18 +40,19 @@
         </div>
 
 
-        <div class="col-xs-12 margin-bottom-10 ">
+        <div class="col-xs-12 margin-bottom-10">
           <b class="pull-left">Enter Survey End Date</b>
         </div>
 
         <div class="col-xs-6 margin-bottom-20">
-          <input type="date"
+          <input type="datetime-local"
                  class="form-control "
                  id="endDate"
+                 [(ngModel)]="date"
                  placeholder="End Date"
                  ngModel
                  name="endDate"
-                 [(ngModel)]="date">
+                 >
         </div>
       </div>
 

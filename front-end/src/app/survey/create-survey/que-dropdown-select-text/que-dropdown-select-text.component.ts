@@ -51,6 +51,7 @@ export class QueDropdownSelectTextComponent implements OnInit {
 
   deleteOptions(index: number){
     this.moreOptions.splice(index,1);
+    this.unique = true ;
     this.surveyService.deleteChoice(index + 2, this.id);
   }
 }

@@ -34,6 +34,7 @@ import com.tools.repository.SurveySubmitResponseAnswerRepository;
 import com.tools.requestParams.EditSurveyChoiceParams;
 import com.tools.requestParams.EditSurveyParams;
 import com.tools.requestParams.EditSurveyQuestionParams;
+import com.tools.requestParams.ExtendEndDateTime;
 import com.tools.requestParams.QuestionsAndAnswers;
 import com.tools.requestParams.SubmitSurveyQueList;
 import com.tools.requestParams.SurveyCreateParams;
@@ -133,9 +134,6 @@ public class SurveyService {
 			survey.setQuestions(new HashSet<Questions>());
 			questionsRepository.deleteBySurveyId(params.getId());
 			
-			if(params.getStatus().equalsIgnoreCase("Published") && survey.getStartTime() != null) {
-				survey.setStartTime(new Date());
-			}
 			
 			for(EditSurveyQuestionParams que : params.getQuestions()) {
 				
@@ -154,10 +152,27 @@ public class SurveyService {
 				
 				}
 				
+				
 				Set<Questions> questions = survey.getQuestions(); 
 				questions.add(question);
 				survey.setQuestions( questions);
 				
+			}
+			
+			survey.setName(params.getName());
+			survey.setCategory(params.getCategory());
+
+			if(params.getStatus().equalsIgnoreCase("Published") && survey.getStartTime() != null) {
+				survey.setStartTime(new Date());
+			}
+			if(params.getEndTime() != null && !params.getEndTime().equalsIgnoreCase("")) {
+				if(survey.getEndTime() == null && 
+						helper.parseDate(params.getEndTime()).compareTo(survey.getEndTime()) > 0) {
+					survey.setEndTime(helper.parseDate(params.getEndTime()));
+				}else if(helper.parseDate(params.getEndTime()).compareTo(survey.getEndTime()) > 0 ) {
+					System.out.println("HA 3");
+					survey.setEndTime(helper.parseDate(params.getEndTime()));
+				}
 			}
 			
 			Survey savedSurvey = surveyRepository.save(survey);
@@ -563,7 +578,9 @@ public class SurveyService {
 				if((registeredUser + guestUser) < 3) {
 					registeredUser = 0;
 					guestUser = 0;
-					stats.setSubmissions(survey.getSubmittedSurvery().size());
+					stats.setSubmissions(0);
+					stats.setParticipants(0);
+		
 				}
 				
 				stats.setGuestSurveyees(guestUser);
@@ -580,6 +597,23 @@ public class SurveyService {
 		
 		
 		
+	}
+
+	public Object extendEndDate(int id, ExtendEndDateTime params) {
+		Survey survey = surveyRepository.findById(id).get(0);
+		if(params.getEndDate() != null && !params.getEndDate().equalsIgnoreCase("")) {
+			if(survey.getEndTime() == null && 
+					helper.parseDate(params.getEndDate()).compareTo(survey.getEndTime()) > 0) {
+				survey.setEndTime(helper.parseDate(params.getEndDate()));
+				return new Response(200, "Successfully updated the end date");
+			}else if(helper.parseDate(params.getEndDate()).compareTo(survey.getEndTime()) > 0 ) {
+				System.out.println("HA 3");
+				survey.setEndTime(helper.parseDate(params.getEndDate()));
+				return new Response(200, "Successfully updated the end date");
+			}
+			
+		}
+		return new Response(400, "Please provide date bigger than previous end date");
 	}
 
 
