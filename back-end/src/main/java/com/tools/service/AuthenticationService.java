@@ -65,6 +65,7 @@ public class AuthenticationService {
 				if(passwordGenerator.matchPassword(authCred.getPassword(), auth.getPassword())) {
 					return new Response(200 , "Successfully loggedIn");
 				} else {
+					System.out.println("Incprrect pass");
 					 return new Response(400, "Incorrect password");
 				}
 			}else return new Response(400, "Account not activated");

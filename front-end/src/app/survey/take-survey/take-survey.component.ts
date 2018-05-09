@@ -20,6 +20,7 @@ export class TakeSurveyComponent implements OnInit {
 
   public showSurveyArea = false;
   public email: string = '';
+  @ViewChild('getEmail') getEmail : NgModel;
 
   constructor(private currentRoute: ActivatedRoute,
               private surveyService: SurveyService,
@@ -94,7 +95,7 @@ export class TakeSurveyComponent implements OnInit {
       return;
     }
 
-    this.surveyService.submitSurvey(this.id, status).subscribe(
+    this.surveyService.submitSurvey(this.id, status, this.getEmail.value).subscribe(
         (response: ResponseParam) => {
           if(response.code === 404){
             this.router.navigate(['/not-found']);
