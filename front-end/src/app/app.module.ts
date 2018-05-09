@@ -63,7 +63,7 @@ import { SurveyInviteComponent } from './survey/survey-invite/survey-invite.comp
 import { SurveyStatsComponent } from './survey/survey-stats/survey-stats.component';
 import { SurveyAttemptedComponent } from './survey/survey-attempted/survey-attempted.component';
 import { ViewAttemptedSurveysComponent } from './survey/view-attempted-surveys/view-attempted-surveys.component';
-
+import { NeutronRatingModule } from 'neutron-star-rating';
 
 
 export function authServiceFactory(authService: AuthService): Function {
@@ -131,7 +131,8 @@ export function authServiceFactory(authService: AuthService): Function {
     FormsModule,
     AppRouting,
     HttpClientModule,
-    NgSelectModule
+    NgSelectModule,
+    NeutronRatingModule
   ],
   providers: [
     {

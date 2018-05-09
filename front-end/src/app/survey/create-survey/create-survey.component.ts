@@ -54,7 +54,6 @@ export class CreateSurveyComponent implements OnInit {
       let dateVar = this.date.value;
       this.surveyService.createSurvey(name, category, dateVar, status).subscribe(
         (response) => {
-          console.log("LE YE 2", _this.surveyService.id)
           this.surveyService.resetVariables();
           if (response.code === 200) {
             this.router.navigate(['/survey/create/success'])

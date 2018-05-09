@@ -26,7 +26,7 @@ import {ViewAttemptedSurveysComponent} from './survey/view-attempted-surveys/vie
 
 
 const appRoutes: Routes = [
-  {path : '' , component : AppComponent , pathMatch: 'full' },
+  {path : '' , component : MySurveysComponent , pathMatch: 'full' },
   {path : 'signup' , canActivate: [AuthUnGuardService], component : SignupComponent},
   {path : 'signup/check-email-confirmation' , canActivate: [AuthUnGuardService], component:  SignUpCheckConfirmationComponent},
   {path : 'signup/check-email-confirmation/enter-code' , canActivate: [AuthUnGuardService], component:  SignUpEnterCodeComponent},

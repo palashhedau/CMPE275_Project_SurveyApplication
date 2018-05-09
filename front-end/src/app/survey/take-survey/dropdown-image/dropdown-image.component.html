@@ -14,13 +14,13 @@
 
 
       <ng-select class="custom" [items]="question['choice']" bindLabel="answers" bindValue="answers">
-    <ng-template class="custom"  ng-label-tmp let-item="item">
-        <img height="300" width="500" [src]="item.answers"/>
-    </ng-template>
-    <ng-template class="custom"  ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-        <img height="300" width="500" [src]="item.answers"/>
-    </ng-template>
-</ng-select>
+          <ng-template class="custom"  ng-label-tmp let-item="item">
+              <img height="300" width="500" [src]="item.answers"/>
+          </ng-template>
+          <ng-template class="custom"  ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              <img height="300" width="500" [src]="item.answers"/>
+          </ng-template>
+      </ng-select>
 
 
 

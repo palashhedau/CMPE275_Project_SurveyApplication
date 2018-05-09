@@ -1,5 +1,6 @@
 <div *ngIf="stats.invited !== undefined" class="col-xs-8 col-xs-offset-2">
   <div class="my-survey">
+    <h3>Survey Stats</h3>
       <div class="stats-component">
           <div class="col-xs-10">
               <b>Start Date</b>
@@ -57,7 +58,19 @@
       </div>
     </div>
 
-
-
+    <h3>Stats by Question</h3>
+      <div *ngFor="let que of surveyStats; index as i">
+        <div class="stats-component">
+          <div class="col-xs-1 question-area">
+            <b>{{i+1}}</b>
+          </div>
+          <div class="col-xs-11 question-area">
+            <b>{{que.question}}</b>
+          </div>
+          <div class="col-xs-12" *ngFor="let ch of que.distribution">
+            <b>{{ch.choice}} - {{ch.count}}</b>
+          </div>
+        </div>
+      </div>
   </div>
 </div>

@@ -249,7 +249,7 @@ export class SurveyService {
       }
 
       /*save the survey as well*/
-      this.submitSurvey(this.surveyId, 'Saved').subscribe(
+      this.submitSurvey(this.surveyId, 'Saved', false).subscribe(
         (response) => {
           console.log("Hua re save");
         } ,

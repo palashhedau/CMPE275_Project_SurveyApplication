@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tools.helper.Helper;
 import com.tools.requestParams.EditSurveyParams;
 import com.tools.requestParams.ExtendEndDateTime;
+import com.tools.requestParams.InviteSurveyParams;
 import com.tools.requestParams.SurveyCreateParams;
 import com.tools.requestParams.SurveySubmitParams;
 import com.tools.responseParam.Response;
@@ -163,13 +164,13 @@ public class SurveyController {
 	
 	@RequestMapping(path="/invite/{id}",method=RequestMethod.POST)
 	public ResponseEntity<?> inviteToSurvey(@PathVariable String id, 
-			@RequestBody String email,
-			@RequestBody String type,
+			@RequestBody InviteSurveyParams params, 
 			HttpSession session ){
 		
 		if(session.getAttribute("email") != null) {
-			if(email != null && !email.equalsIgnoreCase("")) {
-				return new ResponseEntity(surveyService.inviteToSurvey(id,email,(String) session.getAttribute("email")), HttpStatus.OK);
+			
+			if(params.getEmail() != null && !params.getEmail().equalsIgnoreCase("")) {
+				return new ResponseEntity(surveyService.inviteToSurvey(id,params.getEmail(),params.getType(), (String) session.getAttribute("email")), HttpStatus.OK);
 			}else {
 				return new ResponseEntity(new Response(400,"Please provide email"), HttpStatus.OK);
 			}
@@ -209,7 +210,7 @@ public class SurveyController {
 
 	@RequestMapping(path="/survey-stats/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> getSurveyDetails(@PathVariable int id, HttpSession session ) {
-		if(session.getAttribute("email") == null) {
+		if(session.getAttribute("email") != null) {
 			return new ResponseEntity(surveyService.getSurveryStats(id), HttpStatus.OK);
 		}else {
 			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);

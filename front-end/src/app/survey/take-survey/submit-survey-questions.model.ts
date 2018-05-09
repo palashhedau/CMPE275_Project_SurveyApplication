@@ -1,6 +1,6 @@
 export class QuestionsSubmitSurvey{
-  private questionId: number;
-  private choice: string [] = [];
+  public questionId: number;
+  public choice: string [] = [];
 
   constructor(questionId: number){
     this.questionId = questionId;
