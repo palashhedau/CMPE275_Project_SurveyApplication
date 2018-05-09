@@ -1,0 +1,17 @@
+.header {
+	background-color: #3e6cb7;
+}
+
+.navbar-brand {
+	color: #fff;
+	font-family: 'Helvetica';
+}
+
+.navbar-brand:hover { 
+	color: #fff;
+}
+
+
+.pull-right {
+	color: #fff;
+}

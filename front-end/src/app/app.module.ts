@@ -9,6 +9,7 @@ import { CreateSurveyComponent } from './survey/create-survey/create-survey.comp
 import { SurveyComponent } from './survey/survey.component';
 import { NotFoundComponent } from './landing/not-found/not-found.component';
 import { AppRouting} from './app-routing.module';
+import { HeaderComponent } from './header/header.component';
 
 import { QueShortAnswerComponent } from './survey/create-survey/que-short-answer/que-short-answer.component';
 import { QueSingleOptionSelectTextComponent } from './survey/create-survey/que-single-option-select-text/que-single-option-select-text.component';
@@ -122,7 +123,8 @@ export function authServiceFactory(authService: AuthService): Function {
     SurveyInviteComponent,
     SurveyStatsComponent,
     SurveyAttemptedComponent,
-    ViewAttemptedSurveysComponent
+    ViewAttemptedSurveysComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
