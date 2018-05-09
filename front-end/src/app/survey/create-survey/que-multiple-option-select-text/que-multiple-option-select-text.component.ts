@@ -30,6 +30,7 @@ export class QueMultipleOptionSelectTextComponent implements OnInit {
 
   saveChoices(element: NgModel, sequence: number) {
     this.unique = this.surveyService.addChoice(element.value, sequence + 2 , this.id);
+    console.log(this.moreOptions.length);
     if(sequence > -1 && this.unique === true){
       this.moreOptions[sequence][1] =  element.value ;
       this.errorMessage = '';
@@ -51,6 +52,7 @@ export class QueMultipleOptionSelectTextComponent implements OnInit {
 
   deleteOptions(index: number){
     this.moreOptions.splice(index,1);
+    this.unique = true ;
     this.surveyService.deleteChoice(index + 2, this.id);
   }
 

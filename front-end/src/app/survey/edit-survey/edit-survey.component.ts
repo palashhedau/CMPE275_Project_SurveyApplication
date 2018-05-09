@@ -49,7 +49,7 @@ export class EditSurveyComponent implements OnInit {
           this.date = response.endTime;
           this.questionList = response.questions;
           this.data = response;
-
+          console.log(this.date)
         }
       },
       (error) => {

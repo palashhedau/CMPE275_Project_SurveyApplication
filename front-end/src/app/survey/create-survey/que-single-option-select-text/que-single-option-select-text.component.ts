@@ -32,9 +32,11 @@ export class QueSingleOptionSelectTextComponent implements OnInit {
     if(sequence > -1 && this.unique === true){
       this.moreOptions[sequence][1] =  element.value ;
       this.errorMessage = '';
+      this.unique = true;
     }
     if(this.unique === false){
       this.errorMessage = 'Please enter unique options';
+
     }
   }
 
@@ -50,6 +52,7 @@ export class QueSingleOptionSelectTextComponent implements OnInit {
 
   deleteOptions(index: number){
     this.moreOptions.splice(index,1);
+    this.unique = true ;
     this.surveyService.deleteChoice(index + 2, this.id);
   }
 

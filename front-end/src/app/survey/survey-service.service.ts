@@ -12,7 +12,7 @@ export class SurveyService {
   public status: string;
   public category: string;
   public questionList: QuestionsAndAnswers[] = [];
-  public questionObject: QuestionsAndAnswers;
+  public questionObject: QuestionsAndAnswers = null;
   public id: number;
   public surveyId: string;
   public surveyCode: string;
@@ -26,10 +26,14 @@ export class SurveyService {
 
   addQuestion(question: string, questionType: string, name: string, category: string, date: string) {
     let allowNextQuestion: boolean = true;
-    if (this.questionObject != undefined){
+    console.log("AAAAAAAAAAA " + this.questionObject)
+    if (this.questionObject !== null){
+      console.log(1)
       let type: string = this.questionObject.getQuestionType();
       if(!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
+        console.log(2)
         if(this.questionObject.getChoices().length > 1 ){
+          console.log(3)
           for (let choice of this.questionObject.getChoices()) {
             if(choice.trim() === ''){
               allowNextQuestion = false;
@@ -37,6 +41,7 @@ export class SurveyService {
             }
           }
         } else if( type === 'Star Rating'){
+          console.log(4)
           if(this.questionObject.getChoices().length === 0){
             allowNextQuestion = false;
           }
@@ -47,6 +52,7 @@ export class SurveyService {
       }
 
       if ( allowNextQuestion === true) {
+        console.log(5)
         this.questionList.push(this.questionObject);
         // save the questionlist on the server
         const requestBody = {
@@ -75,6 +81,7 @@ export class SurveyService {
     }
 
     if(allowNextQuestion === true){
+      console.log("AAYA NA YAHA ")
       this.questionObject = new QuestionsAndAnswers(question , questionType);
       return true;
     }else{
@@ -198,7 +205,12 @@ export class SurveyService {
   }
 
   deleteQuestion(id: number) {
+    if(this.questionList.length === id){
+      this.questionObject = null;
+      return;
+    }
     this.questionList.splice(id, 1);
+
   }
 
 
@@ -341,5 +353,14 @@ export class SurveyService {
         withCredentials: true});
   }
 
+  /* Extend Date */
+  extendEndDate(id: string, date: string){
+    console.log(date)
+    return this.http.post('http://localhost:8081/extend-enddate/' + id,{
+      endDate : date
+    },
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
+  }
 
 }
