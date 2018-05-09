@@ -8,28 +8,13 @@
     </div>
   </div>
 
+
+
+
   <div class="answer-area">
     <div class="choice-div col-xs-8 col-xs-offset-1">
-      <div class="form-group">
-        <select
-          ngModel
-          name="answerChoice"
-          id="answerChoice"
-          class="form-control col-xs-4"
-          required
-          [(ngModel)]="answer"
-          (change)="selectAnswer()"
-          #answerChoice="ngModel"
-        >
-          <option
-            *ngFor="let choice of ratings"
-            [value]="choice">
-            <span class="rating-option">{{choice}}</span>
-          </option>
-
-        </select>
-
-      </div>
+      <neutron-rating [rating]='0' [starColour]="'#FDD835'" [starSize]="3"
+                      (ratingClicked)='onRatingClicked($event)'></neutron-rating>
     </div>
 
   </div>

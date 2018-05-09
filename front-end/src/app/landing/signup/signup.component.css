@@ -90,3 +90,8 @@ input[type=email].ng-invalid.ng-touched , input[type=password].ng-invalid.ng-tou
   margin-bottom: 15px;
   color: red
 }
+
+
+.sign-up{
+  margin-top: 150px;
+}

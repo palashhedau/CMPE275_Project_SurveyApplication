@@ -1,6 +1,8 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
 import {NgModel} from '@angular/forms';
+import { NeutronRatingModule } from 'neutron-star-rating';
+
 
 @Component({
   selector: 'app-ratings',
@@ -10,16 +12,17 @@ import {NgModel} from '@angular/forms';
 export class RatingsComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
-  public ratings: number[];
+  public ratings: number;
   public answer: string;
-  @ViewChild('answerChoice') answerChoice : NgModel;
+
+
   constructor(private surveyService: SurveyService) { }
 
   ngOnInit() {
       if(this.question.choice[0]['answers'].trim() === '1-10 Stars'){
-        this.ratings = Array.from({length: 10}, (v, k) => k+1);
+        this.ratings = 10;
       } else {
-        this.ratings = Array.from({length: 5}, (v, k) => k+1);
+        this.ratings = 5;
       }
 
       if(this.question.surveySubmitResponseAnswers.length > 0){
@@ -27,8 +30,7 @@ export class RatingsComponent implements OnInit {
       }
   }
 
-
-  selectAnswer(){
-    this.surveyService.setChoice(this.question.id , this.answerChoice.value, this.question.questionType);
+  onRatingClicked(element:any){
+    this.surveyService.setChoice(this.question.id , element , this.question.questionType);
   }
 }

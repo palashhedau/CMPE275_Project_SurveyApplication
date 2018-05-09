@@ -12,7 +12,7 @@ export class MultipleOptionImageComponent implements OnInit {
   @Input() id: string;
   @ViewChild('options') option: NgModel;
 
-  public selectedOptions : [];
+  public selectedOptions = [];
 
   public choices: string [] = [];
   constructor(private surveyService : SurveyService) { }

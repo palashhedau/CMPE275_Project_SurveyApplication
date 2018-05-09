@@ -10,6 +10,7 @@ import {SurveyService} from '../survey-service.service';
 export class SurveyStatsComponent implements OnInit {
   public id: string;
   public stats = {};
+  public surveyStats = [];
   constructor(private currentRoute: ActivatedRoute,
               private surveyService: SurveyService,
               private router: Router) { }
@@ -30,15 +31,21 @@ export class SurveyStatsComponent implements OnInit {
       (response) => {
         if(response.code === undefined){
           this.stats = response;
+          console.log(this.stats)
+          this.surveyStats = this.stats.questions;
         }else{
           this.router.navigate(['/not-found'])
         }
-        console.log(this.stats)
       },
       (error) => {
         console.log(error);
       }
     );
+  }
+
+
+  generateArray(obj){
+    return Object.keys(obj).map((key)=>{ return obj[key]});
   }
 
 }

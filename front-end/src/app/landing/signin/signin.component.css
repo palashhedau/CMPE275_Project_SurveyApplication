@@ -66,3 +66,7 @@ input.ng-invalid.ng-touched   {
   margin-bottom: 15px;
   color: red
 }
+
+.sign-in{
+  margin-top: 150px;
+}

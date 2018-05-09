@@ -1,5 +1,8 @@
 package com.tools.service;
 
+import java.io.File;
+import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,17 +16,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.tools.helper.Helper;
+import com.tools.helper.QRCodeGenerator;
 import com.tools.model.Auth;
 import com.tools.model.Choice;
 import com.tools.model.Invites;
 import com.tools.model.Questions;
 import com.tools.model.Survey;
 import com.tools.model.Survey_Submit_Info;
-
 import com.tools.model.Survey_Submit_Response_Answers;
 import com.tools.repository.AuthRepository;
 import com.tools.repository.InvitesRepository;
@@ -31,7 +32,6 @@ import com.tools.repository.QuestionsRepository;
 import com.tools.repository.SurveyRepository;
 import com.tools.repository.SurveySubmitInfoRepository;
 import com.tools.repository.SurveySubmitResponseAnswerRepository;
-
 import com.tools.requestParams.EditSurveyChoiceParams;
 import com.tools.requestParams.EditSurveyParams;
 import com.tools.requestParams.EditSurveyQuestionParams;
@@ -40,6 +40,7 @@ import com.tools.requestParams.QuestionsAndAnswers;
 import com.tools.requestParams.SubmitSurveyQueList;
 import com.tools.requestParams.SurveyCreateParams;
 import com.tools.requestParams.SurveySubmitParams;
+import com.tools.responseParam.Distribution;
 import com.tools.responseParam.QuestionStats;
 import com.tools.responseParam.Response;
 import com.tools.responseParam.ResponseWithId;
@@ -100,16 +101,30 @@ public class SurveyService {
 				question.setSurvey(survey);
 				question.setQuestionType(que.getQuestionType());
 
-				for (String ans : que.getChoice()) {
+				if(que.getQuestionType().equalsIgnoreCase("Star Rating")) {
+					for (int i = 1 ; i <=5 ; i ++) {
+						Choice answer = new Choice(Integer.toString(i));
+						answer.setQuestions(question);
 
-					Choice answer = new Choice(ans);
-					answer.setQuestions(question);
+						Set<Choice> choice = question.getChoice();
+						choice.add(answer);
+						question.setChoice(choice);
+					}
+				}else {
+					for (String ans : que.getChoice()) {
 
-					Set<Choice> choice = question.getChoice();
-					choice.add(answer);
-					question.setChoice(choice);
+						Choice answer = new Choice(ans);
+						answer.setQuestions(question);
 
+						Set<Choice> choice = question.getChoice();
+						choice.add(answer);
+						question.setChoice(choice);
+
+					}
 				}
+				
+				
+				
 
 				Set<Questions> questions = survey.getQuestions();
 				questions.add(question);
@@ -249,7 +264,9 @@ public class SurveyService {
 							.findByUserEmailAndStatusAndSurveyId(email, "Saved", Integer.parseInt(id));
 					Survey_Submit_Info info = new Survey_Submit_Info();
 
+
 					if (infoList.size() > 0) {
+
 						info = infoList.get(0);
 						// delete old response
 						surveySubmitResponseAnswerRepository.deleteByQuestionsSurveySubmittedSurveryId(info.getId());
@@ -443,7 +460,8 @@ public class SurveyService {
 
 	}
 
-	public Object inviteToSurvey(String id, String email, String owner) {
+
+	public Object inviteToSurvey(String id, String email, String type,  String owner) {
 		try {
 			int code = 0;
 
@@ -465,15 +483,21 @@ public class SurveyService {
 
 				if (surveyCategory.equalsIgnoreCase("General")) {
 					invites.setCode(Integer.parseInt(id));
-					url = host + id + "/" + id;
-				} else if (surveyCategory.equalsIgnoreCase("Closed")) {
+
+					url=host +id + "/" + id;
+				}
+				else if(surveyCategory.equalsIgnoreCase("Closed")){
+					// check user is already invited and not taken the survey
+
 					List<Auth> _users = authRepository.findByEmail(email);
 					if (_users.size() > 0) {
 						invites.setCode(code);
-						url = host + id + "/" + code;
-					} else
-						return new Response(400, "User not registered");
-				} else if (surveyCategory.equalsIgnoreCase("Open")) {
+						url=host + id + "/" + code;
+					}
+					else return new Response(400,"User not registered");
+				}
+				else if(surveyCategory.equalsIgnoreCase("Open")) {
+					// check user is already invited and not taken the survey
 					invites.setCode(code);
 					url = host + id + "/" + code;
 				}
@@ -481,13 +505,42 @@ public class SurveyService {
 				invites.setEmail(email);
 				invites.setStatus(false);
 				invites.setSurvey(survey.get(0));
-
-				invitesRepository.save(invites);
-				try {
-					emailSenderService.inviteEmail(email, url);
-				} catch (MessagingException e) {
-					e.printStackTrace();
+				
+				if(type.equalsIgnoreCase("QR code"))
+				{
+					System.out.println("obhbhbhbhjbhjbjhbhjbhj");
+					QRCodeGenerator gc=new QRCodeGenerator();
+					
+					InetAddress ip;
+					try {
+						
+						ip = InetAddress.getLocalHost();
+					
+						String dir = System.getProperty("user.dir");
+						String filePath = dir+"\\src\\main\\resources\\public\\QRImages\\QRCode.png";
+						String qrcodeurl = ip.getHostAddress().toString()+":8081\\QRImages\\QRCode.png";
+						
+						int size = 125;
+						String fileType = "png";
+						File qrFile = new File(filePath);
+						gc.createQRImage(qrFile, url, size, fileType);
+						
+						System.out.println(qrcodeurl);
+				        emailSenderService.sendQRCodeEmail(qrcodeurl,email);
+					
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+						
+				}else {
+					try {
+						emailSenderService.inviteEmail(email, url);
+					} catch (MessagingException e) {
+						e.printStackTrace();
+					}
 				}
+					
+				invitesRepository.save(invites);
 			}
 			return new Response(200, "Successfully invited");
 		} catch (Exception e) {
@@ -529,22 +582,39 @@ public class SurveyService {
 
 	public Object getSurveryStats(int id) {
 		try {
+			System.out.println(" 1 11 1 ");
+			
 			List<Survey> surveyList = surveyRepository.findById(id);
 			if (surveyList != null && surveyList.size() > 0) {
+				
+				System.out.println(" 1 11 1 ");
+				
+				
+				
 			    HashMap<String, QuestionStats> hmap = new HashMap<String, QuestionStats>();
-				Survey survey = surveyList.get(0);
+				
+			    
+			    
+			    
+			    Survey survey = surveyList.get(0);
 				SurveyStats stats = new SurveyStats();
 				stats.setStartTime(survey.getStartTime());
 				stats.setEndTime(survey.getEndTime());
 				stats.setParticipants(survey.getSubmittedSurvery().size());
 				stats.setSubmissions(survey.getSubmittedSurvery().size());
 				stats.setInvited(survey.getInvites().size());
+				
+				
+				List<QuestionStats> questionsList = new ArrayList<>();
+				
 				Set<Questions> questions = survey.getQuestions();
 				for (Questions q : questions) {
 					QuestionStats questionStats = (QuestionStats) getQuestionStats(q.getId());
-					hmap.put(q.getQuestion(), questionStats);
+					questionsList.add(questionStats);
 				}
-				stats.setQuestions(hmap);
+				stats.setQuestions(questionsList);
+				
+				
 				int registeredUser = 0;
 				int guestUser = 0;
 				// calculate RegisteredSurveyees
@@ -580,18 +650,31 @@ public class SurveyService {
 	
 	public Object getQuestionStats(int id) {
 		try {
+			
 			List<Questions> questionList = questionsRepository.findById(id);
+			
 			if (questionList != null && questionList.size() > 0) {
+				
 				Questions question = questionList.get(0);
+				
 				Set<Choice> choices = question.getChoice();
+				
 				QuestionStats stats = new QuestionStats();
-				stats.setChoices(choices.size());
-			    HashMap<String, Integer> hmap = new HashMap<String, Integer>();
+				stats.setQuestion(question.getQuestion());
+				
+			    
+			    List<Distribution> distList = new ArrayList<>();
 				for (Choice c : choices) {
+					Distribution dist = new Distribution();
 					int number = surveySubmitResponseAnswerRepository.findByQuestionsIdAndAnswer(question.getId(),c.getAnswers()).size();
-					hmap.put(c.getAnswers(), number);
+					dist.setChoice(c.getAnswers());
+					dist.setCount(number);
+					distList.add(dist);
 				}
-				stats.setDistribution(hmap);
+				
+				
+				stats.setDistribution(distList);
+				
 				return stats;
 			} else {
 				return new Response(404, "No such question exists");

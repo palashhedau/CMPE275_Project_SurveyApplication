@@ -1,25 +1,30 @@
 package com.tools.responseParam;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class QuestionStats {
-	int  choices;
-    HashMap<String, Integer> distribution = new HashMap<String, Integer>();
+	String question;
+	
+    List<Distribution> distribution = new ArrayList<>();
 
+	public String getQuestion() {
+		return question;
+	}
 
-	public HashMap<String, Integer> getDistribution() {
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
+	public List<Distribution> getDistribution() {
 		return distribution;
 	}
 
-	public void setDistribution(HashMap<String, Integer> distribution) {
+	public void setDistribution(List<Distribution> distribution) {
 		this.distribution = distribution;
 	}
 
-	public int getChoices() {
-		return choices;
-	}
 
-	public void setChoices(int choices) {
-		this.choices = choices;
-	}
+
 }

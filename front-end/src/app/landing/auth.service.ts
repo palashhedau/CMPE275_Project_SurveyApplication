@@ -3,11 +3,13 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {ResponseParams} from './response.model';
 
 
+
 @Injectable()
 export class AuthService{
   public isLoggedIn = false;
   public email : string;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              ) {}
 
   login(email: string, password: string) {
     return this.http.post<ResponseParams>('http://localhost:8081/signin',
@@ -43,16 +45,8 @@ export class AuthService{
   }
 
   logout() {
-    const _this = this;
-    this.http.get('http://localhost:8081/logout',
+    return this.http.get('http://localhost:8081/logout',
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
-        withCredentials: true}).subscribe(
-      (response: boolean) => {
-        _this.isLoggedIn = response;
-      },
-      (error) => {
-          console.log(error);
-      }
-    );
+        withCredentials: true})
   }
 }

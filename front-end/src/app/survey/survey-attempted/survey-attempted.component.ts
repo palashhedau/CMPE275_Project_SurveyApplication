@@ -27,7 +27,7 @@ export class SurveyAttemptedComponent implements OnInit {
     );
 
     this.surveyService.getAttemptedSurvey(this.id).subscribe(
-      (response) => {
+      (response : any) => {
         if(response.code === undefined){
           console.log(response)
           this.email = this.authService.email

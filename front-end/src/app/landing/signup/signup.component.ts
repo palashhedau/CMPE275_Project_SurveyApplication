@@ -50,11 +50,11 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    const _this = this;
+
     this.authService.register(this.email.value, this.password.value, this.category).subscribe(
       (response) =>{
         if(response.code === 201){
-          _this.router.navigate(['signup', 'check-email-confirmation']);
+          this.router.navigate(['signup', 'check-email-confirmation']);
         }else{
           this.errorMessage = response.message;
         }

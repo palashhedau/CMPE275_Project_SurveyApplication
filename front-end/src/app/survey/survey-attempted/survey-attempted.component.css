@@ -1,6 +1,11 @@
 .my-survey{
-  background-color: #F0F8FF;
+  background-color: whitesmoke;
   padding: 30px
+}
+
+h3{
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 b{

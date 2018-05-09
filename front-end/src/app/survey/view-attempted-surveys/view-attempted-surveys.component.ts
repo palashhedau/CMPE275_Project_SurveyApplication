@@ -28,7 +28,7 @@ export class ViewAttemptedSurveysComponent implements OnInit {
 
   getMyResponse(){
     this.surveyService.viewMyResponse(this.id).subscribe(
-      (response) => {
+      (response: any) => {
             if(response.code === undefined){
               this.questionList = response;
             }else{

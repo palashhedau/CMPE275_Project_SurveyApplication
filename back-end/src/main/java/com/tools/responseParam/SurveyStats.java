@@ -1,7 +1,9 @@
 package com.tools.responseParam;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class SurveyStats {
 	int participants;
@@ -11,13 +13,14 @@ public class SurveyStats {
 	int invited;
 	int registeredSurvyees ;
 	int guestSurveyees;
-    HashMap<String, QuestionStats> questions = new HashMap<String, QuestionStats>();
+    List<QuestionStats> questions = new ArrayList<>();
     
-	public HashMap<String, QuestionStats> getQuestions() {
+	
+	public List<QuestionStats> getQuestions() {
 		return questions;
 	}
-	public void setQuestions(HashMap<String, QuestionStats> hmap) {
-		this.questions = hmap;
+	public void setQuestions(List<QuestionStats> questions) {
+		this.questions = questions;
 	}
 	public int getGuestSurveyees() {
 		return guestSurveyees;
