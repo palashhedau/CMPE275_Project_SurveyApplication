@@ -55,15 +55,17 @@ export class TakeSurveyComponent implements OnInit {
 
         this.isLoggedIn = this.authService.isLoggedIn;
 
-        if(typeof response === 'object' && response.code === 404){
+        if(typeof response === 'object' &&  ( response.code === 404 || response.code === 400 ) ){
           this.router.navigate(['/not-found']);
         } else {
           if(response.email === this.authService.email){
+
             this.router.navigate(['/not-found']);
              return;
           }
           this.showSurveyArea = true;
           console.log(response);
+
 
           const questionList = [];
           for (const question of response.questions){
@@ -99,6 +101,7 @@ export class TakeSurveyComponent implements OnInit {
 
     this.surveyService.submitSurvey(this.id, status, this.getEmail.value).subscribe(
         (response: ResponseParam) => {
+          console.log(response)
           if(response.code === 404){
             this.router.navigate(['/not-found']);
           } else if(response.code === 200){

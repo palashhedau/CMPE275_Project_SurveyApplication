@@ -23,6 +23,7 @@ export class SurveyStatsComponent implements OnInit {
         this.getStats();
       }
     );
+    console.log("Palash")
   }
 
 
