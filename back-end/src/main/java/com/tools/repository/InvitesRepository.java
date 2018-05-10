@@ -14,4 +14,7 @@ public interface InvitesRepository extends JpaRepository<Invites,Integer> {
 	List<Invites> findByCode(int code);
 	List<Invites> findBySurveyIdAndStatusAndEmailAndCode(int survey_id,boolean status, String email,
 			int code);
+	
+	List<Invites>  findByStatusAndEmailAndCode(boolean status, String email,
+			int code);
 }

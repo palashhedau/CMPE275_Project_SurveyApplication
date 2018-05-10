@@ -170,7 +170,7 @@ public class SurveyController {
 		if(session.getAttribute("email") != null) {
 			
 			if(params.getEmail() != null && !params.getEmail().equalsIgnoreCase("")) {
-				return new ResponseEntity(surveyService.inviteToSurvey(id,params.getEmail(),params.getType(), (String) session.getAttribute("email")), HttpStatus.OK);
+				return new ResponseEntity(surveyService.inviteToSurvey(id , params.getEmail(),params.getType(), (String) session.getAttribute("email")), HttpStatus.OK);
 			}else {
 				return new ResponseEntity(new Response(400,"Please provide email"), HttpStatus.OK);
 			}

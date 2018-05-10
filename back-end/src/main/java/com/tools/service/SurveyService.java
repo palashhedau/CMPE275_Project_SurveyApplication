@@ -72,7 +72,7 @@ public class SurveyService {
 	private SurveySubmitResponseAnswerRepository surveySubmitResponseAnswerRepository;
 
 	Helper helper = new Helper();
-	String host = "http://localhost/survey/take-survey/";
+	String host = "http://localhost:4200/survey/take-survey/";
 
 	public Object createSurvey(SurveyCreateParams params, String email) {
 		try {
@@ -237,6 +237,7 @@ public class SurveyService {
 	}
 
 	public Object submitSurvey(String id, String code, String email, SurveySubmitParams params) {
+		System.out.println(id + " " + code + " " + email );
 		try {
 			List<Survey> surveyList = surveyRepository.findById(Integer.parseInt(id));
 			if (surveyList.size() > 0) {
@@ -301,14 +302,18 @@ public class SurveyService {
 						}
 					}
 
-					if (!survey.getCategory().equalsIgnoreCase("General")) {
-						List<Invites> invites = invitesRepository.findByCodeAndEmail(Integer.parseInt(code), email);
-						if (invites.size() > 0) {
-							Invites inv = invites.get(0);
-							inv.setStatus(true);
-							invitesRepository.save(inv);
+					
+					if(params.getStatus().equalsIgnoreCase("Submitted")) {
+						if (!survey.getCategory().equalsIgnoreCase("General")) {
+							List<Invites> invites = invitesRepository.findByCodeAndEmail(Integer.parseInt(code), email);
+							if (invites.size() > 0) {
+								Invites inv = invites.get(0);
+								inv.setStatus(true);
+								invitesRepository.save(inv);
+							}
 						}
 					}
+					
 					return new Response(200, "Survey submitted successfully");
 				} else
 					return new Response(404, "Survey Not active");
@@ -329,6 +334,7 @@ public class SurveyService {
 	}
 
 	public Object getSurveyById(String id, int code, String email) {
+		System.out.println("Email " + email + " " + id  + code) ;
 		try {
 			// check if user eligible for taking survey
 			List<Survey> surveyList = surveyRepository.findByIdAndStatus(Integer.parseInt(id), "Published");
@@ -346,7 +352,7 @@ public class SurveyService {
 						return alreadyUsedSurvey.get(0);
 					}
 				}
-
+				System.out.println("Idhar aaua 1 ");
 				Survey survey = surveyList.get(0);
 				survey.setSubmittedSurvery(null);
 
@@ -355,10 +361,12 @@ public class SurveyService {
 					return survey;
 				} else if (survey.getCategory().equalsIgnoreCase("Open")
 						|| survey.getCategory().equalsIgnoreCase("Closed")) {
-					if (!email.equalsIgnoreCase("")) {
-						if (invitesRepository
-								.findBySurveyIdAndStatusAndEmailAndCode(Integer.parseInt(id), false, email, code)
-								.size() > 0) {
+					
+					System.out.println("Idhar aaua 2 ");
+					if (! ( email.equalsIgnoreCase(""))) {
+						System.out.println("Idhar aaua 2222 ");
+						if (invitesRepository.findBySurveyIdAndStatusAndEmailAndCode( Integer.parseInt(id), false, email.trim(), code).size() > 0) {
+							System.out.println("Idhar aaua");
 							return survey;
 						} else
 							return new Response(400, "Not Authorized to view the survey");
