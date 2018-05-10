@@ -59,9 +59,11 @@ export class TakeSurveyComponent implements OnInit {
           this.router.navigate(['/not-found']);
         } else {
           if(response.email === this.authService.email){
-            /* this.router.navigate(['/not-found']);
-             return;*/
+            this.router.navigate(['/not-found']);
+             return;
           }
+          this.showSurveyArea = true;
+          console.log(response);
 
           const questionList = [];
           for (const question of response.questions){
