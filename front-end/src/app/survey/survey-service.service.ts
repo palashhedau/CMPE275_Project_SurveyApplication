@@ -277,8 +277,10 @@ export class SurveyService {
 
   getSurveyById(id: string,code: string, email: string) {
     /* check survey type and session on server side*/
-    return this.http.get('http://localhost:8081/get-survey/' + id + '/' + code + '/' + email,{headers: new HttpHeaders().append('Content-Type', 'application/json'),
-      withCredentials: true});
+
+    return this.http.get('http://localhost:8081/get-survey/' + id + '/' + code + '/' + email, {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true}));
+
   }
 
   /* Close the survey */
