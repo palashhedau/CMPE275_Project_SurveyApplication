@@ -70,7 +70,8 @@
             <app-que-edit-shortanswer
               [question]="question.question"
               [id]="i"
-              (deleteQuestion)="deleteQuestion($event)">
+              (deleteQuestion)="deleteQuestion($event)"
+              (saveEditedQuestion)="saveEditedQuestion($event)">
             </app-que-edit-shortanswer>
           </div>
 
@@ -78,7 +79,8 @@
             <app-que-edit-datetime
               [question]="question.question"
               [id]="i"
-              (deleteQuestion)="deleteQuestion($event)">
+              (deleteQuestion)="deleteQuestion($event)"
+              (saveEditedQuestion)="saveEditedQuestion($event)">
 
             </app-que-edit-datetime>
           </div>
@@ -87,7 +89,8 @@
               <app-que-edit-yes-or-no
                 [question]="question.question"
                 [id]="i"
-                (deleteQuestion)="deleteQuestion($event)">
+                (deleteQuestion)="deleteQuestion($event)"
+                (saveEditedQuestion)="saveEditedQuestion($event)">
 
               </app-que-edit-yes-or-no>
           </div>
@@ -97,7 +100,7 @@
               [question]="question"
               [id]="i"
               (deleteQuestion)="deleteQuestion($event)"
-              (saveRatingsChoice)="saveRatingsChoice($event)">
+              (saveEditedQuestion)="saveEditedQuestion($event)">
 
             </app-que-edit-star-rating>
           </div>
@@ -111,7 +114,8 @@
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
-              (deleteOptions)="deleteOptions($event)">
+              (deleteOptions)="deleteOptions($event)"
+              (saveEditedQuestion)="saveEditedQuestion($event)">
 
               deleteOptions
             </app-que-edit-dropdown-select-image>
@@ -123,7 +127,8 @@
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
-              (deleteOptions)="deleteOptions($event)">
+              (deleteOptions)="deleteOptions($event)"
+              (saveEditedQuestion)="saveEditedQuestion($event)">
 
             </app-que-edit-dropdown-select-text>
           </div>
@@ -134,7 +139,8 @@
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
-              (deleteOptions)="deleteOptions($event)">
+              (deleteOptions)="deleteOptions($event)"
+              (saveEditedQuestion)="saveEditedQuestion($event)">
 
             </app-que-edit-multiple-option-select-image>
           </div>
@@ -145,7 +151,8 @@
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
-              (deleteOptions)="deleteOptions($event)">
+              (deleteOptions)="deleteOptions($event)"
+              (saveEditedQuestion)="saveEditedQuestion($event)">
 
             </app-que-edit-multiple-option-select-text>
           </div>
@@ -156,7 +163,8 @@
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
-              (deleteOptions)="deleteOptions($event)">
+              (deleteOptions)="deleteOptions($event)"
+              (saveEditedQuestion)="saveEditedQuestion($event)">
 
             </app-que-edit-single-option-select-image>
           </div>
@@ -168,6 +176,8 @@
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
               (deleteOptions)="deleteOptions($event)"
+              (saveEditedQuestion)="saveEditedQuestion($event)"
+
             >
 
             </app-que-edit-single-option-select-text>

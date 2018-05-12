@@ -18,3 +18,7 @@ a{
   font-size: 20px;
   color: red;
 }
+
+.no-padding{
+  padding: 0px;
+}

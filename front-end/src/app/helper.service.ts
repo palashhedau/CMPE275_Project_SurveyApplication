@@ -1,3 +1,4 @@
+/*require('aws-sdk/dist/aws-sdk');*/
 require('aws-sdk/dist/aws-sdk');
 
 export class HelperService{

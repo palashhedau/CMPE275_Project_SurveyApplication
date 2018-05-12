@@ -20,8 +20,9 @@ public class Helper {
 	}
 	
 	public Date parseDate(String date) {
+		System.out.println("Date to parse " + date);
 		try{
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 			sdf.setTimeZone(TimeZone.getTimeZone("PST"));
 			return sdf.parse(date);
 		}catch(Exception e) {
