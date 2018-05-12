@@ -181,7 +181,8 @@
             class="form-control col-xs-4 "
             required
             [(ngModel)]="defaultQuestionChoice"
-            (change)="addQuestion()"
+
+            (select)="addQuestion()"
             #questionType="ngModel"
             [disabled]="question.value === ''"
             >

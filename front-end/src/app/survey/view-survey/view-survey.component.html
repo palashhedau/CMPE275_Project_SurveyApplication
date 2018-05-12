@@ -64,26 +64,43 @@
           >Stats</button>
         </div>
 
-        <div class="form-group ">
-          <div class="col-xs-4 extend-date">
-            <label>Extend End Date</label>
-            <input type="datetime-local"
-                   class="form-control "
-                   id="endDate"
-                   placeholder="End Date"
-                   ngModel
-                   name="endDate"
-                   #endDate="ngModel">
-          </div>
 
+        <div class="col-xs-6">
+          <div class="form-group ">
+            <div class="extend-date">
+              <b>Current End Date :
+                <span *ngIf="surveyData.endTime != null">{{surveyData.endTime}}</span>
+                <span *ngIf="surveyData.endTime === null">Not Specified</span></b>
+            </div>
+          </div>
         </div>
-        <div class="col-xs-12 extend">
-          <button class="btn btn-info "
-                  (click)="extend()"
-                  [disabled]="surveyData.status === 'Closed' || surveyData.status === 'Unpublished'"
-                  >
-            Extend</button>
+
+
+
+        <div class="col-xs-6">
+          <div class="form-group ">
+            <div class="extend-date">
+              <label *ngIf="surveyData.endTime !== null">Extend End Date</label>
+              <label *ngIf="surveyData.endTime === null">Specify End Date</label>
+              <input type="datetime-local"
+                     class="form-control "
+                     id="endDate"
+                     placeholder="End Date"
+                     ngModel
+                     name="endDate"
+                     #endDate="ngModel">
+            </div>
+
+          </div>
+          <div class="extend">
+            <button class="btn btn-info "
+                    (click)="extend()"
+                    [disabled]="surveyData.status === 'Closed' || surveyData.status === 'Unpublished'"
+            >
+              Extend</button>
+          </div>
         </div>
+
 
 
 

@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm, NgModel} from '@angular/forms';
 import {SurveyService} from '../survey-service.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
 
 @Component({
   selector: 'app-create-survey',
@@ -53,7 +54,7 @@ export class CreateSurveyComponent implements OnInit {
       let category = this.category.value;
       let dateVar = this.date.value;
       this.surveyService.createSurvey(name, category, dateVar, status).subscribe(
-        (response) => {
+        (response : GetSurveyResponseParams) => {
           this.surveyService.resetVariables();
           if (response.code === 200) {
             this.router.navigate(['/survey/create/success'])
@@ -75,7 +76,4 @@ export class CreateSurveyComponent implements OnInit {
     this.surveyService.deleteQuestion(parseInt(data.id,10));
   }
 
-  saveRatingsChoice(data: {choice: string , sequence: string}) {
-    this.surveyService.saveRatingsChoice(data.choice, data.sequence);
-  }
 }

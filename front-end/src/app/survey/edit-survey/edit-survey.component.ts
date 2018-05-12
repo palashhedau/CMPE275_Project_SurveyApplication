@@ -3,6 +3,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyService} from '../survey-service.service';
 import {NgForm, NgModel} from '@angular/forms';
 import {ResponseParam} from '../../ResponseParam.model';
+import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
 
 @Component({
   selector: 'app-edit-survey',
@@ -39,7 +40,7 @@ export class EditSurveyComponent implements OnInit {
 
   getSurveyToEdit(){
     this.surveyService.getSurveyToEdit(this.id).subscribe(
-      (response) => {
+      (response : GetSurveyResponseParams) => {
         if (response.code === 'undefined') {
           this.route.navigate(['/not-found']);
         } else {
@@ -49,7 +50,6 @@ export class EditSurveyComponent implements OnInit {
           this.date = response.endTime;
           this.questionList = response.questions;
           this.data = response;
-          console.log(this.date)
         }
       },
       (error) => {
@@ -124,6 +124,10 @@ export class EditSurveyComponent implements OnInit {
     this.errorMessage = '';
     this.questionList.splice(parseInt(data.id,10), 1);
     this.createSurveyAsync('Unpublished');
+  }
+
+  saveEditedQuestion(data: {question: string , id: string}){
+      this.questionList[parseInt(data.id,10)]['question'] = data.question;
   }
 
   saveChoice(data: {choice: string, sequence: number , id: string}){

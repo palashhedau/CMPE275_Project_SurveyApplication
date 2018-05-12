@@ -3,6 +3,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyService} from '../survey-service.service';
 import {ResponseParam} from '../../ResponseParam.model';
 import {NgModel} from '@angular/forms';
+import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
 
 @Component({
   selector: 'app-view-survey',
@@ -59,8 +60,8 @@ export class ViewSurveyComponent implements OnInit {
   getViewSurvey() {
     this.errorMessage = ''
     this.surveyService.viewSurvey(this.id).subscribe(
-      (response) => {
-        console.log(typeof response);
+      (response: GetSurveyResponseParams) => {
+        console.log(response);
         if(typeof response === 'object' && response.code === 404){
           this.router.navigate(['/not-found']);
         }else{

@@ -12,10 +12,15 @@ export class QueEditSingleOptionSelectTextComponent implements OnInit {
   @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
   @Input('question') question: any;
   @Input('id') id: string;
-  @Output('deleteOptions') deleteOptionsEdit = new EventEmitter<{ sequence: number, id: string}>()
+  @Output('deleteOptions') deleteOptionsEdit = new EventEmitter<{ sequence: number, id: string}>();
 
+  @Output('saveEditedQuestion') saveEditedQuestion = new EventEmitter<{ question: string , id: string}>();
+  public editQuestion = false;
+  public editableQuestion = '';
 
   public optionArray = [];
+  public errorMessage = '';
+  public unique = true ;
 
   constructor(private surveyService: SurveyService) { }
   public moreOptions: any = [];
@@ -25,21 +30,51 @@ export class QueEditSingleOptionSelectTextComponent implements OnInit {
     for(const option of this.question.choice){
       this.optionArray.push([this.moreOptions.length , option.answers]);
     }
+    this.editableQuestion = this.question.question;
+  }
+
+  allowEditQuestion(){
+    this.editQuestion = true;
+  }
+
+  saveQuestion(){
+    this.editQuestion = false;
+    this.saveEditedQuestion.emit({ question: this.editableQuestion , id : this.id});
 
   }
 
   deleteQuestion(){
+    this.errorMessage = '';
     this.delete.emit({id : this.id});
   }
 
   saveChoices( element: NgModel,sequence: number) {
-    if(sequence > -1){
-      this.optionArray[sequence][1] =  element.value ;
+    this.errorMessage = '';
+    this.unique = true
+
+    let count = 0 ;
+    // check in options array if such option exist
+    for(const options of this.optionArray){
+      if(options[1] === element.value){
+        count ++ ;
+      }
     }
-    this.saveChoice.emit({choice: element.value, sequence: sequence , id: this.id});
+
+    if(count === 1){
+      this.optionArray[sequence][1] =  element.value ;
+      this.saveChoice.emit({choice: element.value, sequence: sequence , id: this.id});
+    }else{
+      this.errorMessage = 'Option already present';
+      this.unique = false;
+    }
+
   }
 
   addOptions(){
+    if(this.unique === false){
+      this.errorMessage = 'Before adding new options, check and correct previou ones';
+      return;
+    }
     this.optionArray.push([this.moreOptions.length , '']);
   }
 

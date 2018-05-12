@@ -7,18 +7,33 @@ import {NgModel} from '@angular/forms';
   styleUrls: ['./que-edit-star-rating.component.css']
 })
 export class QueEditStarRatingComponent implements OnInit {
-  @Input('question') question: string;
+  @Input('question') question: any;
   @Input('id') id: string;
   @Output('deleteQuestion') delete = new EventEmitter<{id: string}>();
   @Output('saveRatingsChoice') saveRatingsChoice = new EventEmitter<{choice: string, sequence: string}>()
+  @Output('saveEditedQuestion') saveEditedQuestion = new EventEmitter<{ question: string , id: string}>();
+  public editQuestion = false;
+  public editableQuestion = '';
+
 
   constructor() { }
 
   ngOnInit() {
+    this.editableQuestion = this.question.question;
   }
 
   deleteQuestion(){
     this.delete.emit({id : this.id});
+  }
+
+  allowEditQuestion(){
+    this.editQuestion = true;
+  }
+
+  saveQuestion(){
+    this.editQuestion = false;
+    this.saveEditedQuestion.emit({ question: this.editableQuestion , id : this.id});
+
   }
 
 

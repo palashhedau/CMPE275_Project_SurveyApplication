@@ -66,6 +66,7 @@ import { ViewAttemptedSurveysComponent } from './survey/view-attempted-surveys/v
 import { NeutronRatingModule } from 'neutron-star-rating';
 
 
+
 export function authServiceFactory(authService: AuthService): Function {
   return () => authService.checkSession();
 }

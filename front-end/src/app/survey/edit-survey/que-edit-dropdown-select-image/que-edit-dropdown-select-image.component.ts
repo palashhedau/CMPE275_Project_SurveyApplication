@@ -14,7 +14,9 @@ export class QueEditDropdownSelectImageComponent implements OnInit {
   @Input('question') question: any;
   @Input('id') id: string;
   @Output('deleteOptions') deleteOptionsInEdit = new EventEmitter<{sequence: number , id: string}>();
-
+  @Output('saveEditedQuestion') saveEditedQuestion = new EventEmitter<{ question: string , id: string}>();
+  public editQuestion = false;
+  public editableQuestion = '';
 
   constructor(private helperService: HelperService,
               private surveyService: SurveyService) { }
@@ -23,7 +25,19 @@ export class QueEditDropdownSelectImageComponent implements OnInit {
 
   ngOnInit() {
     this.moreOptions = this.question.choice;
+    this.editableQuestion = this.question.question;
   }
+
+  allowEditQuestion(){
+    this.editQuestion = true;
+  }
+
+  saveQuestion(){
+    this.editQuestion = false;
+    this.saveEditedQuestion.emit({ question: this.editableQuestion , id : this.id});
+
+  }
+
 
   deleteQuestion(){
     this.delete.emit({id : this.id});

@@ -5,6 +5,7 @@ import {ResponseParam} from '../../ResponseParam.model';
 import {AuthService} from '../../landing/auth.service';
 import {QuestionsSubmitSurvey} from './submit-survey-questions.model';
 import {NgModel} from '@angular/forms';
+import {GetSurveyResponseParams} from './get-survey-response-params.model';
 
 @Component({
   selector: 'app-take-survey',
@@ -52,7 +53,7 @@ export class TakeSurveyComponent implements OnInit {
 
   getSurvey(){
     this.surveyService.getSurveyById(this.id, this.code, this.email).subscribe(
-      (response) => {
+      (response : GetSurveyResponseParams) => {
         this.isLoggedIn = this.authService.isLoggedIn;
 
         if(typeof response === 'object' &&  ( response.code === 404 || response.code === 400 ) ){
@@ -99,7 +100,7 @@ export class TakeSurveyComponent implements OnInit {
       this.errorMessage = 'Please answer all the questions';
       return;
     }
-    console.log("Bhejra hu mai ise ");
+
     this.surveyService.submitSurvey(this.id, status, this.getEmail.value, this.email).subscribe(
         (response: ResponseParam) => {
           console.log(response)

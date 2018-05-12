@@ -1,8 +1,8 @@
 export class QuestionsAndAnswers {
-  private id: number;
-  private question: string;
-  private questionType: string;
-  private choice: string [] = [];
+  public id: number;
+  public question: string;
+  public questionType: string;
+  public choice: string [] = [];
 
   constructor(question: string, questionType: string) {
     this.question = question;

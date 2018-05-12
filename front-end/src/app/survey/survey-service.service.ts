@@ -2,6 +2,7 @@ import {QuestionsAndAnswers} from './create-survey/question.model';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {QuestionsSubmitSurvey} from './take-survey/submit-survey-questions.model';
+import {GetSurveyResponseParams} from './take-survey/get-survey-response-params.model';
 
 @Injectable()
 export class SurveyService {
@@ -26,14 +27,10 @@ export class SurveyService {
 
   addQuestion(question: string, questionType: string, name: string, category: string, date: string) {
     let allowNextQuestion: boolean = true;
-    console.log("AAAAAAAAAAA " + this.questionObject)
     if (this.questionObject !== null){
-      console.log(1)
       let type: string = this.questionObject.getQuestionType();
       if(!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No' || type === 'Star Rating' )) {
-        console.log(2)
         if(this.questionObject.getChoices().length > 1 ){
-          console.log(3)
           for (let choice of this.questionObject.getChoices()) {
             if(choice.trim() === ''){
               allowNextQuestion = false;
@@ -47,7 +44,6 @@ export class SurveyService {
       }
 
       if ( allowNextQuestion === true) {
-        console.log(5)
         this.questionList.push(this.questionObject);
         // save the questionlist on the server
         const requestBody = {
@@ -65,7 +61,7 @@ export class SurveyService {
           requestBody,
           {headers: new HttpHeaders().append('Content-Type', 'application/json'),
             withCredentials: true}).subscribe(
-          (response) => {
+          (response: GetSurveyResponseParams) => {
             _this.id = response.id;
           },
           (error) => {
@@ -111,6 +107,11 @@ export class SurveyService {
   }*/
 
   allowCreateSurvey() {
+
+    if(this.questionObject === null && this.questionList.length === 0){
+      return false;
+    }
+
     let allowSave = true;
 
 
@@ -134,7 +135,7 @@ export class SurveyService {
     }
 
 
-    if (this.questionObject !== undefined){
+    if (this.questionObject !== null){
 
       const type: string = this.questionObject.getQuestionType();
       if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No' || type === 'Star Rating')) {

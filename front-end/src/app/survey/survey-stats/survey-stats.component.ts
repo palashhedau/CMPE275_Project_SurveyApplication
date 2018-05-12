@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyService} from '../survey-service.service';
+import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
 
 @Component({
   selector: 'app-survey-stats',
@@ -23,18 +24,16 @@ export class SurveyStatsComponent implements OnInit {
         this.getStats();
       }
     );
-    console.log("Palash")
   }
 
 
   getStats(){
     this.surveyService.getStats(this.id).subscribe(
-      (response) => {
+      (response : GetSurveyResponseParams) => {
         if(response.code === undefined){
           this.stats = response;
-          console.log(this.stats)
-          this.surveyStats = this.stats.questions;
-        }else{
+          this.surveyStats = response.questions;
+        } else {
           this.router.navigate(['/not-found'])
         }
       },
@@ -45,8 +44,5 @@ export class SurveyStatsComponent implements OnInit {
   }
 
 
-  generateArray(obj){
-    return Object.keys(obj).map((key)=>{ return obj[key]});
-  }
 
 }
