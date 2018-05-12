@@ -15,15 +15,10 @@ export class QueEditStarRatingComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("CHecking length " + this.question.choice[0]['answers'])
   }
 
   deleteQuestion(){
     this.delete.emit({id : this.id});
-  }
-
-  saveChoices(element: NgModel) {
-    this.saveRatingsChoice.emit({choice: element.value , sequence: this.id});
   }
 
 

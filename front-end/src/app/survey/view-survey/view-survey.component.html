@@ -117,14 +117,12 @@
                     <img src="{{choice.answers}}">
                   </div>
                   <div class="col-xs-11 no-padding"
-                    *ngIf="!(question.questionType === 'Multiple Choice - Image' || question.questionType === 'Checkboxes - Image' || question.questionType === 'Dropdown - Image')">
+                    *ngIf="!(question.questionType === 'Multiple Choice - Image' || question.questionType === 'Checkboxes - Image' || question.questionType === 'Dropdown - Image' || question.questionType === 'Star Rating')">
                     <span>{{choice.answers}}</span>
                   </div>
 
                   <div class="col-xs-11 no-padding"
                        *ngIf="(question.questionType === 'Yes/No')">
-                    <span>Yes</span>
-                    <span>No</span>
                   </div>
 
                 </div>

@@ -18,11 +18,6 @@ export class QueStarRatingQuestionComponent implements OnInit {
 
   constructor() { }
 
-  saveChoices(element: NgModel) {
-    console.log("Palash3", element.value);
-    this.saveRatingsChoice.emit({choice: element.value , sequence: this.id});
-  }
-
   ngOnInit() {
   }
 

@@ -87,14 +87,13 @@ public class SurveyController {
 	public ResponseEntity<?> submitSurvey(@RequestBody SurveySubmitParams params, 
 			@PathVariable String id,
 			@PathVariable String code,
-			@RequestParam(value="email", required=false) String email,
 			HttpSession session  ){
 		
 		if(session.getAttribute("email") != null){
 			return new ResponseEntity( surveyService.submitSurvey(id,code,(String)session.getAttribute("email"), params), HttpStatus.OK);
 		}
-		else if(email!=null){
-			return new ResponseEntity( surveyService.submitSurvey(id,code,email, params), HttpStatus.OK);
+		else if(params.getEmail()!=null){
+			return new ResponseEntity( surveyService.submitSurvey(id,code,params.getEmail(), params), HttpStatus.OK);
 		}
 		return new ResponseEntity( surveyService.submitSurvey(id,code,"", params), HttpStatus.OK);
 		

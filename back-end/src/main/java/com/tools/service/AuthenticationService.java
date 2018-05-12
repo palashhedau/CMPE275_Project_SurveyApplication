@@ -50,7 +50,7 @@ public class AuthenticationService {
 			emailService.sendVerificationEmail(verificationCode, auth.getEmail());
 			authToSave.setActivationCode(verificationCode);
 			authRepository.save(authToSave);
-			emailService.sendQRCodeEmail("http://files.channel9.msdn.com/wlwimages/ae054c0b4d7b402ab1239e6800c0220f/image%5b10%5d-18.png", "emailprateeksharma@gmail.com");
+			//emailService.sendQRCodeEmail("http://files.channel9.msdn.com/wlwimages/ae054c0b4d7b402ab1239e6800c0220f/image%5b10%5d-18.png", "emailprateeksharma@gmail.com");
 			return new Response(201,"User successfully registerd. Please check Email");
 		}
 		

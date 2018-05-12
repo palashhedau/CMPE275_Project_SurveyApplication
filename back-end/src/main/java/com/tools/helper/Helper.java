@@ -21,7 +21,6 @@ public class Helper {
 	
 	public Date parseDate(String date) {
 		try{
-			System.out.println("Date hai re ye " + date );
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 			sdf.setTimeZone(TimeZone.getTimeZone("PST"));
 			return sdf.parse(date);
