@@ -29,6 +29,24 @@ public class Survey_Submit_Response_Answers {
     @JoinColumn(name = "questions_id", nullable = false)
 	Questions questions;
 	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "survey_info_id", nullable = false)
+	Survey_Submit_Info surveyInfo;
+	
+	
+	
+	
+	
+	@JsonIgnore
+	public Survey_Submit_Info getSurveyInfo() {
+		return surveyInfo;
+	}
+
+	public void setSurveyInfo(Survey_Submit_Info surveyInfo) {
+		this.surveyInfo = surveyInfo;
+	}
+
 	String answer ;
 
 	public int getId() {

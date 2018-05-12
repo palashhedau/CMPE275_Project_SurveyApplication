@@ -20,6 +20,7 @@ export class TakeSurveyComponent implements OnInit {
 
   public showSurveyArea = false;
   public email: string = '';
+
   @ViewChild('getEmail') getEmail : NgModel;
 
   constructor(private currentRoute: ActivatedRoute,
@@ -52,20 +53,19 @@ export class TakeSurveyComponent implements OnInit {
   getSurvey(){
     this.surveyService.getSurveyById(this.id, this.code, this.email).subscribe(
       (response) => {
-
         this.isLoggedIn = this.authService.isLoggedIn;
 
         if(typeof response === 'object' &&  ( response.code === 404 || response.code === 400 ) ){
-          this.router.navigate(['/not-found']);
-        } else {
+          this.router.navigate(['/not-found'],{queryParams:{error: response.message}});
+        }
+        else {
           if(response.email === this.authService.email){
-
-            this.router.navigate(['/not-found']);
-             return;
+            this.router.navigate(['/not-found'], {queryParams : {error: 'You are not allowed to take your own survey'}});
+            return;
           }
-          this.showSurveyArea = true;
           console.log(response);
 
+          this.showSurveyArea = true;
 
           const questionList = [];
           for (const question of response.questions){
@@ -77,6 +77,7 @@ export class TakeSurveyComponent implements OnInit {
               questionList.push(obj);
             }
           }
+
           this.surveyService.setSurveySubmittedList(questionList);
           this.questionList = response.questions;
           this.surveyService.setSurveyId(this.id);
@@ -98,8 +99,8 @@ export class TakeSurveyComponent implements OnInit {
       this.errorMessage = 'Please answer all the questions';
       return;
     }
-
-    this.surveyService.submitSurvey(this.id, status, this.getEmail.value).subscribe(
+    console.log("Bhejra hu mai ise ");
+    this.surveyService.submitSurvey(this.id, status, this.getEmail.value, this.email).subscribe(
         (response: ResponseParam) => {
           console.log(response)
           if(response.code === 404){

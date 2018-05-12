@@ -1,23 +1,27 @@
 package com.tools.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="Survey_Submit_Info")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Survey_Submit_Info {
 	@Id
 	@GeneratedValue
@@ -27,28 +31,30 @@ public class Survey_Submit_Info {
 	
 	String status;
 	
-	
-
-
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id", nullable = false)
 	Survey survey;
 
-	/*
+	
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
-            mappedBy = "surveySubmitInfo")
-	private Set<Survey_Submit_Response> submittedSurveyResponse = new HashSet<>();*/
+            mappedBy = "surveyInfo")
+	private Set<Survey_Submit_Response_Answers> answerList = new HashSet<>();
 
-	/*public Set<Survey_Submit_Response> getSubmittedSurveyResponse() {
-		return submittedSurveyResponse;
+
+	
+
+	
+
+	public Set<Survey_Submit_Response_Answers> getAnswerList() {
+		return answerList;
 	}
 
 
-	public void setSubmittedSurveyResponse(Set<Survey_Submit_Response> submittedSurveyResponse) {
-		this.submittedSurveyResponse = submittedSurveyResponse;
+	public void setAnswerList(Set<Survey_Submit_Response_Answers> answerList) {
+		this.answerList = answerList;
 	}
-*/
+
 
 	public int getId() {
 		return id;

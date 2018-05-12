@@ -16,9 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="Survey")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Survey {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -26,13 +28,11 @@ public class Survey {
 	
 	String creator; 
 	
-	boolean publish;
 	
 	Date endTime ;
 	
 	
 	
-	String type ;
 	
 	String status ;
 	
@@ -73,13 +73,11 @@ public class Survey {
 	
 	Survey(){}
 	
-	public Survey(String creator , boolean publish , Date endTime, String type , String status, String category) {
+	public Survey(String creator ,  Date endTime,  String status, String category) {
 		super();
 		this.status = status;
 		this.creator = creator;
-		this.publish = publish;
 		this.endTime = endTime;
-		this.type = type; 
 		this.category = category;
 	}
 	
@@ -120,13 +118,7 @@ public class Survey {
 		this.auth = auth;
 	}*/
 
-	public boolean getPublish() {
-		return publish;
-	}
-
-	public void setPublish(boolean publish ) {
-		this.publish = publish;
-	}
+	
 
 	public Date getEndTime() {
 		return endTime;
@@ -135,17 +127,6 @@ public class Survey {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-
-	
 
 	
 	public Set<Invites> getInvites() {

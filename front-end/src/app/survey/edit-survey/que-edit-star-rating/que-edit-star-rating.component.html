@@ -1,18 +1,10 @@
 <div class="options">
   <div class="col-xs-10">
     <label for="dropdown" class="margin-top-10"><span>{{id+1}}.</span>  {{question.question}}</label>
-    {{question.choice[0]['answers']}}
+
   </div>
   <div class="col-xs-2 ">
     <a (click)="deleteQuestion()" class="pull-right"><i class="fa fa-times"></i></a>
   </div>
-  <select ngModel #ratings="ngModel"
-          (change)="saveChoices(ratings)"
-          name="ratings"
-          id="questiontype" class="form-control col-md-3"
-          [(ngModel)] ="question.choice[0]['answers']">
-    <option >1-5 Stars</option>
-    <option>1-10 Stars</option>
-  </select>
 </div>
 

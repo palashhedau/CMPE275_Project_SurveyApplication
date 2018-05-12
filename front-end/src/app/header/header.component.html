@@ -9,12 +9,68 @@
   	<div *ngIf="isLoggedIn == false" class="pull-right">
       	<a routerLink="/signin" class="navbar-brand"> Login </a>
       	<a routerLink="/signup" class="navbar-brand"> Signup </a>
-  	</div>
-      <div *ngIf="isLoggedIn == true" class="pull-right">
-        <a routerLink="/survey/create-survey" class="navbar-brand"> Create a Survey </a>
-        <a routerLink="/survey/attempted-survey" class="navbar-brand"> Taken Survey </a>
-        <a (click)="logout()" class="navbar-brand"> Logout </a>
-      </div>
+    </div>
+      <div *ngIf="isLoggedIn == true" class="">
+        <a routerLink="/survey/create-survey" class="navbar-brand pull-left "> Create Survey </a>
+        <a routerLink="/survey/attempted-survey" class="navbar-brand pull-left"> Taken Surveys </a>
+        <a (click)="logout()" class="navbar-brand pull-right"> Logout </a>
+    </div>
+    <div  class="pull-left">
+      <a routerLink="/open-survey" class="navbar-brand"> General Surveys </a>
+      <a routerLink="/general-survey" class="navbar-brand"> Open Surveys </a>
+    </div>
   </div>
   </div>
 </nav>
+
+<!--
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+  &lt;!&ndash;Survey Ape Link&ndash;&gt;
+  <a class="navbar-brand" href="#">SurveyApe</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Link for home page" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item active left-padding-navbar">
+        <a class="nav-link" href="#">Taken Survey <span class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item active left-padding-navbar">
+        <a class="nav-link" href="#">Create Survey<span class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item active left-padding-navbar">
+        <a class="nav-link" href="#">Open Survey<span class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item active left-padding-navbar">
+        <a class="nav-link" href="#">General Survey<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+
+
+    <ul class="navbar-nav ml-auto ">
+      <li class="nav-item dropdown active right-margin-navbar">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Account
+        </a>
+        <div class="dropdown-menu " aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Email</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Logout</a>
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+-->

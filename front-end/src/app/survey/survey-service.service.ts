@@ -30,7 +30,7 @@ export class SurveyService {
     if (this.questionObject !== null){
       console.log(1)
       let type: string = this.questionObject.getQuestionType();
-      if(!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
+      if(!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No' || type === 'Star Rating' )) {
         console.log(2)
         if(this.questionObject.getChoices().length > 1 ){
           console.log(3)
@@ -39,11 +39,6 @@ export class SurveyService {
               allowNextQuestion = false;
               break;
             }
-          }
-        } else if( type === 'Star Rating'){
-          console.log(4)
-          if(this.questionObject.getChoices().length === 0){
-            allowNextQuestion = false;
           }
         } else {
           allowNextQuestion = false;
@@ -106,14 +101,14 @@ export class SurveyService {
     }
  }
 
-  saveRatingsChoice(choice: string, id: string){
+ /* saveRatingsChoice(choice: string, id: string){
     if (parseInt(id,10 ) === this.questionList.length){
       this.questionObject.setChoice(choice);
     } else {
       this.questionList[parseInt(id, 10)].setChoice(choice);
     }
     console.log(this.questionObject)
-  }
+  }*/
 
   allowCreateSurvey() {
     let allowSave = true;
@@ -122,12 +117,12 @@ export class SurveyService {
     /*check all questionList as well*/
     for (const currentQue of this.questionList) {
       const type: string = currentQue.questionType;
-      if ( type === 'Star Rating') {
+     /* if ( type === 'Star Rating') {
         if (currentQue.choice.length === 0 || (currentQue.choice[0]['answers'] === '') ) {
           return false;
         }
-      }
-      else if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
+      }*/
+      if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No' || type === 'Star Rating')) {
         if (currentQue.choice.length > 1 ) {
           for (const choice of currentQue.choice) {
             if (choice.trim() === '') {
@@ -142,13 +137,13 @@ export class SurveyService {
     if (this.questionObject !== undefined){
 
       const type: string = this.questionObject.getQuestionType();
-      if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
-        if(type === 'Star Rating' ){
+      if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No' || type === 'Star Rating')) {
+        /*if(type === 'Star Rating' ){
           if(this.questionObject.getChoices().length === 0){
             allowSave = false;
           }
-        }
-        else if (this.questionObject.getChoices().length > 1 ) {
+        }*/
+        if (this.questionObject.getChoices().length > 1 ) {
           for (let choice of this.questionObject.getChoices()) {
             console.log(type)
             if (choice.trim() === '') {
@@ -191,7 +186,6 @@ export class SurveyService {
       name: name,
       id: this.id
     };
-    console.log("LE YE ", this.id)
     return this.http.post('http://localhost:8081/create-survey' ,
       requestBody,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
@@ -210,7 +204,6 @@ export class SurveyService {
       return;
     }
     this.questionList.splice(id, 1);
-
   }
 
 
@@ -229,8 +222,8 @@ export class SurveyService {
     this.questionToSubmitList = params;
   }
 
-  setChoice(id: number, choice: string, questionType: string){
-      console.log(id + " " + choice + " " + questionType);
+  setChoice(id: number, choice: string, questionType: string, email: string){
+      console.log(id + " " + choice + " " + questionType + " email " + email);
       let found: boolean = false;
       if (this.questionToSubmitList.length > 0) {
         console.log("Trying to add")
@@ -249,7 +242,7 @@ export class SurveyService {
       }
 
       /*save the survey as well*/
-      this.submitSurvey(this.surveyId, 'Saved', false).subscribe(
+      this.submitSurvey(this.surveyId, 'Saved', false, email).subscribe(
         (response) => {
           console.log("Hua re save");
         } ,
@@ -261,15 +254,18 @@ export class SurveyService {
 
   }
 
-  submitSurvey(id: string, status: string, confirmEmail: boolean) {
+  submitSurvey(id: string, status: string, confirmEmail: boolean, email: string) {
     /* check survey type and session on server side*/
     const requestBody = {
       questionList: this.questionToSubmitList,
         status: status,
-      confirmEmail : confirmEmail
+      confirmEmail : confirmEmail,
+      email : email
     };
 
-    console.log("YE LE --- " + this.questionToSubmitList)
+    console.log(requestBody)
+    console.log(requestBody)
+    console.log(this.questionToSubmitList)
     return this.http.post('http://localhost:8081/submit-survey/' + id + '/' + this.surveyCode
       , requestBody, {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
@@ -278,8 +274,9 @@ export class SurveyService {
   getSurveyById(id: string,code: string, email: string) {
     /* check survey type and session on server side*/
 
-    return this.http.get('http://localhost:8081/get-survey/' + id + '/' + code + '/' + email, {headers: new HttpHeaders().append('Content-Type', 'application/json'),
-        withCredentials: true}));
+    return this.http.get('http://localhost:8081/get-survey/' + id + '/' + code + '/' + email,
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
 
   }
 
@@ -292,6 +289,7 @@ export class SurveyService {
   }
 
   /* View Survey by ID */
+
   viewSurvey(id: string) {
     return this.http.get('http://localhost:8081/view-survey/' + id,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),

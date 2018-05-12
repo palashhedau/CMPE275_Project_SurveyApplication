@@ -11,6 +11,7 @@ export class DropdownTextComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
   @ViewChild('answerChoice') answerChoice: NgModel;
+  @Input() email: string;
   public selectedAnswer: string;
 
   constructor(private surveyService : SurveyService) { }
@@ -22,6 +23,6 @@ export class DropdownTextComponent implements OnInit {
   }
 
   selectAnswer(){
-    this.surveyService.setChoice(this.question.id , this.answerChoice.value, this.question.questionType);
+    this.surveyService.setChoice(this.question.id , this.answerChoice.value, this.question.questionType, this.email);
   }
 }

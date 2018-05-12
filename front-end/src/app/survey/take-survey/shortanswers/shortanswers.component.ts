@@ -11,6 +11,7 @@ export class ShortanswersComponent implements OnInit {
   @Input('question') question: any;
   @Input('id') id: string;
   public answer: string;
+  @Input() email: string;
   constructor(private surveyService : SurveyService) { }
 
   ngOnInit() {
@@ -21,7 +22,7 @@ export class ShortanswersComponent implements OnInit {
   }
 
   logData(){
-    this.surveyService.setChoice(this.question.id , this.answer, this.question.questionType);
+    this.surveyService.setChoice(this.question.id , this.answer, this.question.questionType, this.email);
   }
 
 }

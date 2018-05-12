@@ -11,6 +11,7 @@ export class MultipleOptionTextComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
   @ViewChild('options') option: NgModel;
+  @Input() email: string;
   public selectedOptions =  [];
 
   public choices: string [] = [];
@@ -20,11 +21,11 @@ export class MultipleOptionTextComponent implements OnInit {
     this.choices = this.question.choice;
 
     this.selectedOptions = this.question.surveySubmitResponseAnswers;
-
+    console.log(this.question)
   }
 
   getValue(choice : any){
-    this.surveyService.setChoice(this.question.id ,choice['answers'], this.question.questionType);
+    this.surveyService.setChoice(this.question.id ,choice['answers'], this.question.questionType, this.email);
   }
 
   checkIfChecked(option: String) {
@@ -33,6 +34,7 @@ export class MultipleOptionTextComponent implements OnInit {
         return true;
       }
     }
+
     return false;
   }
 

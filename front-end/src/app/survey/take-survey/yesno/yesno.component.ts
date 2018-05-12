@@ -10,7 +10,7 @@ export class YesnoComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
   public selectedAnswer: string;
-
+  @Input() email: string;
   constructor(private surveyService: SurveyService) { }
 
   ngOnInit() {
@@ -20,7 +20,7 @@ export class YesnoComponent implements OnInit {
   }
 
   logData(choice){
-    this.surveyService.setChoice(this.question.id , choice, this.question.questionType);
+    this.surveyService.setChoice(this.question.id , choice, this.question.questionType, this.email);
   }
 
 }

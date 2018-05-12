@@ -13,4 +13,5 @@ import com.tools.model.Survey_Submit_Response_Answers;
 public interface SurveySubmitResponseAnswerRepository extends JpaRepository<Survey_Submit_Response_Answers,Integer> {
 	List<Survey_Submit_Response_Answers> deleteByQuestionsSurveySubmittedSurveryId(int id);
 	List<Survey_Submit_Response_Answers> findByQuestionsIdAndAnswer(int questionsId, String answer);
+	List<Survey_Submit_Response_Answers> deleteBySurveyInfoId(int id);
 }

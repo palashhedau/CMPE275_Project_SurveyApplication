@@ -1,13 +1,15 @@
-<div class="col-xs-8  col-xs-offset-2 form-color">
+
   <form  #form="ngForm">
     <!-- Question List-->
-    <div *ngIf="showSurveyArea">
+    <div *ngIf="showSurveyArea" class="col-xs-8  col-xs-offset-2 form-color">
+    <div >
       <div  *ngFor="let question of questionList; index as i" class="question-div" >
         <div [ngSwitch]="question.questionType"  >
 
           <div *ngSwitchCase="'Short Answer'">
             <app-shortanswers
               [question]="question"
+              [email]="email"
               [id]="i">
             </app-shortanswers>
           </div>
@@ -15,6 +17,7 @@
           <div *ngSwitchCase="'Multiple Choice - Text'">
             <app-single-option-text
               [question]="question"
+              [email]="email"
               [id]="i">
             </app-single-option-text>
           </div>
@@ -22,6 +25,7 @@
           <div *ngSwitchCase="'Multiple Choice - Image'">
             <app-single-option-image
               [question]="question"
+              [email]="email"
               [id]="i">
             </app-single-option-image>
           </div>
@@ -29,6 +33,7 @@
           <div *ngSwitchCase="'Checkboxes - Text'" >
             <app-multiple-option-text
               [question]="question"
+              [email]="email"
               [id]="i">
             </app-multiple-option-text>
           </div>
@@ -36,6 +41,7 @@
           <div *ngSwitchCase="'Checkboxes - Image'">
             <app-multiple-option-image
               [question]="question"
+              [email]="email"
               [id]="i">
             </app-multiple-option-image>
           </div>
@@ -43,6 +49,7 @@
           <div *ngSwitchCase="'Dropdown - Text'">
             <app-dropdown-text
               [question]="question"
+              [email]="email"
               [id]="i">
             </app-dropdown-text>
           </div>
@@ -50,6 +57,7 @@
           <div *ngSwitchCase="'Dropdown - Image'">
             <app-dropdown-image
               [question]="question"
+              [email]="email"
               [id]="i">
             </app-dropdown-image>
           </div>
@@ -57,12 +65,14 @@
           <div *ngSwitchCase="'Yes/No'" >
             <app-yesno
               [question]="question"
+              [email]="email"
               [id]="i">
             </app-yesno>
           </div>
 
           <div *ngSwitchCase="'Star Rating'">
             <app-ratings
+              [email]="email"
               [question]="question"
               [id]="i">
             </app-ratings>
@@ -70,6 +80,7 @@
 
           <div *ngSwitchCase="'Datetime'" class="datetime-div" >
             <app-datetime
+              [email]="email"
               [question]="question"
               [id]="i">
             </app-datetime>
@@ -100,29 +111,31 @@
         </div>
       </div>
     </div>
+    </div>
 
     <!-- Question List end-->
-    <div class="question-div" *ngIf="showSurveyArea == false">
+    <div class="fill-email-div col-xs-offset-4 col-xs-4" *ngIf="showSurveyArea == false">
 
-        <div class="invite-div col-xs-offset-4 col-xs-4">
+        <div class="invite-div ">
           <div class="form-group email-div">
             <label for="email">Enter email </label>
             <input
               type="email"
-              class="form-control"
+              class="form-control sharp-corner"
               email
               id="email"
               required
-
               name="email"
               [(ngModel)] = "email"
               >
           </div>
+        </div>
+        <div class=" button-section">
           <div>
-            <button class="btn btn-info" (click)="getSurvey()">Take Survey</button>
+            <button class="btn btn-info form-control sharp-corner" (click)="getSurvey()">Take Survey</button>
           </div>
-          <div class="form-group">
-            <a (click)="skipUser()">Skip</a>
+          <div style="margin-top: 20px" class="form-group">
+            <b><a (click)="skipUser()">Skip</a></b>
           </div>
         </div>
 
@@ -131,4 +144,4 @@
 
   </form>
   <router-outlet></router-outlet>
-</div>
+

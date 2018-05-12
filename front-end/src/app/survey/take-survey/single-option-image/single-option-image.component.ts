@@ -11,7 +11,7 @@ export class SingleOptionImageComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
   @ViewChild('options') option: NgModel;
-
+  @Input() email: string;
   public choices: string [] = [];
   public selectedAnswer: string;
 
@@ -26,6 +26,6 @@ export class SingleOptionImageComponent implements OnInit {
   }
 
   getValue(choice: any) {
-    this.surveyService.setChoice(this.question.id , choice['answers'], this.question.questionType);
+    this.surveyService.setChoice(this.question.id , choice['answers'], this.question.questionType, this.email);
   }
 }

@@ -7,11 +7,25 @@
 	font-family: 'Helvetica';
 }
 
-.navbar-brand:hover { 
+.navbar-brand:hover {
 	color: #fff;
 }
 
 
 .pull-right {
 	color: #fff;
+}
+
+
+
+.left-padding-navbar {
+  padding-left: 30px;
+}
+
+.right-padding-navbar {
+  padding-right: 50px;
+}
+
+.right-margin-navbar {
+  margin-right: 50px;
 }

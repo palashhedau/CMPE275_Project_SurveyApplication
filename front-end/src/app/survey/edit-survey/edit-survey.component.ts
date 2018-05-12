@@ -59,14 +59,20 @@ export class EditSurveyComponent implements OnInit {
   }
 
   addQuestion() {
-    console.log(this.questionList)
+    console.log("Idhar aaya ?")
     this.errorMessage = '';
     if (this.allowCreateSurveyOrAddQuestion() === true) {
       this.createSurveyAsync('Unpublished');
 
       let choiceToBeSubstituted = [{id: 0, answers: ''},{id: 0, answers: ''}]
-      if(this.questionType.value == 'Star Rating'){
+
+      /*if(this.questionType.value == 'Star Rating'){
         choiceToBeSubstituted = [{id: 0, answers: ''}]
+      }*/
+
+      const type = this.questionType.value;
+      if(( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No' || type === 'Star Rating' )) {
+        choiceToBeSubstituted = [];
       }
 
       const questionObject = {
@@ -139,12 +145,12 @@ export class EditSurveyComponent implements OnInit {
 
     for (const currentQue of this.questionList) {
       const type: string = currentQue.questionType;
-      if ( type === 'Star Rating') {
+    /*  if ( type === 'Star Rating') {
         if (currentQue.choice.length === 0 || (currentQue.choice[0]['answers'] === '') ) {
           return false;
         }
-      }
-      else if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No')) {
+      }*/
+      if (!( type === 'Short Answer' || type === 'Datetime'  || type === 'Yes/No' || type === 'Star Rating')) {
         if (currentQue.choice.length > 1 ) {
           for (const choice of currentQue.choice) {
             if (choice.answers.trim() === '') {
@@ -152,13 +158,17 @@ export class EditSurveyComponent implements OnInit {
             }
           }
         }
-        }
       }
+    }
     return true;
   }
 
   deleteOptions(data:{sequence: number , id: string}){
+    console.log(data.id + " " + data.sequence)
+    console.log(this.questionList[data.id])
     this.questionList[parseInt(data.id,10)].choice.splice(data.sequence,1);
+    console.log(this.questionList[data.id])
+    console.log("----------------------------------------------")
   }
 
   createSurveyAsync(status: string){
@@ -191,8 +201,5 @@ export class EditSurveyComponent implements OnInit {
     }
   }
 
-  saveRatingsChoice(data:{choice: string, sequence: string}){
-    this.questionList[parseInt(data.sequence, 10)].choice[0]['answers'] = data.choice;
-  }
 
 }

@@ -11,6 +11,7 @@ export class MultipleOptionImageComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
   @ViewChild('options') option: NgModel;
+  @Input() email: string;
 
   public selectedOptions = [];
 
@@ -23,7 +24,7 @@ export class MultipleOptionImageComponent implements OnInit {
   }
 
   getValue(choice : any){
-    this.surveyService.setChoice(this.question.id , choice['answers'], this.question.questionType);
+    this.surveyService.setChoice(this.question.id , choice['answers'], this.question.questionType, this.email);
   }
 
   checkIfChecked(option: String) {

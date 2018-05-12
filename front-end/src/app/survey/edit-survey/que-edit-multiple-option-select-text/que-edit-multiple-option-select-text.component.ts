@@ -34,19 +34,20 @@ export class QueEditMultipleOptionSelectTextComponent implements OnInit {
   }
 
   saveChoices( element: NgModel, sequence: number) {
-  if(sequence > -1){
-  this.optionArray[sequence][1] =  element.value ;
-}
-this.saveChoice.emit({choice: element.value, sequence: sequence , id: this.id});
-}
+    if(sequence > -1){
+      this.optionArray[sequence][1] =  element.value ;
+    }
+    this.saveChoice.emit({choice: element.value, sequence: sequence , id: this.id});
+  }
 
-addOptions(){
-  this.optionArray.push([this.moreOptions.length , '']);
-}
+  addOptions(){
+    this.optionArray.push([this.moreOptions.length , '']);
+  }
 
-deleteOptions(index: number){
-  this.optionArray.splice(index,1);
-  this.deleteOptionsEdit.emit({ sequence: index , id: this.id});
-}
+  deleteOptions(index: number){
+    console.log("Emittin " + index)
+    this.optionArray.splice(index,1);
+    this.deleteOptionsEdit.emit({ sequence: index , id: this.id});
+  }
 
 }

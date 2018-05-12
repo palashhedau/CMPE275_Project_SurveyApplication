@@ -25,6 +25,7 @@ public interface SurveyRepository extends JpaRepository<Survey,Integer> {
 	List<Survey> findBySubmittedSurveryUserEmail(String email);
 	List<Survey> findBySubmittedSurveryUserEmailAndId(String email, int id);
 	
+	List<Survey>findBySubmittedSurveryUserEmailAndIdAndQuestionsSurveySubmitResponseAnswersSurveyInfoId(String email,int id ,int infoId);
 	
 	
 

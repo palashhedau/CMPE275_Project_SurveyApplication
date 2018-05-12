@@ -10,6 +10,7 @@ import {NgModel} from '@angular/forms';
 export class DatetimeComponent implements OnInit {
   @Input() question: any;
   @Input() id: string;
+  @Input() email: string;
   @ViewChild('selectedDate') selectedDate: NgModel;
   public selectedAnswer: string;
   constructor(private surveyService : SurveyService) { }
@@ -21,7 +22,7 @@ export class DatetimeComponent implements OnInit {
   }
 
   logDate(){
-    this.surveyService.setChoice(this.question.id , this.selectedDate.value, this.question.questionType);
+    this.surveyService.setChoice(this.question.id , this.selectedDate.value, this.question.questionType, this.email);
   }
 
 }

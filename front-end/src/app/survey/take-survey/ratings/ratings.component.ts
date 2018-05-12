@@ -12,25 +12,20 @@ import { NeutronRatingModule } from 'neutron-star-rating';
 export class RatingsComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
-  public ratings: number;
-  public answer: string;
+  @Input() email: string;
+  public ratings: number = 5;
+  public answer = 0;
 
 
   constructor(private surveyService: SurveyService) { }
 
   ngOnInit() {
-      if(this.question.choice[0]['answers'].trim() === '1-10 Stars'){
-        this.ratings = 10;
-      } else {
-        this.ratings = 5;
-      }
-
       if(this.question.surveySubmitResponseAnswers.length > 0){
         this.answer = this.question.surveySubmitResponseAnswers[0]['answer'];
       }
   }
 
   onRatingClicked(element:any){
-    this.surveyService.setChoice(this.question.id , element , this.question.questionType);
+    this.surveyService.setChoice(this.question.id , element , this.question.questionType, this.email);
   }
 }
