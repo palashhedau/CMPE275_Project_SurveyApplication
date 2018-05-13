@@ -18,3 +18,7 @@ h3{
 .question-area{
   margin-bottom: 20px;
 }
+
+.chart{
+  overflow: hidden;
+}

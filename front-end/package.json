@@ -23,6 +23,7 @@
     "@angular/router": "^5.2.0",
     "@ng-select/ng-select": "^1.4.1",
     "@types/node": "^6.0.110",
+    "angular-d3-charts": "^5.0.0",
     "angular-select2-component": "^1.1.3",
     "aws-sdk": "^2.231.1",
     "bootstrap": "^3.3.7",

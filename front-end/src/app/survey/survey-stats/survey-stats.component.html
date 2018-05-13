@@ -60,15 +60,26 @@
 
     <h3>Stats by Question</h3>
       <div *ngFor="let que of surveyStats; index as i">
-        <div class="stats-component">
+        <div class="stats-component row">
           <div class="col-xs-1 question-area">
             <b>{{i+1}}</b>
           </div>
           <div class="col-xs-11 question-area">
             <b>{{que.question}}</b>
           </div>
-          <div class="col-xs-12" *ngFor="let ch of que.distribution">
-            <b>{{ch.choice}} - {{ch.count}}</b>
+          <div class="col-xs-3" style="display: block">
+            <div  *ngFor="let ch of que.distribution">
+              <b>{{ch.choice}} - {{ch.count}}</b>
+            </div>
+          </div>
+          <div class="col-xs-9 chart">
+            <angular-d3-donut [id]=i
+                              [width]=300
+                              [outerRadius]=100
+                              [innerRadius]=80
+                              [spreadSlice]=false
+                              [data]=que.distribution>
+            </angular-d3-donut>
           </div>
         </div>
       </div>

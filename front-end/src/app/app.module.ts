@@ -65,6 +65,8 @@ import { SurveyAttemptedComponent } from './survey/survey-attempted/survey-attem
 import { ViewAttemptedSurveysComponent } from './survey/view-attempted-surveys/view-attempted-surveys.component';
 import { NeutronRatingModule } from 'neutron-star-rating';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { TestComponent } from './test/test.component';
+import {BarChartComponent, DoughnutChartComponent, PieChartComponent} from 'angular-d3-charts';
 
 
 export function authServiceFactory(authService: AuthService): Function {
@@ -125,7 +127,11 @@ export function authServiceFactory(authService: AuthService): Function {
     SurveyStatsComponent,
     SurveyAttemptedComponent,
     ViewAttemptedSurveysComponent,
-    HeaderComponent
+    HeaderComponent,
+    TestComponent,
+    DoughnutChartComponent,
+    PieChartComponent,
+    BarChartComponent
   ],
   imports: [
     BrowserModule,

@@ -23,6 +23,7 @@ import {SurveyInviteComponent} from './survey/survey-invite/survey-invite.compon
 import {SurveyStatsComponent} from './survey/survey-stats/survey-stats.component';
 import {SurveyAttemptedComponent} from './survey/survey-attempted/survey-attempted.component';
 import {ViewAttemptedSurveysComponent} from './survey/view-attempted-surveys/view-attempted-surveys.component';
+import {TestComponent} from './test/test.component';
 
 
 const appRoutes: Routes = [
@@ -48,7 +49,9 @@ const appRoutes: Routes = [
   {path : 'survey/invite/:id' , canActivate: [AuthGuardService], component: SurveyInviteComponent },
   {path : 'survey/stats/:id' , canActivate: [AuthGuardService], component: SurveyStatsComponent},
   {path : 'not-found' , component : NotFoundComponent},
+  {path : 'test' , component : TestComponent },
   {path : '**' , redirectTo : '/not-found' , pathMatch: 'full' }
+
 ]
 
 @NgModule({
