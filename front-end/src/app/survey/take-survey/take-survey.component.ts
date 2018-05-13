@@ -6,6 +6,7 @@ import {AuthService} from '../../landing/auth.service';
 import {QuestionsSubmitSurvey} from './submit-survey-questions.model';
 import {NgModel} from '@angular/forms';
 import {GetSurveyResponseParams} from './get-survey-response-params.model';
+import {SnotifyService} from 'ng-snotify';
 
 @Component({
   selector: 'app-take-survey',
@@ -28,7 +29,8 @@ export class TakeSurveyComponent implements OnInit {
               private surveyService: SurveyService,
               private currentPath: ActivatedRoute,
               private router: Router,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private snotifyService: SnotifyService) { }
 
   skipUser(){
     this.showSurveyArea = true ;
@@ -98,6 +100,7 @@ export class TakeSurveyComponent implements OnInit {
     // checking if all the questions answered
     if(status === 'Submitted' && this.surveyService.questionToSubmitList.length !== this.questionList.length){
       this.errorMessage = 'Please answer all the questions';
+      this.showNotification('Error', 'Please answer all the questions');
       return;
     }
 
@@ -111,9 +114,31 @@ export class TakeSurveyComponent implements OnInit {
           }
         },
         (error) => {
-          this.router.navigate(['/survey/submit/failure']);
+          this.showNotification('Error', 'Error occured while saving the survey');
         }
       );
     }
+
+  showNotification(type: string, body: string){
+    switch (type){
+      case  'Success' :
+        this.snotifyService.success(body, 'Status', {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+        break ;
+      case  'Error' :
+        this.snotifyService.error(body, 'Status', {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+        break;
+    }
+  }
+
 
 }

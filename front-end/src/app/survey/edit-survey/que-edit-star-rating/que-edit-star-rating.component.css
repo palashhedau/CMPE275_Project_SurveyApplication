@@ -19,3 +19,7 @@ a{
 span{
   font-size: 15px;
 }
+
+.no-padding{
+  padding: 0px;
+}

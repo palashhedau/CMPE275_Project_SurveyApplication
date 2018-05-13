@@ -3,6 +3,7 @@ import {NgForm, NgModel} from '@angular/forms';
 import {SurveyService} from '../survey-service.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
+import {SnotifyService} from 'ng-snotify';
 
 @Component({
   selector: 'app-create-survey',
@@ -24,18 +25,30 @@ export class CreateSurveyComponent implements OnInit {
 
 
   constructor(private surveyService: SurveyService,
-              private router: Router){}
+              private router: Router,
+              private snotifyService: SnotifyService){}
 
   ngOnInit() {
+    this.surveyService.resetVariables();
+  }
+
+  disable(){
+    if (this.formName.value === '' || this.category.value === ''){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   addQuestion() {
     this.errorMessage = '';
     if (this.surveyService.addQuestion(this.question.value , this.questionType.value,
       this.formName.value, this.category.value, this.date.value) === true) {
+      this.showNotification('Success', 'Question has been saved successfully');
       this.questionList.push([this.questionType.value, this.question.value]);
       this.defaultQuestionChoice = '';
     } else {
+      this.showNotification('Error', 'Please check previous question and insert proper values');
       this.errorMessage = 'Please check previous question and insert proper values';
       this.defaultQuestionChoice = '';
     }
@@ -73,7 +86,34 @@ export class CreateSurveyComponent implements OnInit {
 
   deleteQuestion(data: {id: string}){
     this.questionList.splice(parseInt(data.id,10), 1);
-    this.surveyService.deleteQuestion(parseInt(data.id,10));
+    if(this.surveyService.deleteQuestion(parseInt(data.id,10), this.formName.value, this.category.value, this.date.value) == true){
+      this.showNotification('Error', 'Question has been deleted successfully');
+    } else {
+      this.showNotification('Error', 'Error occured while deleting the question');
+    }
   }
+
+
+  showNotification(type: string, body: string){
+    switch (type){
+      case  'Success' :
+        this.snotifyService.success(body, 'Status', {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+        break ;
+      case  'Error' :
+        this.snotifyService.error(body, 'Status', {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+        break;
+    }
+  }
+
 
 }

@@ -42,7 +42,6 @@ export class SurveyService {
         }
 
       }
-
       if ( allowNextQuestion === true) {
         this.questionList.push(this.questionObject);
         // save the questionlist on the server
@@ -72,7 +71,6 @@ export class SurveyService {
     }
 
     if(allowNextQuestion === true){
-      console.log("AAYA NA YAHA ")
       this.questionObject = new QuestionsAndAnswers(question , questionType);
       return true;
     }else{
@@ -174,6 +172,7 @@ export class SurveyService {
   resetVariables(){
     this.questionObject = null;
     this.id = 0;
+    this.questionList = []
   }
 
   createSurvey(name: string, category: string, date: string, status: string) {
@@ -199,12 +198,38 @@ export class SurveyService {
         withCredentials: true});
   }
 
-  deleteQuestion(id: number) {
-    if(this.questionList.length === id){
+  deleteQuestion(idQuestion: number , name: string, category: string, date: string) {
+    if(this.questionList.length === idQuestion){
       this.questionObject = null;
-      return;
+    } else {
+      this.questionList.splice(idQuestion, 1);
     }
-    this.questionList.splice(id, 1);
+
+    if(this.questionList.length > 0 || this.questionObject != null){
+      const requestBody = {
+        questionList : this.questionList,
+        publish : true,
+        endTime : date,
+        category : category,
+        status : 'Unpublished',
+        name: name,
+        id: this.id
+      };
+      //this.questionList = [] - not making this null
+      const _this = this;
+      this.http.post('http://localhost:8081/create-survey' ,
+        requestBody,
+        {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+          withCredentials: true}).subscribe(
+        (response: GetSurveyResponseParams) => {
+          _this.id = response.id;
+        },
+        (error) => {
+          return false
+        }
+      );
+    }
+    return true;
   }
 
 

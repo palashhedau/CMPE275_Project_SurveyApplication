@@ -168,6 +168,7 @@
                  class="form-control col-xs-8 "
                  id="question"
                  ngModel
+                 [disabled]="disable()"
                  name="question"
                  placeholder="Enter Question"
                  [(ngModel)]="defaultQuestionChoice"
@@ -182,7 +183,7 @@
             required
             [(ngModel)]="defaultQuestionChoice"
 
-            (select)="addQuestion()"
+            (change)="addQuestion()"
             #questionType="ngModel"
             [disabled]="question.value === ''"
             >
@@ -225,5 +226,6 @@
 
     </div>
   </form>
-  <router-outlet></router-outlet>
+  <ng-snotify></ng-snotify>
+<router-outlet></router-outlet>
 </div>
