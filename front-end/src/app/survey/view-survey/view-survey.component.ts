@@ -4,6 +4,7 @@ import {SurveyService} from '../survey-service.service';
 import {ResponseParam} from '../../ResponseParam.model';
 import {NgModel} from '@angular/forms';
 import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
+import {SnotifyService} from 'ng-snotify';
 
 @Component({
   selector: 'app-view-survey',
@@ -20,7 +21,8 @@ export class ViewSurveyComponent implements OnInit {
 
   constructor(private currentRoute: ActivatedRoute,
               private surveyService: SurveyService,
-              private router: Router) { }
+              private router: Router,
+              private snotifyService: SnotifyService) { }
 
   ngOnInit() {
     this.id = this.currentRoute.snapshot.params['id'];
@@ -36,21 +38,21 @@ export class ViewSurveyComponent implements OnInit {
 
     this.errorMessage = '';
     if(this.endDate.value === '' ){
-      this.errorMessage = 'Please enter proper date';
+      this.showNotification('Error', 'Please enter proper date');
       return;
     }
 
     this.surveyService.extendEndDate(this.id, this.endDate.value).subscribe(
       (response : ResponseParam) => {
-        if(response.code){
-          this.errorMessage = response.message;
-          setTimeout(()=> {
-            this.errorMessage = ''
-          },3000);
+        console.log(response)
+        if(response.code === 200){
+          this.showNotification('Success', response.message);
+        }else{
+          this.showNotification('Error', response.message);
         }
       },
       (error) => {
-
+        this.showNotification('Error', 'Error occured');
       }
     );
 
@@ -64,7 +66,7 @@ export class ViewSurveyComponent implements OnInit {
         console.log(response);
         if(typeof response === 'object' && response.code === 404){
           this.router.navigate(['/not-found']);
-        }else{
+        } else {
           this.surveyData = response;
         }
       },
@@ -75,18 +77,18 @@ export class ViewSurveyComponent implements OnInit {
   }
 
   unpublish(){
-    this.errorMessage = ''
-    const _this = this;
+    this.errorMessage = '';
     this.surveyService.unpublish(this.id).subscribe(
       (response: ResponseParam) => {
         if(response.code === 200){
-          _this.getViewSurvey();
-        }else{
-          _this.errorMessage = response.message;
+          this.showNotification('Success','Survey unpublished successfully');
+          this.getViewSurvey();
+        } else {
+          this.showNotification('Success',response.message);
         }
       },
-      (error) => {
-        _this.errorMessage = 'Error Occured while unpublishing the survey';
+      (error) =>{
+        this.showNotification('Success','Error Occured while unpublishing the survey');
       }
     );
   }
@@ -96,17 +98,17 @@ export class ViewSurveyComponent implements OnInit {
 
   publish(){
     this.errorMessage = ''
-    const _this = this;
     this.surveyService.publishSurvey(this.id).subscribe(
       (response: ResponseParam) => {
         if(response.code === 200){
-          _this.getViewSurvey();
-        }else{
-          _this.errorMessage = response.message;
+          this.getViewSurvey();
+          this.showNotification('Success','Survey published successfully');
+        } else {
+          this.showNotification('Error',response.message)
         }
       },
       (error) => {
-        _this.errorMessage = 'Error Occured while Publishing the survey';
+        this.showNotification('Error', 'Error Occured while Publishing the surveyError Occured while Publishing the survey');
       }
     );
   }
@@ -114,21 +116,42 @@ export class ViewSurveyComponent implements OnInit {
 
 
   closeSurvey(){
-    const _this = this;
+
     this.surveyService.closeSurvey(this.id).subscribe(
       (response: ResponseParam) => {
         if(response.code === 200){
-          _this.getViewSurvey();
+          this.getViewSurvey();
+          this.showNotification('Success','Survey Closed successfully');
         }else{
-          _this.errorMessage = response.message;
+          this.showNotification('Error',response.message);
         }
       },
       (error) => {
-        _this.errorMessage = 'Error occured while closing the survey';
+        this.showNotification('Error','Error occured while closing the survey');
       }
     );
   }
 
 
+  showNotification(type: string, body: string){
+    switch (type){
+      case  'Success' :
+        this.snotifyService.success(body, 'Status', {
+          timeout: 4000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+        break ;
+      case  'Error' :
+        this.snotifyService.error(body, 'Status', {
+          timeout: 4000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+        break;
+    }
+  }
 
 }

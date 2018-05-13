@@ -31,6 +31,7 @@ export class SurveyStatsComponent implements OnInit {
     this.surveyService.getStats(this.id).subscribe(
       (response : GetSurveyResponseParams) => {
         if(response.code === undefined){
+          console.log(response)
           this.stats = response;
           this.surveyStats = response.questions;
         } else {
