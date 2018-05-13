@@ -64,7 +64,7 @@ import { SurveyStatsComponent } from './survey/survey-stats/survey-stats.compone
 import { SurveyAttemptedComponent } from './survey/survey-attempted/survey-attempted.component';
 import { ViewAttemptedSurveysComponent } from './survey/view-attempted-surveys/view-attempted-surveys.component';
 import { NeutronRatingModule } from 'neutron-star-rating';
-
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 
 
 export function authServiceFactory(authService: AuthService): Function {
@@ -133,7 +133,8 @@ export function authServiceFactory(authService: AuthService): Function {
     AppRouting,
     HttpClientModule,
     NgSelectModule,
-    NeutronRatingModule
+    NeutronRatingModule,
+    SnotifyModule
   ],
   providers: [
     {
@@ -147,7 +148,9 @@ export function authServiceFactory(authService: AuthService): Function {
     AuthService,
     HelperService,
     AuthGuardService,
-    AuthUnGuardService],
+    AuthUnGuardService,
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+    SnotifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

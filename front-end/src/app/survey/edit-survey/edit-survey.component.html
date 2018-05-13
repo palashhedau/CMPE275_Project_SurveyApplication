@@ -206,6 +206,7 @@
             id="question"
             ngModel
             name="question"
+            [disabled]="disable()"
             placeholder="Enter Question"
             [(ngModel)]="defaultQuestionChoice"
             #question="ngModel"></textarea>
@@ -261,6 +262,7 @@
       </div>
     </form>
     <router-outlet></router-outlet>
+    <ng-snotify></ng-snotify>
   </div>
 
 

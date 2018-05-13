@@ -4,6 +4,8 @@ import {SurveyService} from '../survey-service.service';
 import {NgForm, NgModel} from '@angular/forms';
 import {ResponseParam} from '../../ResponseParam.model';
 import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
+import {SnotifyService} from 'ng-snotify';
+
 
 @Component({
   selector: 'app-edit-survey',
@@ -26,7 +28,8 @@ export class EditSurveyComponent implements OnInit {
 
   constructor(private currentRoute: ActivatedRoute,
               private surveyService: SurveyService,
-              private route: Router) { }
+              private route: Router,
+              private snotifyService: SnotifyService) { }
 
   ngOnInit() {
     this.id = this.currentRoute.snapshot.params['id'];
@@ -36,6 +39,14 @@ export class EditSurveyComponent implements OnInit {
         this.getSurveyToEdit();
       }
     );
+  }
+
+  disable(){
+    if (this.formName === '' || this.category === ''){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getSurveyToEdit(){
@@ -59,7 +70,6 @@ export class EditSurveyComponent implements OnInit {
   }
 
   addQuestion() {
-    console.log("Idhar aaya ?")
     this.errorMessage = '';
     if (this.allowCreateSurveyOrAddQuestion() === true) {
       this.createSurveyAsync('Unpublished');
@@ -83,6 +93,7 @@ export class EditSurveyComponent implements OnInit {
       };
       this.questionList.push(questionObject);
     } else {
+      this.showNotification('Error', 'Please check all question and correct its values before adding new');
       this.errorMessage = 'Please check all question and correct its values before adding new';
     }
     this.defaultQuestionChoice = '';
@@ -107,6 +118,7 @@ export class EditSurveyComponent implements OnInit {
           if (response.code === 200){
               this.route.navigate(['survey', 'create' , 'success']);
           }else{
+            this.showNotification('Error', response.message);
             this.errorMessage = response.message;
           }
         },
@@ -115,6 +127,7 @@ export class EditSurveyComponent implements OnInit {
         }
         );
     } else {
+      this.showNotification('Error', 'Please check questions and correct its choices');
       this.errorMessage = 'Please check questions and correct its choices';
     }
 
@@ -168,11 +181,7 @@ export class EditSurveyComponent implements OnInit {
   }
 
   deleteOptions(data:{sequence: number , id: string}){
-    console.log(data.id + " " + data.sequence)
-    console.log(this.questionList[data.id])
     this.questionList[parseInt(data.id,10)].choice.splice(data.sequence,1);
-    console.log(this.questionList[data.id])
-    console.log("----------------------------------------------")
   }
 
   createSurveyAsync(status: string){
@@ -191,19 +200,42 @@ export class EditSurveyComponent implements OnInit {
       this.surveyService.editSurvey(editObject).subscribe(
         (response: ResponseParam) => {
           if (response.code === 200){
-
-          }else{
+            this.showNotification('Success', response.message);
+          } else {
             this.errorMessage = response.message;
+            this.showNotification('Error', response.message);
           }
         },
         (error) =>{
+          this.showNotification('Error', 'Error occured while saving survey');
           this.errorMessage = 'Error occured while saving survey';
         }
       );
     } else {
+      this.showNotification('Error', 'Please check questions and correct its choices');
       this.errorMessage = 'Please check questions and correct its choices';
     }
   }
 
+  showNotification(type: string, body: string){
+    switch (type){
+      case  'Success' :
+        this.snotifyService.success(body, 'Status', {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+        break ;
+      case  'Error' :
+        this.snotifyService.error(body, 'Status', {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+        break;
+    }
+  }
 
 }
