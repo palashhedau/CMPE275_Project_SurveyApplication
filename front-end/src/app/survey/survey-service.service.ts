@@ -249,10 +249,8 @@ export class SurveyService {
   }
 
   setChoice(id: number, choice: string, questionType: string, email: string){
-      console.log(id + " " + choice + " " + questionType + " email " + email);
-      let found: boolean = false;
+      let found = false;
       if (this.questionToSubmitList.length > 0) {
-        console.log("Trying to add")
         for(const question of this.questionToSubmitList){
             if(question.getId() === id){
               question.setChoice(choice, questionType);
@@ -270,14 +268,14 @@ export class SurveyService {
       /*save the survey as well*/
       this.submitSurvey(this.surveyId, 'Saved', false, email).subscribe(
         (response) => {
-          console.log("Hua re save");
+          console.log("Response aaya na " + response)
+          return true;
         } ,
         (error) => {
-          console.log('Error occured');
+          console.log("Response aaya nahi " + error)
+          return false;
         }
       );
-
-
   }
 
   submitSurvey(id: string, status: string, confirmEmail: boolean, email: string) {
@@ -289,9 +287,6 @@ export class SurveyService {
       email : email
     };
 
-    console.log(requestBody)
-    console.log(requestBody)
-    console.log(this.questionToSubmitList)
     return this.http.post('http://localhost:8081/submit-survey/' + id + '/' + this.surveyCode
       , requestBody, {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});

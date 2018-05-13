@@ -10,7 +10,8 @@
             <app-shortanswers
               [question]="question"
               [email]="email"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-shortanswers>
           </div>
 
@@ -18,7 +19,8 @@
             <app-single-option-text
               [question]="question"
               [email]="email"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-single-option-text>
           </div>
 
@@ -26,7 +28,8 @@
             <app-single-option-image
               [question]="question"
               [email]="email"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-single-option-image>
           </div>
 
@@ -34,7 +37,8 @@
             <app-multiple-option-text
               [question]="question"
               [email]="email"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-multiple-option-text>
           </div>
 
@@ -42,7 +46,8 @@
             <app-multiple-option-image
               [question]="question"
               [email]="email"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-multiple-option-image>
           </div>
 
@@ -50,7 +55,8 @@
             <app-dropdown-text
               [question]="question"
               [email]="email"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-dropdown-text>
           </div>
 
@@ -58,7 +64,8 @@
             <app-dropdown-image
               [question]="question"
               [email]="email"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-dropdown-image>
           </div>
 
@@ -66,7 +73,8 @@
             <app-yesno
               [question]="question"
               [email]="email"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-yesno>
           </div>
 
@@ -74,7 +82,8 @@
             <app-ratings
               [email]="email"
               [question]="question"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-ratings>
           </div>
 
@@ -82,7 +91,8 @@
             <app-datetime
               [email]="email"
               [question]="question"
-              [id]="i">
+              [id]="i"
+              (showNotification)="showNotification($event)">
             </app-datetime>
           </div>
 
