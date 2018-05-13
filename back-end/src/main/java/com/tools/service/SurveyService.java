@@ -623,7 +623,7 @@ public class SurveyService {
 						gc.createQRImage(qrFile, url, size, fileType);
 						
 						System.out.println(qrcodeurl);
-				        emailSenderService.sendQRCodeEmail(qrcodeurl,email);
+				        emailSenderService.sendQRCodeEmail(filePath,email);
 					
 					} catch (Exception e) {
 						e.printStackTrace();

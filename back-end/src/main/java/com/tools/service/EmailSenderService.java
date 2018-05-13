@@ -1,7 +1,15 @@
 package com.tools.service;
 
+import java.nio.charset.StandardCharsets;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.MessagingException;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,10 +144,23 @@ public class EmailSenderService {
 	@Async
 	public void sendQRCodeEmail(String url, String email) throws MessagingException {
 		MimeMessage message = javaMailSender.createMimeMessage();
-		message.setContent(composeQRCodeMessage(url), "text/html; charset=utf-8");
-		MimeMessageHelper helper = new MimeMessageHelper(message);
+		MimeMessageHelper helper = new MimeMessageHelper(message,MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+				StandardCharsets.UTF_8.name());
 		helper.setTo(email);
-		helper.setSubject("Verify your account!");
+		helper.setSubject("Invitation to participate in survey!");
+		
+        MimeMultipart multipart = new MimeMultipart("related");
+        BodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent(composeQRCodeMessage(url), "text/html");
+        multipart.addBodyPart(messageBodyPart);
+        messageBodyPart = new MimeBodyPart();
+        DataSource fds = new FileDataSource(url);
+
+        messageBodyPart.setDataHandler(new DataHandler(fds));
+        messageBodyPart.setHeader("Content-ID", "<image>");
+        multipart.addBodyPart(messageBodyPart);
+        message.setContent(multipart);		
+		
 		javaMailSender.send(message);
 	}
 	
@@ -151,7 +172,7 @@ public class EmailSenderService {
 				"<br>\n" + 
 				"<h2 style=\"font-family: Arial; color:#ff9966;\"> You are invited to take the survey. You can take the survey using the QR code below : "+
 				"</h2>";
-		message += "<img src='"+url+"' style='height:100px; width:100px'/>";
+		message += "<img src='cid:image' style='height:100px; width:100px'/>";
 		return message;
 	}
 
