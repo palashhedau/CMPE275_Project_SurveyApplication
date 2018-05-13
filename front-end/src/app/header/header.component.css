@@ -1,5 +1,7 @@
 .header {
 	background-color: #3e6cb7;
+	font-size: 100%;
+    font-family:'Nunito Sans', sans-serif !important;
 }
 
 .navbar-brand {
