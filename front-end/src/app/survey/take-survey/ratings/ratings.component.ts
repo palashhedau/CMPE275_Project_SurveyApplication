@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
 import {NgModel} from '@angular/forms';
 import { NeutronRatingModule } from 'neutron-star-rating';
@@ -13,7 +13,7 @@ export class RatingsComponent implements OnInit {
   @Input('question') question: any;
   @Input() id: string;
   @Input() email: string;
-  public ratings: number = 5;
+  @Output('showNotification') showNotification = new EventEmitter<{type: string, body: string}>();
   public answer = 0;
 
 
@@ -27,5 +27,6 @@ export class RatingsComponent implements OnInit {
 
   onRatingClicked(element:any){
     this.surveyService.setChoice(this.question.id , element , this.question.questionType, this.email);
+    this.showNotification.emit({type : 'Success' , body : 'Option saved Successfully'});
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
 import {NgModel} from '@angular/forms';
 
@@ -12,6 +12,7 @@ export class ShortanswersComponent implements OnInit {
   @Input('id') id: string;
   public answer: string;
   @Input() email: string;
+  @Output('showNotification') showNotification = new EventEmitter<{type: string, body: string}>();
   constructor(private surveyService : SurveyService) { }
 
   ngOnInit() {
@@ -23,6 +24,7 @@ export class ShortanswersComponent implements OnInit {
 
   logData(){
     this.surveyService.setChoice(this.question.id , this.answer, this.question.questionType, this.email);
+    this.showNotification.emit({type : 'Success' , body : 'Option saved Successfully'});
   }
 
 }

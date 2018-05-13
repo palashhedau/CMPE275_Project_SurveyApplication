@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
 import {NgModel} from '@angular/forms';
 
@@ -12,6 +12,7 @@ export class SingleOptionImageComponent implements OnInit {
   @Input() id: string;
   @ViewChild('options') option: NgModel;
   @Input() email: string;
+  @Output('showNotification') showNotification = new EventEmitter<{type: string, body: string}>();
   public choices: string [] = [];
   public selectedAnswer: string;
 
@@ -27,5 +28,6 @@ export class SingleOptionImageComponent implements OnInit {
 
   getValue(choice: any) {
     this.surveyService.setChoice(this.question.id , choice['answers'], this.question.questionType, this.email);
+    this.showNotification.emit({type : 'Success' , body : 'Option saved Successfully'});
   }
 }

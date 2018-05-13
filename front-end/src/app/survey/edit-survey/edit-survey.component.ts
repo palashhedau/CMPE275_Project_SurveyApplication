@@ -217,7 +217,9 @@ export class EditSurveyComponent implements OnInit {
     }
   }
 
-  showNotification(type: string, body: string){
+
+
+  showNotification(type: string, body: string ){
     switch (type){
       case  'Success' :
         this.snotifyService.success(body, 'Status', {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SurveyService} from '../../survey-service.service';
 
 @Component({
@@ -11,6 +11,8 @@ export class YesnoComponent implements OnInit {
   @Input() id: string;
   public selectedAnswer: string;
   @Input() email: string;
+  @Output('showNotification') showNotification = new EventEmitter<{type: string, body: string}>();
+
   constructor(private surveyService: SurveyService) { }
 
   ngOnInit() {
@@ -21,6 +23,7 @@ export class YesnoComponent implements OnInit {
 
   logData(choice){
     this.surveyService.setChoice(this.question.id , choice, this.question.questionType, this.email);
+    this.showNotification.emit({type : 'Success' , body : 'Option saved Successfully'});
   }
 
 }

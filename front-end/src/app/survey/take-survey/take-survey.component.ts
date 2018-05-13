@@ -100,7 +100,7 @@ export class TakeSurveyComponent implements OnInit {
     // checking if all the questions answered
     if(status === 'Submitted' && this.surveyService.questionToSubmitList.length !== this.questionList.length){
       this.errorMessage = 'Please answer all the questions';
-      this.showNotification('Error', 'Please answer all the questions');
+      this.showNotification({type:  'Error', body: 'Please answer all the questions'});
       return;
     }
 
@@ -114,15 +114,15 @@ export class TakeSurveyComponent implements OnInit {
           }
         },
         (error) => {
-          this.showNotification('Error', 'Error occured while saving the survey');
+          this.showNotification({ type: 'Error', body :  'Error occured while saving the survey'});
         }
       );
     }
 
-  showNotification(type: string, body: string){
-    switch (type){
+  showNotification(data: {type: string, body: string}){
+    switch (data.type){
       case  'Success' :
-        this.snotifyService.success(body, 'Status', {
+        this.snotifyService.success(data.body, 'Status', {
           timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
@@ -130,7 +130,7 @@ export class TakeSurveyComponent implements OnInit {
         });
         break ;
       case  'Error' :
-        this.snotifyService.error(body, 'Status', {
+        this.snotifyService.error(data.body, 'Status', {
           timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
