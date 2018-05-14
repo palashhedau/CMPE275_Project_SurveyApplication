@@ -27,7 +27,7 @@ import {TestComponent} from './test/test.component';
 
 
 const appRoutes: Routes = [
-  {path : '' , component : MySurveysComponent , pathMatch: 'full' },
+  {path : '' , component : MySurveysComponent , canActivate: [AuthGuardService], pathMatch: 'full' },
   {path : 'signup' , canActivate: [AuthUnGuardService], component : SignupComponent},
   {path : 'signup/check-email-confirmation' , canActivate: [AuthUnGuardService], component:  SignUpCheckConfirmationComponent},
   {path : 'signup/check-email-confirmation/enter-code' , canActivate: [AuthUnGuardService], component:  SignUpEnterCodeComponent},
@@ -36,7 +36,7 @@ const appRoutes: Routes = [
   {path : 'survey' , canActivate: [AuthGuardService], component : SurveyComponent ,  children : [
       {path : '' , canActivate: [AuthGuardService], component: MySurveysComponent},
       {path : 'attempted-survey' , canActivate: [AuthGuardService], component: SurveyAttemptedComponent},
-      {path : 'attempted-survey/view/:id' , canActivate: [AuthGuardService], component: ViewAttemptedSurveysComponent},
+      {path : 'attempted-survey/view/:id/:info-id' , canActivate: [AuthGuardService], component: ViewAttemptedSurveysComponent},
       {path : 'view-survey/:id' , component: ViewSurveyComponent},
       {path : 'create-survey' , canActivate: [AuthGuardService], component: CreateSurveyComponent},
       {path : 'edit-survey/:id' , canActivate: [AuthGuardService], component: EditSurveyComponent },

@@ -69,7 +69,7 @@
           <div class="form-group ">
             <div class="extend-date">
               <b>Current End Date :
-                <span *ngIf="surveyData.endTime != null">{{surveyData.endTime}}</span>
+                <span *ngIf="surveyData.endTime != null">{{surveyData.endTime | date : 'yyyy-MM-dd HH:mm'}}</span>
                 <span *ngIf="surveyData.endTime === null">Not Specified</span></b>
             </div>
           </div>

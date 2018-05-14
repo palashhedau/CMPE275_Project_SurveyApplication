@@ -14,4 +14,5 @@ public interface SurveySubmitResponseAnswerRepository extends JpaRepository<Surv
 	List<Survey_Submit_Response_Answers> deleteByQuestionsSurveySubmittedSurveryId(int id);
 	List<Survey_Submit_Response_Answers> findByQuestionsIdAndAnswer(int questionsId, String answer);
 	List<Survey_Submit_Response_Answers> deleteBySurveyInfoId(int id);
+	List<Survey_Submit_Response_Answers> findBySurveyInfoId(int id);
 }

@@ -1,5 +1,7 @@
 package com.tools.service;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.io.File;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -441,6 +443,9 @@ public class SurveyService {
 				} else if (survey.getCategory().equalsIgnoreCase("Open")) {
 					
 					if (! ( email.equalsIgnoreCase(""))) {
+						if (invitesRepository.findBySurveyIdAndStatusAndEmailAndCode( Integer.parseInt(id), true, email.trim(), code).size() > 0) {
+							return new Response(400, "You have already taken this survey");
+						}
 						if (invitesRepository.findBySurveyIdAndStatusAndEmailAndCode( Integer.parseInt(id), false, email.trim(), code).size() > 0) {
 							return survey;
 						} else
@@ -450,6 +455,9 @@ public class SurveyService {
 					}
 				}else if(survey.getCategory().equalsIgnoreCase("Closed")) {
 					if (! ( email.equalsIgnoreCase(""))) {
+						if (invitesRepository.findBySurveyIdAndStatusAndEmailAndCode( Integer.parseInt(id), true, email.trim(), code).size() > 0) {
+							return new Response(400, "You have already taken this survey");
+						}
 						if (invitesRepository.findBySurveyIdAndStatusAndEmailAndCode( Integer.parseInt(id), false, email.trim(), code).size() > 0) {
 							//check if user exist 
 							if(authRepository.findByEmail(email).size() > 0) {
@@ -647,7 +655,7 @@ public class SurveyService {
 
 	public Object getAttemptedSurveys(String email) {
 		try {
-			List<Survey> serveyList = surveyRepository.findBySubmittedSurveryUserEmail(email);
+			List<Object> serveyList = surveyRepository.findBySubmittedSurveryUserEmail(email);
 
 			if (serveyList.size() == 0) {
 				return new Response(404, "You have not attempted any surveys yet");
@@ -662,12 +670,30 @@ public class SurveyService {
 
 	}
 
-	public Object viewMyResponse(String email, String id) {
+	public Object viewMyResponse(String email, String id, String infoId) {
+		System.out.println("Email " + email + " " + id);
 		try {
 			List<Survey> surveyList = surveyRepository.findBySubmittedSurveryUserEmailAndId(email,
 					Integer.parseInt(id));
+			
+			//List<Survey_Submit_Info> surveyList = surveySubmitResponseAnswerRepository.findById(Integer.parseInt(infoId));
+			
 			if (surveyList.size() > 0) {
-				return surveyList.get(0).getQuestions();
+				//return surveySubmitResponseAnswerRepository.findBySurveyInfoId(Integer.parseInt(infoId));
+				int _infoId = Integer.parseInt(infoId);
+				List <Questions> questionList = questionsRepository.findBySurveyId(Integer.parseInt(id));
+				for( Questions que : questionList) {
+					Set<Survey_Submit_Response_Answers> res = que.getSurveySubmitResponseAnswers();
+					Set<Survey_Submit_Response_Answers> resultToSend = new HashSet<>();
+					for(Survey_Submit_Response_Answers ans : res) {
+						if(ans.getSurveyInfo().getId() == _infoId) {
+							resultToSend.add(ans);
+						}
+					}
+					que.setSurveySubmitResponseAnswers(resultToSend);
+				}
+				
+				return questionList;
 			}
 			return new Response(404, "No Such Survey Exist");
 		} catch (Exception e) {

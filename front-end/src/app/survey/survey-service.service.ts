@@ -362,8 +362,8 @@ export class SurveyService {
         withCredentials: true});
   }
 
-  viewMyResponse(id: string){
-    return this.http.get('http://localhost:8081/view-my-response/' + id,
+  viewMyResponse(id: string, infoId : string){
+    return this.http.get('http://localhost:8081/view-my-response/' + id + '/' + infoId,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
