@@ -11,6 +11,7 @@ export class ViewAttemptedSurveysComponent implements OnInit {
   public id: string;
   public errorMessage: string;
   public questionList = [];
+  public infoId : string;
 
   constructor(private currentRoute: ActivatedRoute,
               private surveyService: SurveyService,
@@ -18,18 +19,21 @@ export class ViewAttemptedSurveysComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.currentRoute.snapshot.params['id'];
+    this.infoId = this.currentRoute.snapshot.params['info-id'];
     this.currentRoute.params.subscribe(
       (params: Params) => {
         this.id = params['id'];
+        this.infoId = params['info-id']
         this.getMyResponse();
       }
     );
   }
 
   getMyResponse(){
-    this.surveyService.viewMyResponse(this.id).subscribe(
+    this.surveyService.viewMyResponse(this.id, this.infoId).subscribe(
       (response: any) => {
             if(response.code === undefined){
+              console.log(response)
               this.questionList = response;
             }else{
               this.router.navigate(['/not-found']);

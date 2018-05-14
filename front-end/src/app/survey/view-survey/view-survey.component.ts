@@ -46,6 +46,7 @@ export class ViewSurveyComponent implements OnInit {
       (response : ResponseParam) => {
         console.log(response)
         if(response.code === 200){
+          this.getViewSurvey()
           this.showNotification('Success', response.message);
         }else{
           this.showNotification('Error', response.message);

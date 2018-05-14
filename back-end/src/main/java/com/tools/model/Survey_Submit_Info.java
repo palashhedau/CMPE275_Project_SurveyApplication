@@ -45,7 +45,7 @@ public class Survey_Submit_Info {
 	
 
 	
-
+	@JsonIgnore
 	public Set<Survey_Submit_Response_Answers> getAnswerList() {
 		return answerList;
 	}

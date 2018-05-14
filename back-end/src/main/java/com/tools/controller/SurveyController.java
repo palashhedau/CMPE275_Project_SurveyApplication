@@ -198,10 +198,11 @@ public class SurveyController {
 	}
 	
 	
-	@RequestMapping(path="/view-my-response/{id}",method=RequestMethod.GET)
-	public ResponseEntity<?> viewMyResponse( HttpSession session, @PathVariable String id ){
+	@RequestMapping(path="/view-my-response/{id}/{infoId}",method=RequestMethod.GET)
+	public ResponseEntity<?> viewMyResponse( HttpSession session, @PathVariable("id") String id,
+			@PathVariable("infoId") String infoId){
 		if(session.getAttribute("email") != null) {
-			return new ResponseEntity(surveyService.viewMyResponse((String)session.getAttribute("email"), id), HttpStatus.OK);
+			return new ResponseEntity(surveyService.viewMyResponse((String)session.getAttribute("email"), id, infoId), HttpStatus.OK);
 		}else {
 			return new ResponseEntity(new Response(404, "Not Authorized to view the response"), HttpStatus.UNAUTHORIZED);
 		}
