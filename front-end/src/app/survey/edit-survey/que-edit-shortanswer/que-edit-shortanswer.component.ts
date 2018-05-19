@@ -10,6 +10,8 @@ export class QueEditShortanswerComponent implements OnInit {
   @Input('id') id: string;
   @Output('deleteQuestion') delete = new EventEmitter<{id: string}>();
   @Output('saveEditedQuestion') saveEditedQuestion = new EventEmitter<{ question: string , id: string}>();
+  @Input('questionType') questionType: string;
+
   public editQuestion = false;
   public editableQuestion = '';
 

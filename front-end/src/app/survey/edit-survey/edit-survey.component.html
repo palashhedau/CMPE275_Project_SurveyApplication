@@ -69,6 +69,7 @@
           <div *ngSwitchCase="'Short Answer'">
             <app-que-edit-shortanswer
               [question]="question.question"
+              [questionType]="question.questionType"
               [id]="i"
               (deleteQuestion)="deleteQuestion($event)"
               (saveEditedQuestion)="saveEditedQuestion($event)">
@@ -78,6 +79,7 @@
           <div *ngSwitchCase="'Datetime'">
             <app-que-edit-datetime
               [question]="question.question"
+              [questionType]="question.questionType"
               [id]="i"
               (deleteQuestion)="deleteQuestion($event)"
               (saveEditedQuestion)="saveEditedQuestion($event)">
@@ -88,6 +90,7 @@
           <div *ngSwitchCase="'Yes/No'">
               <app-que-edit-yes-or-no
                 [question]="question.question"
+                [questionType]="question.questionType"
                 [id]="i"
                 (deleteQuestion)="deleteQuestion($event)"
                 (saveEditedQuestion)="saveEditedQuestion($event)">
@@ -98,6 +101,7 @@
           <div *ngSwitchCase="'Star Rating'">
             <app-que-edit-star-rating
               [question]="question"
+              [questionType]="question.questionType"
               [id]="i"
               (deleteQuestion)="deleteQuestion($event)"
               (saveEditedQuestion)="saveEditedQuestion($event)">
@@ -113,6 +117,7 @@
               [question]="question"
               [id]="i"
               (saveChoice)="saveChoice($event)"
+              [questionType]="question.questionType"
               (deleteQuestion)="deleteQuestion($event)"
               (deleteOptions)="deleteOptions($event)"
               (saveEditedQuestion)="saveEditedQuestion($event)">
@@ -125,6 +130,7 @@
             <app-que-edit-dropdown-select-text
               [question]="question"
               [id]="i"
+              [questionType]="question.questionType"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
               (deleteOptions)="deleteOptions($event)"
@@ -137,6 +143,7 @@
             <app-que-edit-multiple-option-select-image
               [question]="question"
               [id]="i"
+              [questionType]="question.questionType"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
               (deleteOptions)="deleteOptions($event)"
@@ -148,6 +155,7 @@
           <div *ngSwitchCase="'Checkboxes - Text'">
             <app-que-edit-multiple-option-select-text
               [question]="question"
+              [questionType]="question.questionType"
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
@@ -160,6 +168,7 @@
           <div *ngSwitchCase="'Multiple Choice - Image'">
             <app-que-edit-single-option-select-image
               [question]="question"
+              [questionType]="question.questionType"
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"
@@ -172,6 +181,7 @@
           <div *ngSwitchCase="'Multiple Choice - Text'">
             <app-que-edit-single-option-select-text
               [question]="question"
+              [questionType]="question.questionType"
               [id]="i"
               (saveChoice)="saveChoice($event)"
               (deleteQuestion)="deleteQuestion($event)"

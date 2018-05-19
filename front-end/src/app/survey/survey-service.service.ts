@@ -79,6 +79,15 @@ export class SurveyService {
 
   }
 
+  saveEditedQuestion(question: string , id: string){
+    if(this.questionList.length > 0){
+      this.questionList[parseInt(id,10)]['question'] = question;
+    }else{
+      this.questionObject.question = question ;
+    }
+
+  }
+
   addChoice(choice: string , sequence: number , id: string) {
     if ( parseInt(id,10 ) === this.questionList.length) {
       return this.questionObject.addChoice(choice , sequence);

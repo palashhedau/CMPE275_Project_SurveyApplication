@@ -12,7 +12,7 @@ export class QueEditDatetimeComponent implements OnInit {
   @Output('saveEditedQuestion') saveEditedQuestion = new EventEmitter<{ question: string , id: string}>();
   public editQuestion = false;
   public editableQuestion = '';
-
+  @Input('questionType') questionType: string;
   constructor() { }
 
   ngOnInit() {

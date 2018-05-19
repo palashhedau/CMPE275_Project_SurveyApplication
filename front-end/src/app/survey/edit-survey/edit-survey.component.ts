@@ -5,6 +5,8 @@ import {NgForm, NgModel} from '@angular/forms';
 import {ResponseParam} from '../../ResponseParam.model';
 import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
 import {SnotifyService} from 'ng-snotify';
+import {Observable} from 'rxjs/Observable';
+import {CanDeactivateGuard} from '../../deactivate-guared.service';
 
 
 @Component({
@@ -12,13 +14,13 @@ import {SnotifyService} from 'ng-snotify';
   templateUrl: './edit-survey.component.html',
   styleUrls: ['./edit-survey.component.css']
 })
-export class EditSurveyComponent implements OnInit {
+export class EditSurveyComponent implements OnInit, CanDeactivateGuard {
   @ViewChild('questionType')questionType: NgModel;
   @ViewChild('question')question: NgModel;
   category: string;
   date: string;
   formName: string;
-
+  allowLeavePage =  false ;
   public id: string;
   public data: any = {};
   public defaultQuestionChoice = '';
@@ -116,6 +118,7 @@ export class EditSurveyComponent implements OnInit {
       this.surveyService.editSurvey(editObject).subscribe(
         (response: ResponseParam) => {
           if (response.code === 200){
+              this.allowLeavePage = true ;
               this.route.navigate(['survey', 'create' , 'success']);
           }else{
             this.showNotification('Error', response.message);
@@ -237,6 +240,19 @@ export class EditSurveyComponent implements OnInit {
           pauseOnHover: true
         });
         break;
+    }
+  }
+
+  canDeactivate() : Observable<boolean> | Promise<boolean> | boolean{
+    if(this.allowLeavePage == true){
+      return true;
+    }
+    if(this.allowLeavePage === false){
+      if (confirm('All unsaved changes will be lost. Are you sure you want to navigate away ?')) {
+        return true ;
+      } else {
+        return false;
+      }
     }
   }
 

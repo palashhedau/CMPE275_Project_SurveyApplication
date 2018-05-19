@@ -7,13 +7,15 @@ import {QuestionsSubmitSurvey} from './submit-survey-questions.model';
 import {NgModel} from '@angular/forms';
 import {GetSurveyResponseParams} from './get-survey-response-params.model';
 import {SnotifyService} from 'ng-snotify';
+import {Observable} from 'rxjs/Observable';
+import {CanDeactivateGuard} from '../../deactivate-guared.service';
 
 @Component({
   selector: 'app-take-survey',
   templateUrl: './take-survey.component.html',
   styleUrls: ['./take-survey.component.css']
 })
-export class TakeSurveyComponent implements OnInit {
+export class TakeSurveyComponent implements OnInit, CanDeactivateGuard {
   public id: string;
   public questionList: any = [];
   public code: string;
@@ -24,7 +26,7 @@ export class TakeSurveyComponent implements OnInit {
   public email: string = '';
 
   @ViewChild('getEmail') getEmail : NgModel;
-
+  allowLeavePage = false;
   constructor(private currentRoute: ActivatedRoute,
               private surveyService: SurveyService,
               private currentPath: ActivatedRoute,
@@ -96,7 +98,6 @@ export class TakeSurveyComponent implements OnInit {
   submitSurvey(status: string){
     this.errorMessage = ''
 
-    console.log(this.surveyService.questionToSubmitList.length + " " + this.questionList.length)
     // checking if all the questions answered
     if(status === 'Submitted' && this.surveyService.questionToSubmitList.length !== this.questionList.length){
       this.errorMessage = 'Please answer all the questions';
@@ -110,6 +111,7 @@ export class TakeSurveyComponent implements OnInit {
           if(response.code === 404){
             this.router.navigate(['/not-found']);
           } else if(response.code === 200){
+            this.allowLeavePage = true;
             this.router.navigate(['/survey/submit/success']);
           }
         },
@@ -137,6 +139,19 @@ export class TakeSurveyComponent implements OnInit {
           pauseOnHover: true
         });
         break;
+    }
+  }
+
+  canDeactivate() : Observable<boolean> | Promise<boolean> | boolean{
+    if(this.allowLeavePage == true){
+      return true;
+    }
+    if(this.allowLeavePage === false){
+      if (confirm('All unsaved changes will be lost. Are you sure you want to navigate away ?')) {
+        return true ;
+      } else {
+        return false;
+      }
     }
   }
 

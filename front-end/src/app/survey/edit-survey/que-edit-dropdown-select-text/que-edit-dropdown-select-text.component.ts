@@ -17,7 +17,7 @@ export class QueEditDropdownSelectTextComponent implements OnInit {
   @Output('saveEditedQuestion') saveEditedQuestion = new EventEmitter<{ question: string , id: string}>();
   public editQuestion = false;
   public editableQuestion = '';
-
+  @Input('questionType') questionType: string;
   /*public unique: boolean;
   public errorMessage = '';*/
 
