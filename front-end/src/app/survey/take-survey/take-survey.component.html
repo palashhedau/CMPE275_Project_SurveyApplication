@@ -2,7 +2,10 @@
   <form  #form="ngForm">
     <!-- Question List-->
     <div *ngIf="showSurveyArea" class="col-xs-8  col-xs-offset-2 form-color">
-    <div >
+      <div class="question-div">
+        <h3 style="text-align: center">{{name}}</h3>
+      </div>
+      <div >
       <div  *ngFor="let question of questionList; index as i" class="question-div" >
         <div [ngSwitch]="question.questionType"  >
 

@@ -1,16 +1,15 @@
 <form>
   <div class="invite-div col-xs-offset-4 col-xs-4">
     <div class="form-group email-div">
-      <label for="email">Enter email to invite</label>
-      <input
-        type="email"
+      <label for="email">Enter emails to invite seprated by comma</label>
+      <textarea
         class="form-control sharp-corner"
-        email
         id="email"
         required
         ngModel
         name="email"
         #email="ngModel">
+      </textarea>
     </div>
 
     <div class="form-group email-div">
