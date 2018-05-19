@@ -11,7 +11,17 @@ export class QueDatetimeComponent implements OnInit {
   @Output('deleteQuestion') delete = new EventEmitter<{id: string}>()
   @Input('id') id: string;
 
-  constructor(private surveyService: SurveyService) { }
+  @Input('questionType') questionType: string;
+  public editQuestion = false;
+  constructor(private surveyService : SurveyService) { }
+  allowEditQuestion(){
+    this.editQuestion = true;
+  }
+  saveQuestion(){
+    this.editQuestion = false;
+    this.surveyService.saveEditedQuestion(this.question , this.id);
+  }
+
 
   ngOnInit() {
   }

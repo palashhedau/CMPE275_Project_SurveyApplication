@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {SurveyService} from '../../survey-service.service';
 
 @Component({
   selector: 'app-que-yes-no',
@@ -14,7 +15,17 @@ export class QueYesNoComponent implements OnInit {
     this.delete.emit({id : this.id});
   }
 
-  constructor() { }
+  @Input('questionType') questionType: string;
+  public editQuestion = false;
+  constructor(private surveyService : SurveyService) { }
+  allowEditQuestion(){
+    this.editQuestion = true;
+  }
+  saveQuestion(){
+    this.editQuestion = false;
+    this.surveyService.saveEditedQuestion(this.question , this.id);
+  }
+
 
   ngOnInit() {
   }

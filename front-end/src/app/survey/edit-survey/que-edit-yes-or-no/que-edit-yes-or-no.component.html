@@ -17,12 +17,14 @@
          </span>
     </div>
 
+    <div class="col-xs-2"> <small>{{questionType}}</small></div>
 
   </div>
 
 
   <div class="col-xs-1 ">
-    <a (click)="allowEditQuestion()" class="pull-right" style="color: #3e6cb7"><i class="fa fa-edit"></i></a>
+    <a  *ngIf="editQuestion === false"  (click)="allowEditQuestion()" class="pull-right" style="color: #3e6cb7"><i class="fa fa-edit"></i></a>
+    <a *ngIf="editQuestion === true" (click)="saveQuestion()" class="pull-right" style="color: #3e6cb7"><i class="fa fa-check-square-o"></i></a>
   </div>
   <div class="col-xs-1 ">
     <a (click)="deleteQuestion()" class="pull-right"><i class="fa fa-times"></i></a>

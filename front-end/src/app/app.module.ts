@@ -67,6 +67,7 @@ import { NeutronRatingModule } from 'neutron-star-rating';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { TestComponent } from './test/test.component';
 import {BarChartComponent, DoughnutChartComponent, PieChartComponent} from 'angular-d3-charts';
+import {CanDeactivateGuard} from './deactivate-guared.service';
 
 
 export function authServiceFactory(authService: AuthService): Function {
@@ -156,7 +157,8 @@ export function authServiceFactory(authService: AuthService): Function {
     AuthGuardService,
     AuthUnGuardService,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
-    SnotifyService],
+    SnotifyService,
+  CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

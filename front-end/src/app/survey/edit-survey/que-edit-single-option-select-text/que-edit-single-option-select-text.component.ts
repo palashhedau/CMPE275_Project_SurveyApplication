@@ -13,7 +13,7 @@ export class QueEditSingleOptionSelectTextComponent implements OnInit {
   @Input('question') question: any;
   @Input('id') id: string;
   @Output('deleteOptions') deleteOptionsEdit = new EventEmitter<{ sequence: number, id: string}>();
-
+  @Input('questionType') questionType: string;
   @Output('saveEditedQuestion') saveEditedQuestion = new EventEmitter<{ question: string , id: string}>();
   public editQuestion = false;
   public editableQuestion = '';

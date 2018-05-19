@@ -24,6 +24,7 @@ import {SurveyStatsComponent} from './survey/survey-stats/survey-stats.component
 import {SurveyAttemptedComponent} from './survey/survey-attempted/survey-attempted.component';
 import {ViewAttemptedSurveysComponent} from './survey/view-attempted-surveys/view-attempted-surveys.component';
 import {TestComponent} from './test/test.component';
+import {CanComponentDeactivate, CanDeactivateGuard} from './deactivate-guared.service';
 
 
 const appRoutes: Routes = [
@@ -38,7 +39,7 @@ const appRoutes: Routes = [
       {path : 'attempted-survey' , canActivate: [AuthGuardService], component: SurveyAttemptedComponent},
       {path : 'attempted-survey/view/:id/:info-id' , canActivate: [AuthGuardService], component: ViewAttemptedSurveysComponent},
       {path : 'view-survey/:id' , component: ViewSurveyComponent},
-      {path : 'create-survey' , canActivate: [AuthGuardService], component: CreateSurveyComponent},
+      {path : 'create-survey' , canActivate: [AuthGuardService], canDeactivate : [CanDeactivateGuard]  ,  component: CreateSurveyComponent},
       {path : 'edit-survey/:id' , canActivate: [AuthGuardService], component: EditSurveyComponent },
     ]},
   {path : 'survey/take-survey/:id/:code' , component: TakeSurveyComponent },

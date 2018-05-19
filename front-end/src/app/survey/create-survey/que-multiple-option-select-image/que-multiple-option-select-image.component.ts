@@ -20,6 +20,15 @@ export class QueMultipleOptionSelectImageComponent implements OnInit {
               private surveyService: SurveyService,
               private authService: AuthService) { }
   public moreOptions: any = [];
+  @Input('questionType') questionType: string;
+  public editQuestion = false;
+  allowEditQuestion(){
+    this.editQuestion = true;
+  }
+  saveQuestion(){
+    this.editQuestion = false;
+    this.surveyService.saveEditedQuestion(this.question , this.id);
+  }
 
 
   ngOnInit() {

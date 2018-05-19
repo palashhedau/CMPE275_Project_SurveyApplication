@@ -17,7 +17,7 @@ export class QueEditMultipleOptionSelectTextComponent implements OnInit {
   @Output('saveEditedQuestion') saveEditedQuestion = new EventEmitter<{ question: string , id: string}>();
   public editQuestion = false;
   public editableQuestion = '';
-
+  @Input('questionType') questionType: string;
   public optionArray = [];
   public errorMessage = '';
   public unique = true ;

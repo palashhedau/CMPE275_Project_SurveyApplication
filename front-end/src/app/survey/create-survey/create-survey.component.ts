@@ -4,13 +4,15 @@ import {SurveyService} from '../survey-service.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
 import {SnotifyService} from 'ng-snotify';
+import {Observable} from 'rxjs/Observable';
+import {CanDeactivateGuard} from '../../deactivate-guared.service';
 
 @Component({
   selector: 'app-create-survey',
   templateUrl: './create-survey.component.html',
   styleUrls: ['./create-survey.component.css']
 })
-export class CreateSurveyComponent implements OnInit {
+export class CreateSurveyComponent implements OnInit, CanDeactivateGuard  {
   @ViewChild('form')createForm: NgForm;
 
   @ViewChild('questionType')questionType: NgModel;
@@ -23,6 +25,7 @@ export class CreateSurveyComponent implements OnInit {
   public errorMessage = '';
   public questionList: any = [];
 
+  public allowLeavePage = false;
 
   constructor(private surveyService: SurveyService,
               private router: Router,
@@ -70,9 +73,10 @@ export class CreateSurveyComponent implements OnInit {
         (response : GetSurveyResponseParams) => {
           this.surveyService.resetVariables();
           if (response.code === 200) {
+            this.allowLeavePage = true;
             this.router.navigate(['/survey/create/success'])
           } else {
-            this.router.navigate(['/survey/create/failure']);
+            this.showNotification('Error', response.message)
           }
         },
         (error) => {
@@ -115,5 +119,17 @@ export class CreateSurveyComponent implements OnInit {
     }
   }
 
+  canDeactivate() : Observable<boolean> | Promise<boolean> | boolean{
+    if(this.allowLeavePage == true){
+      return true;
+    }
+    if(this.allowLeavePage === false){
+      if (confirm('All unsaved changes will be lost. Are you sure you want to navigate away ?')) {
+        return true ;
+      } else {
+        return false;
+      }
+    }
+  }
 
 }
