@@ -21,9 +21,9 @@ export class TakeSurveyComponent implements OnInit, CanDeactivateGuard {
   public code: string;
   public  isLoggedIn = false;
   public errorMessage = '';
-
+  public name : string;
   public showSurveyArea = false;
-  public email: string = '';
+  public email = '';
 
   @ViewChild('getEmail') getEmail : NgModel;
   allowLeavePage = false;
@@ -69,7 +69,7 @@ export class TakeSurveyComponent implements OnInit, CanDeactivateGuard {
             return;
           }
           console.log(response);
-
+          this.name = response.name;
           this.showSurveyArea = true;
 
           const questionList = [];

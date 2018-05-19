@@ -597,7 +597,7 @@ public class SurveyService {
 
 				if (surveyCategory.equalsIgnoreCase("General")) {
 					invites.setCode(Integer.parseInt(id));
-
+					
 					url=host +id + "/" + id;
 				}
 				else if(surveyCategory.equalsIgnoreCase("Closed")){
@@ -616,47 +616,51 @@ public class SurveyService {
 					url = host + id + "/" + code;
 				}
 
-				invites.setEmail(email);
-				invites.setStatus(false);
-				invites.setSurvey(survey.get(0));
 				
-				if(type.equalsIgnoreCase("QR code"))
-				{
-					System.out.println("obhbhbhbhjbhjbjhbhjbhj");
-					QRCodeGenerator gc=new QRCodeGenerator();
+				String emailArray [] = email.split(",");
+				
+				for (int i = 0; i < emailArray.length; i++) {
+					invites.setEmail(emailArray[i].trim());
+					invites.setStatus(false);
+					invites.setSurvey(survey.get(0));
 					
-					InetAddress ip;
-					try {
+					if(type.equalsIgnoreCase("QR code"))
+					{
+						QRCodeGenerator gc=new QRCodeGenerator();
 						
-						ip = InetAddress.getLocalHost();
-					
-						String dir = System.getProperty("user.dir");
-						String filePath = dir+"\\src\\main\\resources\\public\\QRImages\\QRCode.png";
-						String qrcodeurl = ip.getHostAddress().toString()+":8081\\QRImages\\QRCode.png";
+						InetAddress ip;
+						try {
+							
+							ip = InetAddress.getLocalHost();
 						
-						int size = 125;
-						String fileType = "png";
-						File qrFile = new File(filePath);
-						gc.createQRImage(qrFile, url, size, fileType);
+							String dir = System.getProperty("user.dir");
+							String filePath = dir+"\\src\\main\\resources\\public\\QRImages\\QRCode.png";
+							String qrcodeurl = ip.getHostAddress().toString()+":8081\\QRImages\\QRCode.png";
+							
+							int size = 125;
+							String fileType = "png";
+							File qrFile = new File(filePath);
+							gc.createQRImage(qrFile, url, size, fileType);
+							
+							System.out.println(qrcodeurl);
+					        emailSenderService.sendQRCodeEmail(filePath,email);
 						
-						System.out.println(qrcodeurl);
-				        emailSenderService.sendQRCodeEmail(filePath,email);
-					
-					} catch (Exception e) {
-						e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+							
+					}else {
+						try {
+							emailSenderService.inviteEmail(emailArray[i].trim(), url);
+						} catch (MessagingException e) {
+							e.printStackTrace();
+						}
 					}
 						
-				}else {
-					try {
-						emailSenderService.inviteEmail(email, url);
-					} catch (MessagingException e) {
-						e.printStackTrace();
-					}
+					invitesRepository.save(invites);
 				}
-					
-				invitesRepository.save(invites);
+				return new Response(200, "Successfully invited");
 			}
-			return new Response(200, "Successfully invited");
 		} catch (Exception e) {
 			return new Response(400, "Error occured while inviting");
 		}
@@ -796,7 +800,7 @@ public class SurveyService {
 				
 			    
 			    List<Distribution> distList = new ArrayList<>();
-				for (Choice c : choices) {
+			    for (Choice c : choices) {
 					Distribution dist = new Distribution();
 					int number = surveySubmitResponseAnswerRepository.findByQuestionsIdAndAnswer(question.getId(),c.getAnswers()).size();
 					dist.setChoice(c.getAnswers());

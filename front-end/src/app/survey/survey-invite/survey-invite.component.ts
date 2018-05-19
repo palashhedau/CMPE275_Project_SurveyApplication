@@ -41,7 +41,7 @@ export class SurveyInviteComponent implements OnInit {
         if(response.code ===  200){
           setTimeout(() => {
             this.router.navigate(['/survey']);
-          }, 2500 );
+          }, 1500 );
         }
       },
       (error) => {
