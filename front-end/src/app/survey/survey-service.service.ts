@@ -72,6 +72,7 @@ export class SurveyService {
 
     if(allowNextQuestion === true){
       this.questionObject = new QuestionsAndAnswers(question , questionType);
+      this.questionObject.id = this.questionList.length ;
       return true;
     }else{
       return false;

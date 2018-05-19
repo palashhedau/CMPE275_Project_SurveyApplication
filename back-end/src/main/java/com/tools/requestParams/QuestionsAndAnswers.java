@@ -6,8 +6,17 @@ public class QuestionsAndAnswers {
 	String question ;
 	String questionType ; 
 	List<String> choice ;
+	int id ;
 	
 	
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getQuestionType() {
 		return questionType;
 	}

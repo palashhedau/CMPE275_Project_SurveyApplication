@@ -7,8 +7,16 @@ public class EditSurveyQuestionParams {
 	String question;
 	String questionType;
 	List<EditSurveyChoiceParams> choice;
+	int sequence ;
 	
 	
+	
+	public int getSequence() {
+		return sequence;
+	}
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
+	}
 	public int getId() {
 		return id;
 	}

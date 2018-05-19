@@ -22,10 +22,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="Questions")
 public class Questions {
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue
 	int id;
 	
 	String question ;
+	
+	int sequence ;
 	
 	String questionType ;
 	
@@ -36,6 +38,27 @@ public class Questions {
 	Questions(){}
 	
 	
+
+	
+
+
+
+	public int getSequence() {
+		return sequence;
+	}
+
+
+
+
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
+	}
+
+
+
+
+
+
 
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
