@@ -57,12 +57,13 @@ export class EditSurveyComponent implements OnInit, CanDeactivateGuard {
         if (response.code === 'undefined') {
           this.route.navigate(['/not-found']);
         } else {
-          console.log(response);
+
           this.category = response.category;
           this.formName = response.name;
           this.date = response.endTime;
           this.questionList = response.questions;
           this.data = response;
+          console.log(this.questionList);
         }
       },
       (error) => {
@@ -89,6 +90,7 @@ export class EditSurveyComponent implements OnInit, CanDeactivateGuard {
 
       const questionObject = {
         id: 0,
+        sequence : +this.questionList[this.questionList.length - 1]['sequence'] + 1,
         question: this.question.value,
         questionType: this.questionType.value,
         choice: choiceToBeSubstituted

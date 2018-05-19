@@ -79,6 +79,9 @@ public class SurveyService {
 	public Object createSurvey(SurveyCreateParams params, String email) {
 		try {
 
+			
+			
+			
 			System.out.println("New ID to add ? " + params.getId());
 			Survey survey = new Survey(email, 
 					params.getEndTime().equalsIgnoreCase("") ? null : helper.parseDate(params.getEndTime()),
@@ -103,11 +106,13 @@ public class SurveyService {
 			}
 
 			for (QuestionsAndAnswers que : params.getQuestionList()) {
-				System.out.println("QUESTION TYE " + que.getQuestionType());
+				System.out.println("QUESTION TYE " + que.getQuestionType() + " " + que.getId());
 				Questions question = new Questions(que.getQuestion());
 				question.setSurvey(survey);
 				question.setQuestionType(que.getQuestionType());
-
+				
+				question.setSequence(que.getId());
+				
 				if(que.getQuestionType().equalsIgnoreCase("Star Rating")) {
 					for (int i = 1 ; i <=5 ; i ++) {
 						Choice answer = new Choice(Integer.toString(i));
@@ -166,12 +171,16 @@ public class SurveyService {
 			survey.setQuestions(new HashSet<Questions>());
 			questionsRepository.deleteBySurveyId(params.getId());
 
+			
+			
+			
+			
 			for (EditSurveyQuestionParams que : params.getQuestions()) {
-
+				System.out.println("-----" + que.getQuestion());
 				Questions question = new Questions(que.getQuestion());
 				question.setSurvey(survey);
 				question.setQuestionType(que.getQuestionType());
-
+				question.setSequence(que.getSequence());
 				
 				if(que.getQuestionType().equalsIgnoreCase("Star Rating")) {
 					for (int i = 1 ; i <=5 ; i ++) {

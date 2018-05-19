@@ -65,6 +65,7 @@
         <div *ngSwitchCase="'Short Answer'">
           <app-que-short-answer
             [question]="question[1]"
+            [questionType]="question[0]"
             [id]="i"
             (deleteQuestion)="deleteQuestion($event)">
           </app-que-short-answer>
@@ -74,6 +75,7 @@
           <app-que-single-option-select-text
             [question]="question[1]"
             [id]="i"
+            [questionType]="question[0]"
             (saveChoice)="saveChoice($event)"
             (deleteQuestion)="deleteQuestion($event)">
           </app-que-single-option-select-text>
@@ -83,6 +85,7 @@
           <app-que-single-option-select-image
             [question]="question[1]"
             [id]="i"
+            [questionType]="question[0]"
             (saveChoice)="saveChoice($event)"
             (deleteQuestion)="deleteQuestion($event)">
           </app-que-single-option-select-image>
@@ -92,6 +95,7 @@
           <app-que-multiple-option-select-text
             [question]="question[1]"
             [id]="i"
+            [questionType]="question[0]"
             (saveChoice)="saveChoice($event)"
             (deleteQuestion)="deleteQuestion($event)">
           </app-que-multiple-option-select-text>
@@ -101,6 +105,7 @@
           <app-que-multiple-option-select-image
             [question]="question[1]"
             [id]="i"
+            [questionType]="question[0]"
             (saveChoice)="saveChoice($event)"
             (deleteQuestion)="deleteQuestion($event)">
           </app-que-multiple-option-select-image>
@@ -110,6 +115,7 @@
           <app-que-dropdown-select-text
             [question]="question[1]"
             [id]="i"
+            [questionType]="question[0]"
             (saveChoice)="saveChoice($event)"
             (deleteQuestion)="deleteQuestion($event)">
           </app-que-dropdown-select-text>
@@ -119,6 +125,7 @@
           <app-que-dropdown-select-image
             [question]="question[1]"
             [id]="i"
+            [questionType]="question[0]"
             (saveChoice)="saveChoice($event)"
             (deleteQuestion)="deleteQuestion($event)">
           </app-que-dropdown-select-image>
@@ -128,6 +135,7 @@
           <app-que-yes-no
             [question]="question[1]"
             [id]="i"
+            [questionType]="question[0]"
             (deleteQuestion)="deleteQuestion($event)">
           </app-que-yes-no>
         </div>
@@ -136,14 +144,15 @@
           <app-que-star-rating-question
             [id]="i"
             [question]="question[1]"
-            (deleteQuestion)="deleteQuestion($event)"
-            (saveRatingsChoice)="saveRatingsChoice($event)">
+            [questionType]="question[0]"
+            (deleteQuestion)="deleteQuestion($event)">
           </app-que-star-rating-question>
         </div>
 
         <div *ngSwitchCase="'Datetime'" class="datetime-div" >
           <app-que-datetime
             [question]="question[1]"
+            [questionType]="question[0]"
             [id]="i"
             (deleteQuestion)="deleteQuestion($event)">
           </app-que-datetime>
