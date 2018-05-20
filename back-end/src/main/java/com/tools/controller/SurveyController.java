@@ -1,12 +1,22 @@
 package com.tools.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.tools.helper.Helper;
 import com.tools.requestParams.EditSurveyParams;
 import com.tools.requestParams.ExtendEndDateTime;
@@ -209,16 +221,48 @@ public class SurveyController {
 	}
 
 	@RequestMapping(path="/survey-stats/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> getSurveyDetails(@PathVariable int id, HttpSession session ) {
+	public ResponseEntity<?> getSurveyDetails(@PathVariable int id, HttpSession session) throws IOException {
 		if(session.getAttribute("email") != null) {
 			return new ResponseEntity(surveyService.getSurveryStats(id), HttpStatus.OK);
 		}else {
 			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
-		}	
+		}
+	}
+
+	
+	ServletContext servletContext;
+	@RequestMapping(path="/survey-stats/{id}/download", method=RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public void downloadSurveyDetails(@PathVariable int id,  @RequestParam(value="file", required=false, defaultValue = "download") String file , HttpSession session, HttpServletResponse response) throws IOException {
+		String path = "src/public/stats/";
+		if(session.getAttribute("email") != null) {
+			path += file + ".json";
+		    BufferedWriter writer = null;
+		    try {
+		    	ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		    	String json = ow.writeValueAsString(surveyService.getSurveryStats(id));
+		        writer = new BufferedWriter(new FileWriter(path));
+		        writer.write(json);
+		    } catch (IOException e) {
+		        System.err.println(e);
+		    } finally {
+		        if (writer != null) {
+		            try {
+		                writer.close();
+		            } catch (IOException e) {
+		                System.err.println(e);
+		            }
+		        }
+		    }
+		}
+	    File initialFile = new File(path);
+	    InputStream in = new FileInputStream(initialFile);
+		response.addHeader("Content-disposition", "attachment;filename="+file+".json");
+		IOUtils.copy(in, response.getOutputStream());
+		response.flushBuffer();
 	}
 	
 	@RequestMapping(path="/question-stats/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> getQuestionDetails(@PathVariable int id, HttpSession session ) {
+	public ResponseEntity<?> getQuestionDetails(@PathVariable int id,  HttpSession session ) {
 		if(session.getAttribute("email") != null) {
 			return new ResponseEntity(surveyService.getQuestionStats(id), HttpStatus.OK);
 		}else {
