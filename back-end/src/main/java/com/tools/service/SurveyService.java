@@ -718,7 +718,7 @@ public class SurveyService {
 
 	public Object getSurveryStats(int id) {
 		try {
-			System.out.println(" 1 11 1 ");
+			System.out.println(" getting ");
 			
 			List<Survey> surveyList = surveyRepository.findById(id);
 			if (surveyList != null && surveyList.size() > 0) {
@@ -728,9 +728,6 @@ public class SurveyService {
 				
 				
 			    HashMap<String, QuestionStats> hmap = new HashMap<String, QuestionStats>();
-				
-			    
-			    
 			    
 			    Survey survey = surveyList.get(0);
 				SurveyStats stats = new SurveyStats();
@@ -786,7 +783,7 @@ public class SurveyService {
 	
 	public Object getQuestionStats(int id) {
 		try {
-			
+			System.out.println("getting 123");
 			List<Questions> questionList = questionsRepository.findById(id);
 			
 			if (questionList != null && questionList.size() > 0) {
@@ -794,11 +791,11 @@ public class SurveyService {
 				Questions question = questionList.get(0);
 				
 				Set<Choice> choices = question.getChoice();
-				
 				QuestionStats stats = new QuestionStats();
 				stats.setQuestion(question.getQuestion());
 				
-			    
+			    System.out.println(question);
+				
 			    List<Distribution> distList = new ArrayList<>();
 			    for (Choice c : choices) {
 					Distribution dist = new Distribution();
@@ -807,10 +804,20 @@ public class SurveyService {
 					dist.setCount(number);
 					distList.add(dist);
 				}
+			    
+			    List<String> answerList = new ArrayList<>();
+			    if(choices.size() == 0) {
+					List<Survey_Submit_Response_Answers> answers = surveySubmitResponseAnswerRepository.findByQuestionsId(question.getId());
+				    for (Survey_Submit_Response_Answers c : answers) {
+				    		answerList.add(c.getAnswer());
+				    }
+			    }
 				
 				
 				stats.setDistribution(distList);
-				
+				if(!answerList.isEmpty()) {
+					stats.setTextAnswers(answerList);
+				}
 				return stats;
 			} else {
 				return new Response(404, "No such question exists");

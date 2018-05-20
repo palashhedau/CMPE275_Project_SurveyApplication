@@ -9,6 +9,16 @@ public class QuestionStats {
 	
     List<Distribution> distribution = new ArrayList<>();
 
+    List<String> textAnswers = new ArrayList<>();
+
+	public List<String> getTextAnswers() {
+		return textAnswers;
+	}
+
+	public void setTextAnswers(List<String> textAnswers) {
+		this.textAnswers = textAnswers;
+	}
+
 	public String getQuestion() {
 		return question;
 	}

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.tools.model.Auth;
+import com.tools.model.Survey;
 import com.tools.model.Survey_Submit_Info;
 import com.tools.model.Survey_Submit_Response_Answers;
 
@@ -15,4 +16,5 @@ public interface SurveySubmitResponseAnswerRepository extends JpaRepository<Surv
 	List<Survey_Submit_Response_Answers> findByQuestionsIdAndAnswer(int questionsId, String answer);
 	List<Survey_Submit_Response_Answers> deleteBySurveyInfoId(int id);
 	List<Survey_Submit_Response_Answers> findBySurveyInfoId(int id);
+	List<Survey_Submit_Response_Answers> findByQuestionsId(int id);
 }

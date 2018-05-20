@@ -71,7 +71,6 @@ public class AuthenticationController {
 	
 	@RequestMapping(path="/getName",method=RequestMethod.GET)
 	public ResponseEntity<?> get(){
-		
 		return new ResponseEntity("Palash", HttpStatus.OK); 
 	}
 	
