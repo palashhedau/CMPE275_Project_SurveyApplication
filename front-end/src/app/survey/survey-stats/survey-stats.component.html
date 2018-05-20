@@ -1,6 +1,22 @@
-<div *ngIf="stats.invited !== undefined" class="col-xs-8 col-xs-offset-2">
+<div *ngIf="stats.name !== undefined" class="col-xs-8 col-xs-offset-2">
+  <a class="download-zip-link" #downloadZipLink></a>
   <div class="my-survey">
-    <h3>Survey Stats</h3>
+    <h3>Survey Stats - <i>{{stats.name}}</i></h3>
+      <div class="stats-component-button">
+        <div class="col-xs-offset-6 col-xs-6 no-padding ">
+          <input type="text"
+                 name="filename"
+                 ngModel
+                 #filename="ngModel"
+                 class="form-control"
+                 style="margin-bottom: 10px"
+                 placeholder="File Name to export data">
+          <button class="btn btn-info form-control" (click)="getData()">Export Data</button>
+        </div>
+
+
+
+      </div>
       <div class="stats-component">
           <div class="col-xs-10">
               <b>Start Date</b>
@@ -65,7 +81,23 @@
             <b>{{i+1}}</b>
           </div>
           <div class="col-xs-11 question-area">
-            <b>{{que.question}}</b>
+            <div class="col-xs-9 no-padding">
+              <b>{{que.question}}</b>
+            </div>
+
+            <div class="col-xs-3">
+              <a  *ngIf="que.textAnswers.length > 0 && (que.questionType == 'Short Answer' || que.questionType === 'Datetime')"
+                  routerLink="/survey/stats/{{id}}/{{que.id}}">View Response</a>
+            </div>
+
+          </div>
+
+          <div *ngIf="que.textAnswers.length === 0 && (que.questionType == 'Short Answer' || que.questionType === 'Datetime')" class="col-xs-3 col-xs-offset-1">
+            <b>No Response Submitted for this question</b>
+          </div>
+
+          <div *ngIf="que.distribution.length === 0 && !(que.questionType == 'Short Answer' || que.questionType === 'Datetime')" class="col-xs-3 col-xs-offset-1">
+            <b>No Response Yet</b>
           </div>
           <div class="col-xs-3" style="display: block">
             <div  *ngFor="let ch of que.distribution">

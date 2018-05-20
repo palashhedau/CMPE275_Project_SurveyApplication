@@ -68,6 +68,7 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { TestComponent } from './test/test.component';
 import {BarChartComponent, DoughnutChartComponent, PieChartComponent} from 'angular-d3-charts';
 import {CanDeactivateGuard} from './deactivate-guared.service';
+import { SurveyStatsViewSingleResponseComponent } from './survey/survey-stats-view-single-response/survey-stats-view-single-response.component';
 
 
 export function authServiceFactory(authService: AuthService): Function {
@@ -132,7 +133,8 @@ export function authServiceFactory(authService: AuthService): Function {
     TestComponent,
     DoughnutChartComponent,
     PieChartComponent,
-    BarChartComponent
+    BarChartComponent,
+    SurveyStatsViewSingleResponseComponent
   ],
   imports: [
     BrowserModule,
