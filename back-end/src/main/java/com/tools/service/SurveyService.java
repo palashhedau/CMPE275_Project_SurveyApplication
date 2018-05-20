@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -734,7 +735,7 @@ public class SurveyService {
 				stats.setParticipants(survey.getSubmittedSurvery().size());
 				stats.setSubmissions(survey.getSubmittedSurvery().size());
 				stats.setInvited(survey.getInvites().size());
-				
+				stats.setName(survey.getName());
 				
 				List<QuestionStats> questionsList = new ArrayList<>();
 				
@@ -791,7 +792,8 @@ public class SurveyService {
 				Set<Choice> choices = question.getChoice();
 				QuestionStats stats = new QuestionStats();
 				stats.setQuestion(question.getQuestion());
-				
+				stats.setQuestionType(question.getQuestionType());
+				stats.setId(question.getId());
 			    System.out.println(question);
 				
 			    List<Distribution> distList = new ArrayList<>();
@@ -842,6 +844,16 @@ public class SurveyService {
 
 		}
 		return new Response(400, "Please provide date bigger than previous end date");
+	}
+
+	public Object getQuestionResponse(int id, String email) {
+		List<Questions> questionList = questionsRepository.findById(id);
+		if (questionList != null && questionList.size() > 0) {
+			Questions question = questionList.get(0);
+			return question;
+		} else {
+			return new Response(404, "No such question exists");
+		}
 	}
 
 }

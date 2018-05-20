@@ -8,11 +8,14 @@ import {ResponseParams} from './response.model';
 export class AuthService{
   public isLoggedIn = false;
   public email : string;
+  public url = 'http://52.53.172.7:8081/' ;
+  //public url = 'http://localhost:8081/' ;
+
   constructor(private http: HttpClient,
               ) {}
 
   login(email: string, password: string) {
-    return this.http.post<ResponseParams>('http://localhost:8081/signin',
+    return this.http.post<ResponseParams>(this.url + 'signin',
       {email: email, password: password},
       { withCredentials: true });
   }
@@ -22,18 +25,18 @@ export class AuthService{
   }
 
   register(email: string, password: string, category: string ){
-    return this.http.post<ResponseParams>('http://localhost:8081/signup',
+    return this.http.post<ResponseParams>(this.url + 'signup',
       {email: email, password: password, type: category}, );
   }
 
   activate(email: string, code: string){
-    return this.http.post<ResponseParams>('http://localhost:8081/account-verification',
+    return this.http.post<ResponseParams>(this.url + 'account-verification',
       {email: email, password: code});
   }
 
   checkSession(): Promise<any> {
     return this.http
-      .get('http://localhost:8081/check-session', {withCredentials: true})
+      .get(this.url + 'check-session', {withCredentials: true})
       .toPromise()
       .then((data: {auth : boolean, email : string}) => {
         this.isLoggedIn = data.auth;
@@ -45,8 +48,8 @@ export class AuthService{
   }
 
   logout() {
-    return this.http.get('http://localhost:8081/logout',
+    return this.http.get(this.url + 'logout',
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
-        withCredentials: true})
+        withCredentials: true});
   }
 }

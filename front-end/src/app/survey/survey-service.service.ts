@@ -1,8 +1,9 @@
 import {QuestionsAndAnswers} from './create-survey/question.model';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {QuestionsSubmitSurvey} from './take-survey/submit-survey-questions.model';
 import {GetSurveyResponseParams} from './take-survey/get-survey-response-params.model';
+import {ResponseContentType} from '@angular/http';
 
 @Injectable()
 export class SurveyService {
@@ -19,6 +20,9 @@ export class SurveyService {
   public surveyCode: string;
 
   public questionToSubmitList: QuestionsSubmitSurvey [] = [];
+
+  public url = 'http://52.53.172.7:8081/' ;
+  //public url = 'http://localhost:8081/' ;
 
 
   constructor(private http: HttpClient) {}
@@ -56,7 +60,7 @@ export class SurveyService {
         };
         //this.questionList = [] - not making this null
         const _this = this;
-        this.http.post('http://localhost:8081/create-survey' ,
+        this.http.post(this.url + 'create-survey' ,
           requestBody,
           {headers: new HttpHeaders().append('Content-Type', 'application/json'),
             withCredentials: true}).subscribe(
@@ -196,14 +200,14 @@ export class SurveyService {
       name: name,
       id: this.id
     };
-    return this.http.post('http://localhost:8081/create-survey' ,
+    return this.http.post(this.url + 'create-survey' ,
       requestBody,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
   getMySurveys() {
-    return this.http.get('http://localhost:8081/survey',
+    return this.http.get(this.url + 'survey',
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
@@ -227,7 +231,7 @@ export class SurveyService {
       };
       //this.questionList = [] - not making this null
       const _this = this;
-      this.http.post('http://localhost:8081/create-survey' ,
+      this.http.post(this.url + 'create-survey' ,
         requestBody,
         {headers: new HttpHeaders().append('Content-Type', 'application/json'),
           withCredentials: true}).subscribe(
@@ -278,11 +282,9 @@ export class SurveyService {
       /*save the survey as well*/
       this.submitSurvey(this.surveyId, 'Saved', false, email).subscribe(
         (response) => {
-          console.log("Response aaya na " + response)
           return true;
         } ,
         (error) => {
-          console.log("Response aaya nahi " + error)
           return false;
         }
       );
@@ -297,7 +299,7 @@ export class SurveyService {
       email : email
     };
 
-    return this.http.post('http://localhost:8081/submit-survey/' + id + '/' + this.surveyCode
+    return this.http.post(this.url+'submit-survey/' + id + '/' + this.surveyCode
       , requestBody, {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
@@ -305,7 +307,7 @@ export class SurveyService {
   getSurveyById(id: string,code: string, email: string) {
     /* check survey type and session on server side*/
 
-    return this.http.get('http://localhost:8081/get-survey/' + id + '/' + code + '/' + email,
+    return this.http.get(this.url + 'get-survey/' + id + '/' + code + '/' + email,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
 
@@ -314,7 +316,7 @@ export class SurveyService {
   /* Close the survey */
 
   closeSurvey(id: string){
-    return this.http.post('http://localhost:8081/delete-survey/' + id,{},
+    return this.http.post(this.url + 'delete-survey/' + id,{},
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true}) ;
   }
@@ -322,20 +324,20 @@ export class SurveyService {
   /* View Survey by ID */
 
   viewSurvey(id: string) {
-    return this.http.get('http://localhost:8081/view-survey/' + id,
+    return this.http.get(this.url + 'view-survey/' + id,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
   unpublish(id: string) {
     console.log(id)
-    return this.http.post('http://localhost:8081/unpublish-survey/' + id,{},
+    return this.http.post(this.url + 'unpublish-survey/' + id,{},
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
   publishSurvey(id: string) {
-    return this.http.post('http://localhost:8081/publish-survey/' + id, {},
+    return this.http.post(this.url + 'publish-survey/' + id, {},
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
@@ -343,13 +345,13 @@ export class SurveyService {
 
   /* Edit a Survey */
   getSurveyToEdit(id: String) {
-    return this.http.get('http://localhost:8081/get-survey-to-edit/' + id,
+    return this.http.get(this.url + 'get-survey-to-edit/' + id,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
   editSurvey(obj: any){
-    return this.http.post('http://localhost:8081/edit-survey/' + obj.id,
+    return this.http.post(this.url + 'edit-survey/' + obj.id,
       obj,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
@@ -358,7 +360,7 @@ export class SurveyService {
   /* Invite */
 
   inviteSurvey(email: string, id: string, type: string){
-    return this.http.post('http://localhost:8081/invite/' + id,
+    return this.http.post(this.url + 'invite/' + id,
       {email : email, type: type},
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
@@ -367,20 +369,20 @@ export class SurveyService {
   /* Get Attempted Survey */
 
   getAttemptedSurvey(id: string){
-    return this.http.get('http://localhost:8081/get-attempted-survey',
+    return this.http.get(this.url + 'get-attempted-survey',
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
   viewMyResponse(id: string, infoId : string){
-    return this.http.get('http://localhost:8081/view-my-response/' + id + '/' + infoId,
+    return this.http.get(this.url + 'view-my-response/' + id + '/' + infoId,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
 
   /* Stats */
   getStats(id: string){
-    return this.http.get('http://localhost:8081/survey-stats/' + id,
+    return this.http.get(this.url + 'survey-stats/' + id,
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
@@ -388,11 +390,31 @@ export class SurveyService {
   /* Extend Date */
   extendEndDate(id: string, date: string){
     console.log(date)
-    return this.http.post('http://localhost:8081/extend-enddate/' + id,{
+    return this.http.post(this.url + 'extend-enddate/' + id,{
       endDate : date
     },
       {headers: new HttpHeaders().append('Content-Type', 'application/json'),
         withCredentials: true});
   }
+
+  getQuestionResponses(questionid : number){
+    return this.http.get(this.url + 'get-question-response/' + questionid,
+      {headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true});
+  }
+
+   async getStatsDownload( id : string ,  filename : string ){
+    const url = this.url + 'survey-stats/' + id + '/' + 'download';
+    const params = new HttpParams().set('file', filename);
+
+    const file =  await this.http.get<Blob>(
+      url,
+      {responseType: 'blob' as 'json',
+        headers: new HttpHeaders().append('Content-Type', 'application/json'),
+        withCredentials: true}).toPromise();
+    return file;
+
+  }
+
 
 }

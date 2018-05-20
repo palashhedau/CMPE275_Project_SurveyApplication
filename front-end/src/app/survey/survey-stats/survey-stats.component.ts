@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {SurveyService} from '../survey-service.service';
 import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params.model';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-survey-stats',
@@ -10,6 +11,8 @@ import {GetSurveyResponseParams} from '../take-survey/get-survey-response-params
 })
 export class SurveyStatsComponent implements OnInit {
   public id: string;
+  @ViewChild('downloadZipLink') private downloadZipLink: ElementRef;
+  @ViewChild('filename') filename : NgModel ;
   public stats = {};
   public surveyStats = [];
   public donutChartData1=[];
@@ -63,7 +66,7 @@ export class SurveyStatsComponent implements OnInit {
         if(response.code === undefined){
           console.log(response);
 
-          console.log(response.questions);
+          //console.log(response.questions);
           for(let i of response.questions)
           {
             i.distribution.forEach((item, index) => {
@@ -74,7 +77,7 @@ export class SurveyStatsComponent implements OnInit {
               item["value"]=item.count;
               item["color"]=this.colors[index];
             });
-            console.log(i.distribution);
+           // console.log(i.distribution);
           }
           this.stats = response;
           this.surveyStats = response.questions;
@@ -86,6 +89,23 @@ export class SurveyStatsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  async getData(){
+    const blob = await this.surveyService.getStatsDownload(this.id, this.filename.value);
+    const url = window.URL.createObjectURL(blob);
+
+    const link = this.downloadZipLink.nativeElement;
+    link.href = url;
+    if(this.filename.value !== ''){
+      link.download =  this.filename.value + '.json';
+    } else {
+      link.download = 'download.json' ;
+    }
+
+    link.click();
+
+    window.URL.revokeObjectURL(url);
   }
 
 

@@ -6,13 +6,31 @@ import java.util.List;
 
 public class QuestionStats {
 	String question;
-	
+	String questionType ;
     List<Distribution> distribution = new ArrayList<>();
+    int id; 
+    
+    
+    public int getId() {
+		return id;
+	}
 
-    List<String> textAnswers = new ArrayList<>();
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	List<String> textAnswers = new ArrayList<>();
 
 	public List<String> getTextAnswers() {
 		return textAnswers;
+	}
+
+	public String getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(String questionType) {
+		this.questionType = questionType;
 	}
 
 	public void setTextAnswers(List<String> textAnswers) {

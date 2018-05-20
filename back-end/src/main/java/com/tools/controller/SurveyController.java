@@ -232,7 +232,9 @@ public class SurveyController {
 	
 	ServletContext servletContext;
 	@RequestMapping(path="/survey-stats/{id}/download", method=RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	public void downloadSurveyDetails(@PathVariable int id,  @RequestParam(value="file", required=false, defaultValue = "download") String file , HttpSession session, HttpServletResponse response) throws IOException {
+	public void downloadSurveyDetails(@PathVariable int id,  
+			@RequestParam(value="file", required=false, defaultValue = "download") String file ,
+			HttpSession session, HttpServletResponse response) throws IOException {
 		String path = "src/public/stats/";
 		if(session.getAttribute("email") != null) {
 			path += file + ".json";
@@ -283,5 +285,14 @@ public class SurveyController {
 		}	
 	}
 	
+	
+	@RequestMapping(path="/get-question-response/{id}", method=RequestMethod.GET)
+	public ResponseEntity<?> getQuestionResponse(@PathVariable int id, HttpSession session ) {
+		if(session.getAttribute("email") != null) {
+			return new ResponseEntity(surveyService.getQuestionResponse(id, (String) session.getAttribute("email")), HttpStatus.OK);
+		}else {
+			return new ResponseEntity(new Response(404, "Not Authorized to get the survey"), HttpStatus.UNAUTHORIZED);
+		}	
+	}
 	
 }

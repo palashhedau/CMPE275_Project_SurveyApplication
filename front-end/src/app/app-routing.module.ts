@@ -25,6 +25,7 @@ import {SurveyAttemptedComponent} from './survey/survey-attempted/survey-attempt
 import {ViewAttemptedSurveysComponent} from './survey/view-attempted-surveys/view-attempted-surveys.component';
 import {TestComponent} from './test/test.component';
 import {CanComponentDeactivate, CanDeactivateGuard} from './deactivate-guared.service';
+import {SurveyStatsViewSingleResponseComponent} from './survey/survey-stats-view-single-response/survey-stats-view-single-response.component';
 
 
 const appRoutes: Routes = [
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
   {path : 'survey/submit/failure' , component: SubmitSurveyFailureComponent },
   {path : 'survey/invite/:id' , canActivate: [AuthGuardService], component: SurveyInviteComponent },
   {path : 'survey/stats/:id' , canActivate: [AuthGuardService], component: SurveyStatsComponent},
+  {path : 'survey/stats/:id/:questionid' , canActivate: [AuthGuardService], component: SurveyStatsViewSingleResponseComponent},
   {path : 'not-found' , component : NotFoundComponent},
   {path : 'test' , component : TestComponent },
   {path : '**' , redirectTo : '/not-found' , pathMatch: 'full' }
