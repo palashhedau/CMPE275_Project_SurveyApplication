@@ -18,6 +18,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.sendgrid.*;
+import java.io.IOException;
+
 @Service
 public class EmailSenderService {
 	
@@ -28,15 +31,39 @@ public class EmailSenderService {
 	public EmailSenderService(JavaMailSender javaMailSender){
 		this.javaMailSender = javaMailSender;
 	}
+	
+	  @Async
+	  public void sendEmail(String email, String contentEmail) throws IOException {
+		    Email from = new Email("test@example.com");
+		    String subject = "Sending with SendGrid is Fun";
+		    Email to = new Email(email);
+		    Content content = new Content("text/html", contentEmail);
+		    Mail mail = new Mail(from, subject, to, content);
+
+		    SendGrid sg = new SendGrid("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\n");
+		    Request request = new Request();
+		    try {
+		      request.setMethod(Method.POST);
+		      request.setEndpoint("mail/send");
+		      request.setBody(mail.build());
+		      Response response = sg.api(request);
+		      System.out.println(response.getStatusCode());
+		      System.out.println(response.getBody());
+		      System.out.println(response.getHeaders());
+		    } catch (IOException ex) {
+		      throw ex;
+		    }
+		  }
 
 	@Async
-	public void sendVerificationEmail(String code, String email) throws MessagingException {
-		MimeMessage message = javaMailSender.createMimeMessage();
-		message.setContent(composeSignUpEmail(code), "text/html; charset=utf-8");
-		MimeMessageHelper helper = new MimeMessageHelper(message);
-		helper.setTo(email);
-		helper.setSubject("Verify your account!");
-		javaMailSender.send(message);
+	public void sendVerificationEmail(String code, String email) throws MessagingException, IOException {
+		sendEmail("emailprateeksharma@gmail.com", "test");
+//		MimeMessage message = javaMailSender.createMimeMessage();
+//		message.setContent(composeSignUpEmail(code), "text/html; charset=utf-8");
+//		MimeMessageHelper helper = new MimeMessageHelper(message);
+//		helper.setTo(email);
+//		helper.setSubject("Verify your account!");
+//		javaMailSender.send(message);
 	}
 	
 	public String composeSignUpEmail(String code) {
