@@ -24,7 +24,6 @@ export class SurveyService {
   public url = 'http://54.241.144.193:8081/' ;
   //public url = 'http://localhost:8081/' ;
 
-
   constructor(private http: HttpClient) {}
 
   /* Create Survey */
