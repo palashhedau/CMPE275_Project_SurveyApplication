@@ -6,13 +6,17 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -234,10 +238,19 @@ public class SurveyController {
 	@RequestMapping(path="/survey-stats/{id}/download", method=RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public void downloadSurveyDetails(@PathVariable int id,  
 			@RequestParam(value="file", required=false, defaultValue = "download") String file ,
-			HttpSession session, HttpServletResponse response) throws IOException {
-		String path = "Uploads/";
+			HttpSession session, HttpServletResponse response, HttpServletRequest request) throws IOException {
+			Path newPath = Paths.get("src/main/resources/public/download.json");
+
+		String path;	
+		File dir = new File("Uploads/");
+		if(!dir.exists()) {
+			dir.mkdirs();
+		}
+		
+		File downloadFile = new File(dir.getAbsolutePath()+file+".json");
 		if(true) {
-			path += file + ".json";
+			path = dir.getAbsolutePath()+File.separator+file+".json";
+			System.out.println(path);
 		    BufferedWriter writer = null;
 		    try {
 		    	ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();

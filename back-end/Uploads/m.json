@@ -10,10 +10,10 @@
     "question" : "eee",
     "questionType" : "Multiple Choice - Text",
     "distribution" : [ {
-      "choice" : "eeeee",
+      "choice" : "ddddd",
       "count" : 0
     }, {
-      "choice" : "ddddd",
+      "choice" : "eeeee",
       "count" : 0
     } ],
     "id" : 13,
