@@ -739,12 +739,7 @@ public class SurveyService {
 				
 				List<QuestionStats> questionsList = new ArrayList<>();
 				
-				Set<Questions> questions = survey.getQuestions();
-				for (Questions q : questions) {
-					QuestionStats questionStats = (QuestionStats) getQuestionStats(q.getId());
-					questionsList.add(questionStats);
-				}
-				stats.setQuestions(questionsList);
+				
 				
 				
 				int registeredUser = 0;
@@ -757,6 +752,15 @@ public class SurveyService {
 					else
 						guestUser++;
 				}
+				
+				Set<Questions> questions = survey.getQuestions();
+				for (Questions q : questions) {
+					QuestionStats questionStats = (QuestionStats) getQuestionStats(q.getId() , registeredUser + guestUser);
+					questionsList.add(questionStats);
+				}
+				stats.setQuestions(questionsList);
+				
+				
 
 				if ((registeredUser + guestUser) < 3) {
 					registeredUser = 0;
@@ -764,9 +768,7 @@ public class SurveyService {
 					stats.setSubmissions(0);
 					stats.setParticipants(0);
 					stats.setGuestSurveyees(0);
-					stats.setQuestions(new ArrayList<>());
 					stats.setRegisteredSurvyees(0);
-
 				}
 
 				stats.setGuestSurveyees(guestUser);
@@ -783,7 +785,7 @@ public class SurveyService {
 
 	}
 	
-	public Object getQuestionStats(int id) {
+	public Object getQuestionStats(int id, int total) {
 		try {
 			System.out.println("getting 123");
 			List<Questions> questionList = questionsRepository.findById(id);
@@ -804,7 +806,7 @@ public class SurveyService {
 					Distribution dist = new Distribution();
 					int number = surveySubmitResponseAnswerRepository.findByQuestionsIdAndAnswer(question.getId(),c.getAnswers()).size();
 					dist.setChoice(c.getAnswers());
-					dist.setCount(number);
+					dist.setCount( total < 3 ? 0 :  number);
 					distList.add(dist);
 				}
 			    
