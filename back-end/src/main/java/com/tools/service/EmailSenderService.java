@@ -51,19 +51,13 @@ public class EmailSenderService {
 		      System.out.println(response.getBody());
 		      System.out.println(response.getHeaders());
 		    } catch (IOException ex) {
-		      throw ex;
+		    		System.out.println(ex);
 		    }
 		  }
 
 	@Async
 	public void sendVerificationEmail(String code, String email) throws MessagingException, IOException {
-		sendEmail("emailprateeksharma@gmail.com", "test");
-//		MimeMessage message = javaMailSender.createMimeMessage();
-//		message.setContent(composeSignUpEmail(code), "text/html; charset=utf-8");
-//		MimeMessageHelper helper = new MimeMessageHelper(message);
-//		helper.setTo(email);
-//		helper.setSubject("Verify your account!");
-//		javaMailSender.send(message);
+		sendEmail(email, composeSignUpEmail(code));
 	}
 	
 	public String composeSignUpEmail(String code) {
@@ -136,36 +130,18 @@ public class EmailSenderService {
 	}
 	
 	@Async
-	public void inviteEmail(String email, String url) throws MessagingException {
-		MimeMessage message = javaMailSender.createMimeMessage();
-		message.setContent(composeInviteSurveyEmail(url), "text/html; charset=utf-8");
-		MimeMessageHelper helper = new MimeMessageHelper(message);
-		helper.setTo(email);
-		helper.setText("invite URL: "+url);
-		helper.setSubject("Invitation to take survey in SurveyApe");
-		javaMailSender.send(message);
-
+	public void inviteEmail(String email, String url) throws MessagingException, IOException {
+		sendEmail(email, composeInviteSurveyEmail(url));
 	}
 	
 	@Async
-	public void sendActivationSuccessfulEmail(String username, String email) throws MessagingException {
-		MimeMessage message = javaMailSender.createMimeMessage();
-		message.setContent(composeActivationSuccessfulEmail(username), "text/html; charset=utf-8");
-		MimeMessageHelper helper = new MimeMessageHelper(message);
-		helper.setTo(email);
-		helper.setSubject("Account successfully activated!");
-		javaMailSender.send(message);
+	public void sendActivationSuccessfulEmail(String username, String email) throws MessagingException, IOException {
+		sendEmail(email, composeInviteSurveyEmail(composeActivationSuccessfulEmail(username)));
 	}
 	
 	@Async
-	public void surveySubmitEmail(String email, String surveyName) throws MessagingException {
-		MimeMessage message = javaMailSender.createMimeMessage();
-		message.setContent(composeSurveySubmitSuccessfulEmail(surveyName), "text/html; charset=utf-8");
-		MimeMessageHelper helper = new MimeMessageHelper(message);
-		helper.setTo(email);
-		helper.setSubject("Survey successfully submitted");
-		javaMailSender.send(message);
-
+	public void surveySubmitEmail(String email, String surveyName) throws MessagingException, IOException {
+		sendEmail(email, composeInviteSurveyEmail(composeSurveySubmitSuccessfulEmail(surveyName)));
 	}
 	
 	@Async
