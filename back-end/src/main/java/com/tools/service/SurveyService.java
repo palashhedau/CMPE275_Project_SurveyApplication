@@ -632,17 +632,27 @@ public class SurveyService {
 							
 							ip = InetAddress.getLocalHost();
 						
-							String dir = System.getProperty("user.dir");
-							String filePath = "src/public/QRImages/QRCode.png";
+							
+							//String dir = System.getProperty("user.dir");
+							//String filePath = "src/public/QRImages/QRCode.png";
+							
+							String path;	
+							File dir = new File("src/public/QRCode.png");
+							System.out.println("Path: "+dir.getAbsolutePath());
+							
+							if(!dir.exists()) {
+								dir.mkdirs();
+							}
+							
 							String qrcodeurl = ip.getHostAddress().toString()+":8081/QRImages/QRCode.png";
 							
 							int size = 125;
 							String fileType = "png";
-							File qrFile = new File(filePath);
+							File qrFile = new File(dir.getAbsolutePath());
 							gc.createQRImage(qrFile, url, size, fileType);
 							
 							System.out.println(qrcodeurl);
-					        emailSenderService.sendQRCodeEmail(filePath,email);
+					        emailSenderService.sendQRCodeEmail(dir.getAbsolutePath(),email);
 						
 						} catch (Exception e) {
 							e.printStackTrace();
