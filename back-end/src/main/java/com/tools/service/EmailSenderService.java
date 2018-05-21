@@ -39,7 +39,6 @@ public class EmailSenderService {
 		    Email to = new Email(email);
 		    Content content = new Content("text/html", contentEmail);
 		    Mail mail = new Mail(from, subject, to, content);
-
 		    SendGrid sg = new SendGrid("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\n");
 		    Request request = new Request();
 		    try {
@@ -163,8 +162,28 @@ public class EmailSenderService {
         messageBodyPart.setHeader("Content-ID", "<image>");
         multipart.addBodyPart(messageBodyPart);
         message.setContent(multipart);		
-		
-		javaMailSender.send(message);
+		System.out.println(url);
+		//javaMailSender.send(message);
+		//sendEmail(email,message);
+        String messagetest = "<img src='http://52.53.172.7:8081/QRImages/QRcode.png'>";
+	    Email from = new Email("test@example.com");
+	    String subject = "Sending with SendGrid is Fun";
+	    Email to = new Email(email);
+	    Content content = new Content("text/html", messagetest);
+	    Mail mail = new Mail(from, subject, to, content);
+	    SendGrid sg = new SendGrid("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\n");
+	    Request request = new Request();
+	    try {
+	      request.setMethod(Method.POST);
+	      request.setEndpoint("mail/send");
+	      request.setBody(mail.build());
+	      Response response = sg.api(request);
+	      System.out.println(response.getStatusCode());
+	      System.out.println(response.getBody());
+	      System.out.println(response.getHeaders());
+	    } catch (IOException ex) {
+	    		System.out.println(ex);
+	    }
 	}
 	
 	public String composeQRCodeMessage(String url) {
