@@ -633,8 +633,8 @@ public class SurveyService {
 							ip = InetAddress.getLocalHost();
 						
 							String dir = System.getProperty("user.dir");
-							String filePath = dir+"/src/main/resources/public/QRImages/QRCode.png";
-							String qrcodeurl = ip.getHostAddress().toString()+":8081\\QRImages\\QRCode.png";
+							String filePath = dir+"//src//main//resources//public//QRImages//QRCode.png";
+							String qrcodeurl = ip.getHostAddress().toString()+":8081/QRImages/QRCode.png";
 							
 							int size = 125;
 							String fileType = "png";
