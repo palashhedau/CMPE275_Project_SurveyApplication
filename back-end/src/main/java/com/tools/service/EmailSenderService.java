@@ -34,8 +34,8 @@ public class EmailSenderService {
 	
 	  @Async
 	  public void sendEmail(String email, String contentEmail) throws IOException {
-		    Email from = new Email("test@example.com");
-		    String subject = "Sending with SendGrid is Fun";
+		    Email from = new Email("admin@surveyape.com");
+		    String subject = "Update from surveyAPE";
 		    Email to = new Email(email);
 		    Content content = new Content("text/html", contentEmail);
 		    Mail mail = new Mail(from, subject, to, content);
