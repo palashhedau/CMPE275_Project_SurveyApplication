@@ -1,0 +1,23 @@
+{
+  "participants" : 0,
+  "startTime" : null,
+  "endTime" : null,
+  "submissions" : 0,
+  "invited" : 1,
+  "registeredSurvyees" : 0,
+  "guestSurveyees" : 0,
+  "questions" : [ {
+    "question" : "eee",
+    "questionType" : "Multiple Choice - Text",
+    "distribution" : [ {
+      "choice" : "ddddd",
+      "count" : 0
+    }, {
+      "choice" : "eeeee",
+      "count" : 0
+    } ],
+    "id" : 13,
+    "textAnswers" : [ ]
+  } ],
+  "name" : "PRateek"
+}
