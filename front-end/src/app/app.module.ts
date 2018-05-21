@@ -69,7 +69,12 @@ import { TestComponent } from './test/test.component';
 import {BarChartComponent, DoughnutChartComponent, PieChartComponent} from 'angular-d3-charts';
 import {CanDeactivateGuard} from './deactivate-guared.service';
 import { SurveyStatsViewSingleResponseComponent } from './survey/survey-stats-view-single-response/survey-stats-view-single-response.component';
+import { ChartsModule } from 'ng2-charts';
 
+
+//Ngx-Charts
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { ChartdemoComponent } from './chartdemo/chartdemo.component';
 
 export function authServiceFactory(authService: AuthService): Function {
   return () => authService.checkSession();
@@ -134,7 +139,8 @@ export function authServiceFactory(authService: AuthService): Function {
     DoughnutChartComponent,
     PieChartComponent,
     BarChartComponent,
-    SurveyStatsViewSingleResponseComponent
+    SurveyStatsViewSingleResponseComponent,
+    ChartdemoComponent
   ],
   imports: [
     BrowserModule,
@@ -143,7 +149,9 @@ export function authServiceFactory(authService: AuthService): Function {
     HttpClientModule,
     NgSelectModule,
     NeutronRatingModule,
-    SnotifyModule
+    SnotifyModule,
+    ChartsModule,
+    NgxChartsModule
   ],
   providers: [
     {

@@ -763,6 +763,9 @@ public class SurveyService {
 					guestUser = 0;
 					stats.setSubmissions(0);
 					stats.setParticipants(0);
+					stats.setGuestSurveyees(0);
+					stats.setQuestions(new ArrayList<>());
+					stats.setRegisteredSurvyees(0);
 
 				}
 

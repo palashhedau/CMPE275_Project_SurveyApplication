@@ -24,11 +24,12 @@ h3{
   margin-bottom: 20px;
 }
 
-.chart{
-  overflow: hidden;
-}
+/*.chart{
+  overflow:auto;
+}*/
 
 
 .no-padding{
   padding: 0px;
 }
+

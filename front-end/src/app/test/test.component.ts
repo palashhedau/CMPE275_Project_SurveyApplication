@@ -1,41 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, AfterViewInit, ElementRef} from '@angular/core';
 
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css']
 })
-export class TestComponent implements OnInit {
+export class TestComponent implements OnInit{
 
-  public donutChartData = [{
+  public colors = ['red', 'green', 'blue']
+  public  dataColumns = [1]; // Single Bar Chart
+// public  dataColumns = [3]; // Stacked Bar Chart
+// public  dataColumns = [2, 1]; // Multi Stacked Bar Chart
+  public  barChartData = [{
     id: 0,
-    label: 'water',
-    value: 20,
-    color: 'red',
-  }, {
+    label: 'label1',
+    value1: 10,
+    value2: 10,
+    value3: 10,
+  },{
     id: 1,
-    label: 'land',
-    value: 20,
-    color: 'blue',
-  }, {
-    id: 2,
-    label: 'sand',
-    value: 30,
-    color: 'green',
-  }, {
-    id: 3,
-    label: 'grass',
-    value: 20,
-    color: 'yellow',
-  }, {
-    id: 4,
-    label: 'earth',
-    value: 10,
-    color: 'pink',
-  }];
+    label: 'label2',
+    value1: 10,
+    value2: 10,
+    value3: 10,
+  }]
+
   constructor() { }
-
   ngOnInit() {
+      //this.chartdata = true;
   }
-
 }

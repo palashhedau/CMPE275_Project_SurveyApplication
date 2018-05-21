@@ -15,35 +15,10 @@ export class SurveyStatsComponent implements OnInit {
   @ViewChild('filename') filename : NgModel ;
   public stats = {};
   public surveyStats = [];
-  public donutChartData1=[];
-  public colors=["red","green","blue","yellow","pink"];
+  public donutChartData1 = [];
+  public colors = ['red', 'green' , 'blue' , 'yellow' , 'pink' , 'black' , 'violet'];
 
-  public donutChartData = [{
-    id: 0,
-    label: 'water',
-    value: 2,
-    color: 'red',
-  }, {
-    id: 1,
-    label: 'land',
-    value: 2,
-    color: 'blue',
-  }, {
-    id: 2,
-    label: 'sand',
-    value: 3,
-    color: 'green',
-  }, {
-    id: 3,
-    label: 'grass',
-    value: 2,
-    color: 'yellow',
-  }, {
-    id: 4,
-    label: 'earth',
-    value: 1,
-    color: 'pink',
-  }];
+
 
   constructor(private currentRoute: ActivatedRoute,
               private surveyService: SurveyService,

@@ -8,6 +8,7 @@ import {ResponseParams} from './response.model';
 export class AuthService{
   public isLoggedIn = false;
   public email : string;
+
   public url = 'http://54.241.144.193:8081/' ;
   //public url = 'http://localhost:8081/' ;
 
@@ -15,6 +16,7 @@ export class AuthService{
               ) {}
 
   login(email: string, password: string) {
+    console.log(this.url + 'signin');
     return this.http.post<ResponseParams>(this.url + 'signin',
       {email: email, password: password},
       { withCredentials: true });
