@@ -8,7 +8,7 @@ import {ResponseParams} from './response.model';
 export class AuthService{
   public isLoggedIn = false;
   public email : string;
-  public url = 'http://52.53.172.7:8081/' ;
+  public url = 'http://54.241.144.193' ;
   //public url = 'http://localhost:8081/' ;
 
   constructor(private http: HttpClient,
