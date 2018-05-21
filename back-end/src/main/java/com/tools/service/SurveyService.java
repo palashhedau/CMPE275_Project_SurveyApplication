@@ -73,7 +73,7 @@ public class SurveyService {
 	private SurveySubmitResponseAnswerRepository surveySubmitResponseAnswerRepository;
 
 	Helper helper = new Helper();
-	String host = "http://localhost:4200/survey/take-survey/";
+	String host = "http://54.241.144.193:8081/survey/take-survey/";
 
 	public Object createSurvey(SurveyCreateParams params, String email) {
 		try {
