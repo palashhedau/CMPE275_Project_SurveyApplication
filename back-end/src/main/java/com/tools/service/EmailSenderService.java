@@ -165,7 +165,7 @@ public class EmailSenderService {
 		System.out.println(url);
 		//javaMailSender.send(message);
 		//sendEmail(email,message);
-        String messagetest = "<img src='http://54.241.144.193:8081/QRcode.png'>";
+        String messagetest = "<img src='http://54.241.144.193:8081/QRCode.png'>";
 	    Email from = new Email("test@example.com");
 	    String subject = "Sending with SendGrid is Fun";
 	    Email to = new Email(email);
