@@ -236,7 +236,7 @@ public class SurveyController {
 			@RequestParam(value="file", required=false, defaultValue = "download") String file ,
 			HttpSession session, HttpServletResponse response) throws IOException {
 		String path = "src/public/";
-		if(session.getAttribute("email") != null) {
+		if(true) {
 			path += file + ".json";
 		    BufferedWriter writer = null;
 		    try {
